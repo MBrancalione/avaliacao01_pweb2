@@ -20,21 +20,9 @@
         <input type="hidden" name="id" value="{{ old('id', $data->id ?? '') }}">
         <div class="col-6">
             <label for="nota">Nota</label>
-            <input type="text" name="nota" class="form-control" value="{{ old('nota', $data->nome_plano ?? '') }}">
+            <input type="text" name="nota" class="form-control" value="{{ old('nota', $data->nota ?? '') }}">
             <option value="" style="color: #000;">Escolha uma nota...</option>
-            <?php 
-                                    $opcoesNotas = [
-                                        "5" => "★★★★★ (5 - Excelente)",
-                                        "4" => "★★★★☆ (4 - Muito Bom)",
-                                        "3" => "★★★☆☆ (3 - Regular)",
-                                        "2" => "★★☆☆☆ (2 - Ruim)",
-                                        "1" => "★☆☆☆☆ (1 - Péssimo)"
-                                    ];
-                                    foreach ($opcoesNotas as $valor => $texto):
-                                        $selected = ($notaAtual == $valor) ? 'selected' : '';
-                                        echo "<option value='{$valor}' {$selected} style='color: #212529;'>{$texto}</option>";
-                                    endforeach;
-                                    ?>
+
         </div>
         <div class="col-6">
             <label for="preco_mensal">Comentario</label>
@@ -45,8 +33,7 @@
             <label for="spoiler">Spoiler</label>
             <input type="bool" name="spoiler" class="form-control"
                 value="{{ old('spoiler', $data->spoiler ?? '') }}">
-            <option value="1" <?= ($spoiler == '1' || $spoiler == 'Sim') ? 'selected' : '' ?>>Sim</option>
-            <option value="0" <?= ($spoiler == '0' || $spoiler == 'Não') ? 'selected' : '' ?>>Não</option>
+
         </div>
         <div class="mt-2">
             <button type="submit" class="btn btn-success">Salvar</button>

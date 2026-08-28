@@ -9,6 +9,12 @@
         <li class="nav-item">
           <a class="nav-link" href="{{ url('catalogo')}}">Catálogo</a> 
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url('planos')}}">Planos</a> 
+        </li>
+        <li class="nav-item">  
+          <a class="nav-link" href="{{ url('avaliacao')}}">Avaliação</a> 
+        </li>
       </ul>
     </div>
   </div>
