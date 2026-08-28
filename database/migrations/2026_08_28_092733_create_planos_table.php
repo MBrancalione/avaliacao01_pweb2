@@ -16,8 +16,7 @@ public function up(): void
         $table->string('nome_plano');
         $table->decimal('preco_mensal', 8, 2);
         $table->integer('limite_telas');
-        $table->integer('resolucao_max');
-        $table->string('resolucao_max')->nullable();//permite nulo
+        $table->string('resolucao_max');
         $table->timestamps();
 
     });
