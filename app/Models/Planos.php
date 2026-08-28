@@ -13,4 +13,7 @@ class Planos extends Model
         'limite_telas',
         'resolucao_max',
     ];
+
 }
+
+

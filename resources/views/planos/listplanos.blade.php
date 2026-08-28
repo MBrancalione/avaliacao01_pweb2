@@ -42,7 +42,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($dados as $item)
+                @foreach ($dado as $item)
                     <tr>
                         <th scope='row'>{{ $item->id }}</th>
                         <td>{{ $item->nome_planos}}</td>

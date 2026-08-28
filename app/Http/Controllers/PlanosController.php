@@ -10,8 +10,8 @@ class PlanosController extends Controller
     //listagem
     public function index()
     { 
-        $dados = Planos::All();
-        return view('planos.listplanos')->with(['dados'=> $dados]);
+        $dado = Planos::All();
+        return view('planos.listplanos')->with(['dado'=> $dado]);
     }
 
     //criação
@@ -48,14 +48,14 @@ class PlanosController extends Controller
     public function search(Request $request){
 
     if(!empty($request->valor)){
-        $dados = Planos::where(
+        $dado = Planos::where(
             $request->tipo,
             'like',
             '%' . $request->valor . '%')->get();
     } else{
-        $dados = Planos::All();
+        $dado = Planos::All();
         }
     
-        return view('planos.listplanos', compact('dados'));
+        return view('planos.listplanos', compact('dado'));
     }
 }

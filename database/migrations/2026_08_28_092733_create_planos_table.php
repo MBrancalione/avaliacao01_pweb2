@@ -17,7 +17,9 @@ public function up(): void
         $table->decimal('preco_mensal', 8, 2);
         $table->integer('limite_telas');
         $table->integer('resolucao_max');
+        $table->string('resolucao_max')->nullable();//permite nulo
         $table->timestamps();
+
     });
 }
 
@@ -28,4 +30,6 @@ public function up(): void
     {
         Schema::dropIfExists('planos');
     }
+
+    
 };
