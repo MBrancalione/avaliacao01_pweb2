@@ -8,10 +8,16 @@ use App\Models\Catalogo; //necessário para chamar o model Catalogo
 class CatalogoController extends Controller
 {
     //listagem
-    public function index()
+    public function indexadmin()
     { 
         $dados = Catalogo::All();
         return view('catalogo.listcatalogo')->with(['dados'=> $dados]);
+    }
+
+    public function indexuser()
+    { 
+        $dados = Catalogo::All();
+        return view('catalogo.listcatalogouser')->with(['dados'=> $dados]);
     }
 
     //criação

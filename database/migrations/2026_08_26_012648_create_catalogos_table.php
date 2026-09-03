@@ -11,6 +11,7 @@ return new class extends Migration
     {
         Schema::create('catalogos', function (Blueprint $table) {
             $table->id();
+            $table->string('url_poster', 255);
             $table->string('titulo', 255);
             $table->string('sinopse', 255); 
             $table->string('genero', 255);

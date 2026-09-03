@@ -34,6 +34,7 @@
         <thead>
             <tr>
                 <th scope="col">#</th>
+                <th scope="col">Poster</th>
                 <th scope="col">Título</th>
                 <th scope="col">Gênero</th>
                 <th scope="col">Classificação</th>
@@ -46,6 +47,7 @@
             @foreach ($dados as $item)
                 <tr>
                 <th scope='row'>{{$item->id}}</th>
+                <td><img src="{{$item->url_poster}}" alt="Poster" width="100"></td>
                 <td>{{$item->titulo}}</td>
                 <td>{{$item->genero}}</td>
                 <td>{{$item->classificacao}}</td>

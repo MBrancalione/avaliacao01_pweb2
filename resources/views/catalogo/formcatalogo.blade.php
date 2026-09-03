@@ -23,8 +23,16 @@
         <div class="row">
             <input type="hidden" name="id" value="{{$dado->id ?? '' }}"> <!--fazer as altrações do laragon. quando for salvar os dados do formulário após validação e mantem os dados do formulário caso algum erro-->
             <div class="col">
-                <label for="titulo" class="form-label">Titulo</label>
-                <input type="text" class="form-control" name="titulo" value="{{ old('titulo', $dado->titulo ?? '') }}"> <!--?? para caso o formulário não tiver dados (edição) ele carrega um espaço em brancox-->
+                <label for="url_poster" class="form-label">URL do Poster</label>
+                <input type="text" class="form-control" name="url_poster" value="{{ old('url_poster', $dado->url_poster ?? '') }}">
+            </div>
+            <div class="col">
+                <label for="url_trailer" class="form-label">URL do Trailer</label>
+                <input type="text" class="form-control" name="url_trailer" value="{{ old('url_trailer', $dado->url_trailer ?? '') }}">
+            </div>
+            <div class="col">
+                <label for="titulo" class="form-label">Título</label>
+                <input type="text" class="form-control" name="titulo" value="{{ old('titulo', $dado->titulo ?? '') }}">
             </div>
             <div class="col">
                 <label for="sinopse" class="form-label">Sinopse</label>
