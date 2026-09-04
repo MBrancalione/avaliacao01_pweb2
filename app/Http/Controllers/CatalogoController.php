@@ -66,6 +66,7 @@ class CatalogoController extends Controller
             'classificacao' => 'required|string|max:50',
             'ano' => 'required|integer|digits:4|min:1900|max:' . date('Y'),
             'url_poster' => 'nullable|url',
+            'sinopse' => 'nullable|string', // Adicionado para validar a sinopse
         ]);
         //dd($request->all());
         $dados = Catalogo::find($id)->update($request->except(['_token', '_method', 'id']));
