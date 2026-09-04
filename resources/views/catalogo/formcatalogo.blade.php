@@ -10,6 +10,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
 
                 <!--se vier o id, ele fará a validação para saber se é uma edição ou uma criaçl~~ao de formulario-->
+                
                 @php
                     if(!empty($dado->id)){
                         $action = route('catalogo.update', $dado->id);

@@ -46,8 +46,8 @@ class CatalogoController extends Controller
     //edição
     function edit($id)
     {
-        $dados = Catalogo::findorFail($id); //ao invés de retornar apenas o erro, caso fosse só find, retorna qual o problema
-        return view('catalogo.formcatalogo', compact('dados'));
+        $dado = Catalogo::findOrFail($id); //ao invés de retornar apenas o erro, caso fosse só find, retorna qual o problema
+        return view('catalogo.formcatalogo', compact('dado'));
     }
 
     //excluir
@@ -69,7 +69,7 @@ class CatalogoController extends Controller
             'sinopse' => 'nullable|string', // Adicionado para validar a sinopse
         ]);
         //dd($request->all());
-        $dados = Catalogo::find($id)->update($request->except(['_token', '_method', 'id']));
+        $dado = Catalogo::find($id)->update($request->except(['_token', '_method', 'id']));
         return redirect('catalogoadmin')->with("success", 'Registro atualizado com sucesso!');
     }
 
