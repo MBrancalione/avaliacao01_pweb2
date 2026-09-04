@@ -8,8 +8,8 @@ use Database\Factories\CatalogoFactory;
 
 class Catalogo extends Model
 {
-    use Hasfactory; //para usar a factory
-    public $timestamps = false; //para criar os campos created_at e updated_at
+    use HasFactory; 
+    public $timestamps = false; 
     protected $fillable = [
         'url_poster',
         'titulo',

@@ -1,15 +1,14 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex items-center justify-between">
+            <div class="shrink-0 flex items-center">
+                    <a href="{{ route('main') }}" class="font-bold text-xl text-gray-800">
+                        BIBI TV
+                    </a>
+                </div>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Dashboard') }}
             </h2>
-            <div class="flex space-x-6">
-                <a class="text-gray-600 hover:text-indigo-600 font-medium text-sm transition" href="{{ url('catalogo') }}">Catálogo</a>
-                <a class="text-gray-600 hover:text-indigo-600 font-medium text-sm transition" href="{{ url('planos') }}">Planos</a>
-                <a class="text-gray-600 hover:text-indigo-600 font-medium text-sm transition" href="{{ url('users') }}">Usuários</a>
-                <a class="text-gray-600 hover:text-indigo-600 font-medium text-sm transition" href="{{ url('avaliacao') }}">Avaliações</a>
-            </div>
         </div>
     </x-slot>
 
@@ -32,7 +31,7 @@
                 <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-blue-500 flex justify-between items-center">
                     <div>
                         <p class="text-xs font-bold text-gray-500 uppercase tracking-wider">Total no Catálogo</p>
-                        <p class="text-2xl font-bold text-gray-800">120</p>
+                        <p class="text-2xl font-bold text-gray-800">10</p>
                     </div>
                     <div class="p-3 bg-blue-50 text-blue-600 rounded-full">
                         🎬
@@ -54,7 +53,7 @@
                 <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-indigo-500 flex justify-between items-center">
                     <div>
                         <p class="text-xs font-bold text-gray-500 uppercase tracking-wider">Usuários</p>
-                        <p class="text-2xl font-bold text-gray-800">45</p>
+                        <p class="text-2xl font-bold text-gray-800">5</p>
                     </div>
                     <div class="p-3 bg-indigo-50 text-indigo-600 rounded-full">
                         👥
@@ -65,7 +64,7 @@
                 <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-yellow-500 flex justify-between items-center">
                     <div>
                         <p class="text-xs font-bold text-gray-500 uppercase tracking-wider">Avaliações</p>
-                        <p class="text-2xl font-bold text-gray-800">89</p>
+                        <p class="text-2xl font-bold text-gray-800">5</p>
                     </div>
                     <div class="p-3 bg-yellow-50 text-yellow-600 rounded-full">
                         ⭐

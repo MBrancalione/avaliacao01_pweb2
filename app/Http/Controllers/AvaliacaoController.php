@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Models\Avaliacao;
 
@@ -22,6 +21,12 @@ class AvaliacaoController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'nota' => 'required|integer|min:1|max:5',
+            'comentario' => 'required|string|max:500',
+            'spoiler' => 'boolean',
+        ]);
+
         Avaliacao::create($request->all());
         return redirect('avaliacao')->with('success', 'Cadastro realizado com sucesso!');
     }
@@ -34,6 +39,11 @@ class AvaliacaoController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'nota' => 'required|integer|min:1|max:5',
+            'comentario' => 'required|string|max:500',
+            'spoiler' => 'boolean',
+        ]);
         $dado = Avaliacao::findOrFail($id);
         $dado->update($request->only(['nota', 'comentario', 'spoiler']));
 
@@ -57,7 +67,6 @@ class AvaliacaoController extends Controller
         } else {
             $dados = Avaliacao::all();
         }
-
         return view('avaliacao.listavaliacao', compact('dados'));
     }
 }

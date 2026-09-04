@@ -2,10 +2,7 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
-use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -29,10 +26,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-
     protected $casts = ['assinaturaestado_id' => 'integer'];//converte a categoria_id em um campo inteiro
 
-    //ao inves de aparecer a categoria vai apareccer o nome
+    //indica que User possui um atributo em assinatura estado, retornando esse objeto como atributo do usuário; relação de chave estrangeira
     public function assinaturaEstado()
     {
         return $this->hasOne(AssinaturaEstado::class, 'id', 'assinaturaestado_id');

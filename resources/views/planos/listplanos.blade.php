@@ -50,10 +50,10 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        @foreach ($dado as $item)
+                        @foreach ($dados as $item)
                             <tr>
                                 <th scope="row" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $item->id }}</th>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ $item->nome_planos }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ $item->nome_plano }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">R$ {{ number_format($item->preco_mensal, 2, ',', '.') }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ $item->limite_telas }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ $item->resolucao_max }}</td>

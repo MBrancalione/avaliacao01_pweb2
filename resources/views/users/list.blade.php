@@ -19,6 +19,8 @@
                             <select name="tipo" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm w-full">
                                 <option value="name">Nome</option>
                                 <option value="email">E-mail</option>
+                                <!-- Adicionado para o critério do select de relacionamento na busca -->
+                                <option value="assinaturaestado_id">Estado da Assinatura (ID)</option>
                             </select>
                         </div>
 

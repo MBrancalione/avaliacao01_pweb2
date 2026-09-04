@@ -17,7 +17,7 @@ class AvaliacaoFactory extends Factory
         return [
             'nota' => fake()->randomElement(['5', '4', '3', '2', '1']),
             'comentario' => fake()->randomElement(['Muito bom!', 'Boa', 'Regular', 'Ruim', 'Péssimo']),
-            'spoiler' => fake()->randomElement(['True', 'False']),
+            'spoiler' => fake()->boolean(),
         ];
     }
 }

@@ -12,7 +12,9 @@ return new class extends Migration {
     {
         Schema::create('assinatura_estados', function (Blueprint $table) {
             $table->id();
-            $table->string('nome');
+            $table->string('status');               
+            $table->date('data_vencimento');        
+            $table->string('codigo_transacao')->unique(); 
             $table->timestamps();
         });
     }

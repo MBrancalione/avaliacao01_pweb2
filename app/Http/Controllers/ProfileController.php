@@ -12,9 +12,6 @@ use App\Models\User;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display the user's profile form.
-     */
     public function edit(Request $request): View
     {
         return view('profile.edit', [
@@ -22,9 +19,6 @@ class ProfileController extends Controller
         ]);
     }
 
-    /**
-     * Update the user's profile information.
-     */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
         $request->user()->fill($request->validated());
@@ -38,9 +32,6 @@ class ProfileController extends Controller
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
-    /**
-     * Delete the user's account.
-     */
     public function destroy(Request $request): RedirectResponse
     {
         $request->validateWithBag('userDeletion', [
@@ -60,25 +51,25 @@ class ProfileController extends Controller
     }
 
 
+    //Critério de Relacionamento 1:1
     //listagem de usuarios
     public function list(): View
     {
         $dados = User::with('assinaturaEstado')->get();// dados pq ele pega esse nome lá no list.blade
-        return view('users.list', compact('dados')); 
+        return view('users.list', compact('dados'));
     }
 
-    //pesquisa
     public function search(Request $request): View
-{
-    $tipo = $request->input('tipo', 'name');
-    $valor = $request->input('valor');
+    {
+        $tipo = $request->input('tipo', 'name');
+        $valor = $request->input('valor');
 
-    $dados = User::with('assinaturaEstado')
-        ->when($valor, function ($query) use ($tipo, $valor) {
-            return $query->where($tipo, 'LIKE', "%{$valor}%");
-        })
-        ->get();
+        $dados = User::with('assinaturaEstado')
+            ->when($valor, function ($query) use ($tipo, $valor) {
+                return $query->where($tipo, 'LIKE', "%{$valor}%");
+            })
+            ->get();
 
-    return view('users.list', compact('dados'));
-}
+        return view('users.list', compact('dados'));
+    }
 }

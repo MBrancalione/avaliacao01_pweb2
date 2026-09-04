@@ -13,11 +13,10 @@ return new class extends Migration
             $table->id();
             $table->string('url_poster', 255);
             $table->string('titulo', 255);
-            $table->string('sinopse', 255); 
+            $table->string('sinopse'); 
             $table->string('genero', 255);
             $table->string('ano', 4);
             $table->string('classificacao', 255);
-
 
             $table->timestamps(); //para criar os campos
         });
@@ -25,6 +24,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('catalogos');
+        Schema::dropIfExists('catalogos'); //para apagar a tabela caso seja necessário
     }
 };

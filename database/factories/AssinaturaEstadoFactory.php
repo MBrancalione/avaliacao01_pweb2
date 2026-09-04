@@ -12,14 +12,14 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 class AssinaturaEstadoFactory extends Factory
 {
     /**
-     * Define the model's default state.
-     *
      * @return array<string, mixed>
      */
     public function definition(): array
     {
         return [
-            'nome' => $this->faker->randomElement(['Ativa', 'Cancelada', 'Pendente']),
+            'status' => fake()->randomElement(['Ativa', 'Cancelada', 'Pendente']),
+            'data_vencimento' => fake()->dateTimeBetween('now', '+1 year'),
+            'codigo_transacao' => 'TRX-' . fake()->unique()->alphanumeric(10),
         ];
     }
 }

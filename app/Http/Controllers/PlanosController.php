@@ -3,59 +3,75 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Planos; //necessário para chamar o model Catalogo
+use App\Models\Planos;
 
 class PlanosController extends Controller
 {
-    //listagem
     public function index()
-    { 
-        $dado = Planos::All();
-        return view('planos.listplanos')->with(['dado'=> $dado]);
+    {
+        $dados = Planos::All();
+        return view('planos.listplanos')->with(['dados' => $dados]);
     }
 
-    //criação
-    function create(){
+    function create()
+    {
         return view('planos.formplanos');
     }
 
-    //armazenamento
-    function store(Request $request){
+    function store(Request $request)
+    {
+
+        $request->validate([
+            'nome_planos' => 'required|string|max:255',
+            'preco_mensal' => 'required|numeric|min:0',
+            'limite_telas' => 'required|integer|min:1',
+            'resolucao_max' => 'required|string|max:50',
+        ]);
+
         Planos::create($request->all());
         return redirect('planos')->with('success', 'Cadastro realizado com sucesso!');
     }
 
-    //edição
-    function edit($id){
-        $dado = Planos::find($id);
-        return view('planos.formplanos', compact('dado'));
+    function edit($id)
+    {
+        $dados = Planos::findorFail($id);
+        return view('planos.formplanos', compact('dados'));
     }
 
-    //excluir
-    function destroy($id){
+
+    function destroy($id)
+    {
         Planos::destroy($id);
-        return redirect('planos')->with("sucess", 'Registro removido com sucesso!');
+        return redirect('planos')->with("success", 'Registro removido com sucesso!');
     }
 
-    //atualizar
-    function update(Request $request, $id){
-        //dd($request->all());
-        $dado = Planos::find($id)->update($request->except(['_token', '_method', 'id']));
-        return redirect('planos')->with("sucess", 'Registro atualizado com sucesso!');
+    function update(Request $request, $id)
+    {
+
+        $request->validate([
+            'nome_planos' => 'required|string|max:255',
+            'preco_mensal' => 'required|numeric|min:0',
+            'limite_telas' => 'required|integer|min:1',
+            'resolucao_max' => 'required|string|max:50',
+        ]);
+
+        $dados = Planos::find($id)->update($request->except(['_token', '_method', 'id']));
+        return redirect('planos')->with("success", 'Registro atualizado com sucesso!');
     }
 
-    //busca na listagem
-    public function search(Request $request){
+    public function search(Request $request)
+    {
 
-    if(!empty($request->valor)){
-        $dado = Planos::where(
-            $request->tipo,
-            'like',
-            '%' . $request->valor . '%')->get();
-    } else{
-        $dado = Planos::All();
+        if (!empty($request->valor)) {
+            $dados = Planos::where(
+                $request->tipo,
+                'like',
+                '%' . $request->valor . '%'
+            )->get();
+        } else {
+            $dados = Planos::All();
         }
-    
-        return view('planos.listplanos', compact('dado'));
+
+        return view('planos.listplanos', compact('dados'));
     }
 }

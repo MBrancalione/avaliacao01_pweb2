@@ -29,8 +29,6 @@ class UserFactory extends Factory
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
-            // Puxa uma categoria existente ou cria uma nova automaticamente:
-            'assinaturaestado_id' => AssinaturaEstado::inRandomOrder()->first()?->id ?? AssinaturaEstado::factory()->create()->id,
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
         ];

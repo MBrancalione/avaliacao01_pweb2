@@ -16,9 +16,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // busca um estado ou ccria um
-        $estado = AssinaturaEstado::first() ?? AssinaturaEstado::factory()->create();
-
         $this->call([
             AssinaturaEstadoSeeder::class,
             PlanosSeeder::class,
@@ -26,6 +23,10 @@ class DatabaseSeeder extends Seeder
             AvaliacaoSeeder::class,
             UserSeeder::class,
         ]);
+        
+        //cria o estado padrão do admin
+        $estado = AssinaturaEstado::factory()->create(['status' => 'Ativa',]);
+
 
         User::factory()->create([
             'name' => 'Admin',

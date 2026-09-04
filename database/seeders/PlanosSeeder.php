@@ -9,9 +9,6 @@ use App\Models\Planos;
 
 class PlanosSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         Planos::factory()->count(3)->create();
