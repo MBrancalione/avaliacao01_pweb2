@@ -16,7 +16,6 @@
                         <div>
                             <label for="tipo" class="block font-medium text-sm text-gray-700">Tipo</label>
                             <select name="tipo" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm w-full">
-                                <option value="nome_planos">Nome do plano</option>
                                 <option value="preco_mensal">Preço Mensal</option>
                                 <option value="limite_telas">Limite de Telas</option>
                                 <option value="resolucao_max">Resolução Máxima</option>
