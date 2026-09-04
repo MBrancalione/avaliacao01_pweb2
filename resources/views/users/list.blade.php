@@ -17,10 +17,9 @@
                         <div>
                             <label for="tipo" class="block font-medium text-sm text-gray-700">Tipo</label>
                             <select name="tipo" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm w-full">
-                                <option value="name">Nome</option>
-                                <option value="email">E-mail</option>
-                                <!-- Adicionado para o critério do select de relacionamento na busca -->
-                                <option value="assinaturaestado_id">Estado da Assinatura (ID)</option>
+                                <option value="name" {{ request('tipo') == 'name' ? 'selected' : '' }}>Nome</option>
+                                <option value="email" {{ request('tipo') == 'email' ? 'selected' : '' }}>E-mail</option>
+                                <option value="status_assinatura" {{ request('tipo') == 'status_assinatura' ? 'selected' : '' }}>Estado da Assinatura</option>
                             </select>
                         </div>
 

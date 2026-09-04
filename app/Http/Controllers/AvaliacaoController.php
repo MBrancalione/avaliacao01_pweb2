@@ -8,6 +8,7 @@ class AvaliacaoController extends Controller
 {
     public function index()
 {
+    $dados = Avaliacao::all();
     return view('avaliacao.listavaliacao', compact('dados'));
 }
 
@@ -33,8 +34,8 @@ class AvaliacaoController extends Controller
 
     public function edit($id)
     {
-        $dado = Avaliacao::findOrFail($id);
-        return view('avaliacao.formavaliacao', compact('dado'));
+        $dados = Avaliacao::findOrFail($id);
+        return view('avaliacao.formavaliacao', compact('dados'));
     }
 
     public function update(Request $request, $id)
@@ -44,8 +45,8 @@ class AvaliacaoController extends Controller
             'comentario' => 'required|string|max:500',
             'spoiler' => 'boolean',
         ]);
-        $dado = Avaliacao::findOrFail($id);
-        $dado->update($request->only(['nota', 'comentario', 'spoiler']));
+        $dados = Avaliacao::findOrFail($id);
+        $dados->update($request->only(['nota', 'comentario', 'spoiler']));
 
         return redirect('avaliacao')->with('success', 'Registro atualizado com sucesso!');
     }

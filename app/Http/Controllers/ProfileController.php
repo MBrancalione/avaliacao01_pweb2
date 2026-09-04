@@ -62,13 +62,23 @@ class ProfileController extends Controller
     public function search(Request $request): View
     {
         $tipo = $request->input('tipo', 'name');
-        $valor = $request->input('valor');
+        $valor = trim($request->input('valor'));
 
-        $dados = User::with('assinaturaEstado')
-            ->when($valor, function ($query) use ($tipo, $valor) {
-                return $query->where($tipo, 'LIKE', "%{$valor}%");
-            })
-            ->get();
+        $query = User::with('assinaturaEstado');
+
+        if (!empty($valor)) {
+            if ($tipo === 'status_assinatura') {
+                // Busca filtrando diretamente pela tabela relacionada AssinaturaEstado
+                $query->whereHas('assinaturaEstado', function ($q) use ($valor) {
+                    $q->where('status', 'LIKE', "%{$valor}%");
+                });
+            } else {
+                // Busca nas colunas da própria tabela 'users' (name, email, etc)
+                $query->where($tipo, 'LIKE', "%{$valor}%");
+            }
+        }
+
+        $dados = $query->get();
 
         return view('users.list', compact('dados'));
     }

@@ -11,7 +11,7 @@
             @if (Route::has('login'))
                 <nav style="display: flex; gap: 15px;">
                     @auth
-                        <a href="{{ url('/home') }}" style="text-decoration: none; padding: 10px 24px; border-radius: 8px; font-size: 0.95rem; font-weight: 600; background-color: #7e22ce; color: #ffffff; transition: 0.2s;">Início</a>
+                        <a href="{{ url('login') }}" style="text-decoration: none; padding: 10px 24px; border-radius: 8px; font-size: 0.95rem; font-weight: 600; background-color: #7e22ce; color: #ffffff; transition: 0.2s;">Início</a>
                     @else
                         <a href="{{ route('login') }}" style="text-decoration: none; padding: 10px 24px; border-radius: 8px; font-size: 0.95rem; font-weight: 600; background-color: #7e22ce; color: #ffffff; transition: 0.2s;">Entrar</a>
                     @endauth

@@ -30,15 +30,16 @@ class CatalogoController extends Controller
     function store(Request $request)
     {
 
-        $request->validate([
-            'titulo' => 'required|string|max:255',
-            'genero' => 'required|string|max:100',
-            'classificacao' => 'required|string|max:50',
-            'ano' => 'required|integer|digits:4|min:1900|max:' . date('Y'),
-            'url_poster' => 'nullable|url',
-        ]);
+        $validatedData = $request->validate([
+        'titulo' => 'required|string|max:255',
+        'sinopse' => 'nullable|string',
+        'genero' => 'required|string|max:100',
+        'classificacao' => 'required|string|max:50',
+        'ano' => 'required|integer|digits:4|min:1900|max:' . date('Y'),
+        'url_poster' => 'nullable|url',
+    ]);
 
-        Catalogo::create($request->all());
+    Catalogo::create($validatedData);
         return redirect('catalogoadmin')->with('success', 'Cadastro realizado com sucesso!');
     }
 
@@ -66,7 +67,6 @@ class CatalogoController extends Controller
             'classificacao' => 'required|string|max:50',
             'ano' => 'required|integer|digits:4|min:1900|max:' . date('Y'),
             'url_poster' => 'nullable|url',
-            'sinopse' => 'nullable|string', // Adicionado para validar a sinopse
         ]);
         //dd($request->all());
         $dado = Catalogo::find($id)->update($request->except(['_token', '_method', 'id']));

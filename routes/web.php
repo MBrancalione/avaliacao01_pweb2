@@ -61,6 +61,6 @@ Route::middleware('auth')->group(function () {
 });
 //rota para pesquisa desses usuarios
 Route::middleware('auth')->group(function () {
-    Route::get('/users/search', [ProfileController::class, 'search'])->name('users.search');
+    Route::post('/users/search', [ProfileController::class, 'search'])->name('users.search');
 });
 
