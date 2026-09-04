@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\Hasfactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Database\Factories\AvaliacaoFactory;
 
 class Avaliacao extends Model
@@ -16,7 +16,12 @@ class Avaliacao extends Model
         'spoiler',
     ];
 
+    public function catalogo()
+    {
+        return $this->belongsTo(Catalogo::class);
+    }
+
     //protect - apenas a classe pode acessar
-    protected $table = 'avaliacao'; 
+    protected $table = 'avaliacao';
     //dei uma pesquisada e vi q o laravel considera um s no final da palavra quando ela termina em vogal, dai tem q colocar isso p n dar erro
 }

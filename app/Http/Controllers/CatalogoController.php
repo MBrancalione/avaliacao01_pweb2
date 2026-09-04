@@ -28,15 +28,15 @@ class CatalogoController extends Controller
     {
 
         $validatedData = $request->validate([
-        'titulo' => 'required|string|max:255',
-        'sinopse' => 'nullable|string',
-        'genero' => 'required|string|max:100',
-        'classificacao' => 'required|string|max:50',
-        'ano' => 'required|integer|digits:4|min:1900|max:' . date('Y'),
-        'url_poster' => 'nullable|url',
-    ]);
+            'titulo' => 'required|string|max:255',
+            'sinopse' => 'nullable|string',
+            'genero' => 'required|string|max:100',
+            'classificacao' => 'required|string|max:50',
+            'ano' => 'required|integer|digits:4|min:1900|max:' . date('Y'),
+            'url_poster' => 'nullable|url',
+        ]);
 
-    Catalogo::create($validatedData);
+        Catalogo::create($validatedData);
         return redirect('catalogoadmin')->with('success', 'Cadastro realizado com sucesso!');
     }
 

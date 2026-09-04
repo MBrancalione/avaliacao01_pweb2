@@ -15,8 +15,6 @@
                     <label for="tipo" class="block font-medium text-sm text-gray-700">Tipo</label>
                     <select name="tipo" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm w-full">
                         <option value="nota">Nota</option>
-                        <option value="comentario">Comentário</option>
-                        <option value="spoiler">Spoiler</option>
                     </select>
                 </div>
 
