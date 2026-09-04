@@ -20,13 +20,17 @@ class DatabaseSeeder extends Seeder
         $estado = AssinaturaEstado::first() ?? AssinaturaEstado::factory()->create();
 
         $this->call([
+            AssinaturaEstadoSeeder::class,
+            PlanosSeeder::class,
             CatalogoSeeder::class,
+            AvaliacaoSeeder::class,
+            UserSeeder::class,
         ]);
 
         User::factory()->create([
             'name' => 'Admin',
             'email' => 'admin@gmail.com',
-            'password' => ('123456'),
+            'password' => Hash::make('123456'),
             'assinaturaestado_id' => $estado->id,
             'is_admin' => true,]);
 

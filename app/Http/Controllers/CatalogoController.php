@@ -28,7 +28,7 @@ class CatalogoController extends Controller
     //armazenamento
     function store(Request $request){
         Catalogo::create($request->all());
-        return redirect('catalogo')->with('success', 'Cadastro realizado com sucesso!');
+        return redirect('catalogoadmin')->with('success', 'Cadastro realizado com sucesso!');
     }
     
 
@@ -41,18 +41,18 @@ class CatalogoController extends Controller
     //excluir
     function destroy($id){
         Catalogo::destroy($id);
-        return redirect('catalogo')->with("sucess", 'Registro removido com sucesso!');
+        return redirect('catalogoadmin')->with("sucess", 'Registro removido com sucesso!');
     }
 
     //atualizar
     function update(Request $request, $id){
         //dd($request->all());
         $dado = Catalogo::find($id)->update($request->except(['_token', '_method', 'id']));
-        return redirect('catalogo')->with("sucess", 'Registro atualizado com sucesso!');
+        return redirect('catalogoadmin')->with("sucess", 'Registro atualizado com sucesso!');
     }
 
     //busca na listagem
-    public function search(Request $request){
+    public function searchadmin(Request $request){
 
     if(!empty($request->valor)){
         $dados = Catalogo::where(
@@ -64,6 +64,20 @@ class CatalogoController extends Controller
         }
 
         return view('catalogo.listcatalogo', compact('dados'));
+    }
+
+    public function searchuser(Request $request){
+
+    if(!empty($request->valor)){
+        $dados = Catalogo::where(
+            $request->tipo,
+            'like',
+            '%' . $request->valor . '%')->get();
+    } else{
+        $dados = Catalogo::All();
+        }
+
+        return view('catalogo.listcatalogouser', compact('dados'));
     }
 
 

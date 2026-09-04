@@ -35,6 +35,6 @@ class User extends Authenticatable
     //ao inves de aparecer a categoria vai apareccer o nome
     public function assinaturaEstado()
     {
-        return $this->belongsTo(AssinaturaEstado::class, 'assinaturaestado_id');
+        return $this->hasOne(AssinaturaEstado::class, 'id', 'assinaturaestado_id');
     }
 }

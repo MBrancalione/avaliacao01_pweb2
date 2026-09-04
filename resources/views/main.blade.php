@@ -1,22 +1,25 @@
 <!doctype html>
-<html lang="en">
-  <head>
+<html lang="pt-br">
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-  </head>
-  <body>
-    <!--Sidebar-->
+    <title>@yield('titulo', 'Aplicação')</title>
+    
+    <!-- Scripts & Styles via Vite (Tailwind CSS) -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
+<body class="font-sans antialiased bg-gray-100 min-h-screen">
+    <!-- Sidebar / Topbar -->
     <div>
         @include('sidebar') <!--serve para reservar o espaço para o que será inserido aqui-->
         <!--tudo que estiver dentro de sidebar será iniciado aqui-->
     </div>
 
-    <main class='container'>
-        @yield('conteudo')
+    <!-- Conteúdo da Página -->
+    <main class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            @yield('conteudo')
+        </div>
     </main>
-
-    
-  </body>
+</body>
 </html>

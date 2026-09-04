@@ -69,13 +69,16 @@ class ProfileController extends Controller
 
     //pesquisa
     public function search(Request $request): View
-    {
-        $search = $request->input('search');
+{
+    $tipo = $request->input('tipo', 'name');
+    $valor = $request->input('valor');
 
-        $users = User::where('name', 'LIKE', "%{$search}%")
-            ->orWhere('email', 'LIKE', "%{$search}%")
-            ->get();
+    $dados = User::with('assinaturaEstado')
+        ->when($valor, function ($query) use ($tipo, $valor) {
+            return $query->where($tipo, 'LIKE', "%{$valor}%");
+        })
+        ->get();
 
-        return view('users.list', compact('users'));
-    }
+    return view('users.list', compact('dados'));
+}
 }

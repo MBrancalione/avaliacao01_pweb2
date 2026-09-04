@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Planos;
+
 
 class PlanosSeeder extends Seeder
 {
@@ -12,6 +14,6 @@ class PlanosSeeder extends Seeder
      */
     public function run(): void
     {
-        AssinaturaEstado::factory()->count(4)->create();
+        Planos::factory()->count(3)->create();
     }
 }
