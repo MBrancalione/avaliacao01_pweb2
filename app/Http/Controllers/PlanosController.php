@@ -33,7 +33,7 @@ class PlanosController extends Controller
 
     public function edit($id)
     {
-        $dado = Planos::findOrFail($id); 
+        $dado = Planos::findOrFail($id);
         return view('planos.formplanos', compact('dado'));
     }
 
@@ -46,7 +46,7 @@ class PlanosController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nome_plano' => 'required|string|max:255', 
+            'nome_plano' => 'required|string|max:255',
             'preco_mensal' => 'required|numeric|min:0',
             'limite_telas' => 'required|integer|min:1',
             'resolucao_max' => 'required|string|max:50',

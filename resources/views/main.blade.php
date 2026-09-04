@@ -5,21 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('titulo', 'Aplicação')</title>
     
-    <!-- Scripts & Styles via Vite (Tailwind CSS) -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="font-sans antialiased bg-gray-100 min-h-screen">
-    <!-- Sidebar / Topbar -->
     <div>
         @include('sidebar') <!--serve para reservar o espaço para o que será inserido aqui-->
-        <!--tudo que estiver dentro de sidebar será iniciado aqui-->
     </div>
 
-    <!-- Conteúdo da Página -->
     <main class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             
-            <!-- Mensagem de Boas-Vindas ao Fazer Login -->
             @auth
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6 p-6 border-l-4 border-purple-600">
                     <h2 class="text-2xl font-bold text-gray-800">
@@ -29,10 +24,8 @@
                         Você está autenticado no sistema. Escolha uma das opções abaixo para acessar rapidamente:
                     </p>
 
-                    <!-- Cards de Atalho -->
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
                         
-                        <!-- Card: Catálogo -->
                         <a href="{{ url('catalogouser') }}" class="p-4 bg-gray-50 border border-gray-200 rounded-lg hover:border-purple-600 hover:bg-purple-50 transition duration-150 flex flex-col items-center text-center group">
                             <div class="p-3 bg-purple-100 text-purple-600 rounded-full mb-2 group-hover:bg-purple-600 group-hover:text-white transition">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -42,7 +35,6 @@
                             <span class="font-semibold text-gray-800 group-hover:text-purple-600">Catálogo</span>
                         </a>
 
-                        <!-- Card: Avaliação -->
                         <a href="{{ url('avaliacao') }}" class="p-4 bg-gray-50 border border-gray-200 rounded-lg hover:border-purple-600 hover:bg-purple-50 transition duration-150 flex flex-col items-center text-center group">
                             <div class="p-3 bg-purple-100 text-purple-600 rounded-full mb-2 group-hover:bg-purple-600 group-hover:text-white transition">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

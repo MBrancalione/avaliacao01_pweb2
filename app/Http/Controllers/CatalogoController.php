@@ -7,7 +7,6 @@ use App\Models\Catalogo; //necessário para chamar o model Catalogo
 
 class CatalogoController extends Controller
 {
-    //listagem
     public function indexadmin()
     {
         $dados = Catalogo::All();
@@ -20,13 +19,11 @@ class CatalogoController extends Controller
         return view('catalogo.listcatalogouser')->with(['dados' => $dados]);
     }
 
-    //criação
     function create()
     {
         return view('catalogo.formcatalogo');
     }
 
-    //armazenamento
     function store(Request $request)
     {
 
@@ -44,21 +41,18 @@ class CatalogoController extends Controller
     }
 
 
-    //edição
     function edit($id)
     {
         $dado = Catalogo::findOrFail($id); //ao invés de retornar apenas o erro, caso fosse só find, retorna qual o problema
         return view('catalogo.formcatalogo', compact('dado'));
     }
 
-    //excluir
     function destroy($id)
     {
         Catalogo::destroy($id);
         return redirect('catalogoadmin')->with("success", 'Registro removido com sucesso!');
     }
 
-    //atualizar
     function update(Request $request, $id)
     {
         $request->validate([
@@ -73,7 +67,6 @@ class CatalogoController extends Controller
         return redirect('catalogoadmin')->with("success", 'Registro atualizado com sucesso!');
     }
 
-    //busca na listagem
     public function searchadmin(Request $request)
     {
 

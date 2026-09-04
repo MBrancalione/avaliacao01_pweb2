@@ -7,10 +7,10 @@ use App\Models\Avaliacao;
 class AvaliacaoController extends Controller
 {
     public function index()
-{
-    $dados = Avaliacao::all();
-    return view('avaliacao.listavaliacao', compact('dados'));
-}
+    {
+        $dados = Avaliacao::all();
+        return view('avaliacao.listavaliacao', compact('dados'));
+    }
 
 
     public function create(Request $request)
@@ -58,15 +58,15 @@ class AvaliacaoController extends Controller
     }
 
     public function search(Request $request)
-{
-    if (!empty($request->valor)) {
-        $dados = Avaliacao::with('catalogo')
-            ->where($request->tipo, 'like', '%' . $request->valor . '%')
-            ->get();
-    } else {
-        $dados = Avaliacao::with('catalogo')->get();
-    }
+    {
+        if (!empty($request->valor)) {
+            $dados = Avaliacao::with('catalogo')
+                ->where($request->tipo, 'like', '%' . $request->valor . '%')
+                ->get();
+        } else {
+            $dados = Avaliacao::with('catalogo')->get();
+        }
 
-    return view('avaliacao.listavaliacao', compact('dados'));
-}
+        return view('avaliacao.listavaliacao', compact('dados'));
+    }
 }
