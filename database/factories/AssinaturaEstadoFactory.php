@@ -19,7 +19,7 @@ class AssinaturaEstadoFactory extends Factory
         return [
             'status' => fake()->randomElement(['Ativa', 'Cancelada', 'Pendente']),
             'data_vencimento' => fake()->dateTimeBetween('now', '+1 year'),
-            'codigo_transacao' => 'TRX-' . fake()->unique()->alphanumeric(10),
+            'codigo_transacao' => 'TRX-' . fake()->unique()->regexify('[A-Za-z0-9]{10}'),
         ];
     }
 }
