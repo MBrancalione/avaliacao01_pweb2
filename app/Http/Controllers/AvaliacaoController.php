@@ -8,14 +8,16 @@ use App\Models\Avaliacao;
 class AvaliacaoController extends Controller
 {
     public function index()
-    { 
+    {
         $dados = Avaliacao::all();
         return view('avaliacao.listavaliacao', compact('dados'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        return view('avaliacao.formavaliacao');
+        $catalogo_id = $request->catalogo_id; // pega o id que o botão do catalogo deu
+
+        return view('avaliacao.formavaliacao', compact('catalogo_id')); // retorna o form + id do botao
     }
 
     public function store(Request $request)

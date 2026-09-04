@@ -46,10 +46,21 @@ Route::post('/planos/search', [PlanosController::class, 'search'])->name('planos
 
 //avaliacao
 Route::get('/avaliacao', [AvaliacaoController::class, 'index']); // Rota para a página de listagem de catálogos
-Route::get('/avaliacao/create', [AvaliacaoController::class, 'create']); // Rota para a página de criação de catálogos
+Route::get('/avaliacao/create', [AvaliacaoController::class, 'create'])->name('avaliacao.create'); // Rota para a página de criação de catálogos
 Route::post('/avaliacao/store', [AvaliacaoController::class, 'store'])->name('avaliacao.store');; // Rota para a ação de armazenamento de catálogos
 Route::get('/avaliacao/edit/{id}', [AvaliacaoController::class, 'edit'])->name('avaliacao.edit');; //chama o formulario puxando o id
 Route::put('/avaliacao/{id}', [AvaliacaoController::class, 'update'])->name('avaliacao.update'); //somente quando for editar essa rota será chamada
 Route::delete('/avaliacao/{id}', [AvaliacaoController::class, 'destroy'])->name('avaliacao.destroy');; //chama o formulario puxando o id
 Route::post('/avaliacao/search', [AvaliacaoController::class, 'search'])->name('avaliacao.search');; //chama o formulario puxando o id
 require __DIR__.'/auth.php';
+
+
+//rota para listagem de usuarios
+Route::middleware('auth')->group(function () {
+    Route::get('/users/list', [ProfileController::class, 'list'])->name('users.list');
+});
+//rota para pesquisa desses usuarios
+Route::middleware('auth')->group(function () {
+    Route::get('/users/search', [ProfileController::class, 'search'])->name('users.search');
+});
+

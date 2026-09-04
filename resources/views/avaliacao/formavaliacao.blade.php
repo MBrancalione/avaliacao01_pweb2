@@ -10,7 +10,9 @@
             @method('PUT')
         @endif
 
-        <input type="hidden" name="id" value="{{ old('id', $dado->id ?? '') }}">
+        <input type="hidden" name="id" value="{{ old('id', $dado->id ?? '') }}"> <!--id av-->
+
+        <input type="hidden" name="filme_id" value="{{ old('catalogo_id', $dado->catalogo_id ?? $catalogo->id ?? '') }}">
 
         <div class="col-6 mb-2">
             <label for="nota">Nota</label>

@@ -3,8 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\AssinaturaEstado;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,6 +16,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // busca um estado ou ccria um
+        $estado = AssinaturaEstado::first() ?? AssinaturaEstado::factory()->create();
+
         $this->call([
             CatalogoSeeder::class,
         ]);
@@ -21,7 +26,9 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Admin',
             'email' => 'admin@gmail.com',
-            'password' => '123456',
+            'password' => ('123456'),
+            'assinaturaestado_id' => $estado->id,
             'is_admin' => true,]);
+
     }
 }

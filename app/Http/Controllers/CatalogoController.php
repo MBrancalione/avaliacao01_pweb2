@@ -30,6 +30,7 @@ class CatalogoController extends Controller
         Catalogo::create($request->all());
         return redirect('catalogo')->with('success', 'Cadastro realizado com sucesso!');
     }
+    
 
     //edição
     function edit($id){
@@ -64,4 +65,6 @@ class CatalogoController extends Controller
 
         return view('catalogo.listcatalogo', compact('dados'));
     }
+
+
 }

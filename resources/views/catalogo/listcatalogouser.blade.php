@@ -39,6 +39,7 @@
                 <th scope="col">Gênero</th>
                 <th scope="col">Classificação</th>
                 <th scope="col">Ano</th>
+                <th scope="col">Avaliação</th>
             </tr>
         </thead>
         <tbody>
@@ -51,6 +52,7 @@
                 <td>{{$item->genero}}</td>
                 <td>{{$item->classificacao}}</td>
                 <td>{{$item->ano}}</td>
+                <td><a href="{{ route('avaliacao.create', ['catalogo_id' => $item->id]) }}">Avaliar Filme</a></td>
             </tr>;
             @endforeach
         </tbody>

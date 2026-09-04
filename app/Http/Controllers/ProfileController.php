@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use App\Models\User;
 
 class ProfileController extends Controller
 {
@@ -56,5 +57,25 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+
+    //listagem de usuarios
+    public function list(): View
+    {
+        $dados = User::with('assinaturaEstado')->get();// dados pq ele pega esse nome lá no list.blade
+        return view('users.list', compact('dados')); 
+    }
+
+    //pesquisa
+    public function search(Request $request): View
+    {
+        $search = $request->input('search');
+
+        $users = User::where('name', 'LIKE', "%{$search}%")
+            ->orWhere('email', 'LIKE', "%{$search}%")
+            ->get();
+
+        return view('users.list', compact('users'));
     }
 }

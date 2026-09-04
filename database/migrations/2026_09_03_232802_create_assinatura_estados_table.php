@@ -10,14 +10,11 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('avaliacao', function (Blueprint $table) {
+        Schema::create('assinatura_estados', function (Blueprint $table) {
             $table->id();
-            $table->integer('nota');
-            $table->text('comentario')->nullable();
-            $table->boolean('spoiler')->default(false);
+            $table->string('nome');
             $table->timestamps();
         });
-
     }
 
     /**
@@ -25,6 +22,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('avaliacoes');
+        Schema::dropIfExists('assinatura_estados');
     }
 };

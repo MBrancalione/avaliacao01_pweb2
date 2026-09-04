@@ -1,5 +1,5 @@
 @extends('main')
-@section('titulo', 'Listagem de planoss')
+@section('titulo', 'Listagem de planos')
 @section('conteudo')
     <div class="row">
 
