@@ -6,9 +6,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 </head>
 <body style="margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #0d0d12; color: #ffffff; min-height: 100vh; display: flex; flex-direction: column;">
-
     <div style="position: relative; flex: 1; display: flex; flex-direction: column; justify-content: space-between; background: radial-gradient(circle at center, rgba(126, 34, 206, 0.15) 0%, rgba(13, 13, 18, 0.95) 100%); padding: 20px;">
-        
         <header style="width: 100%; max-width: 1200px; margin: 0 auto; display: flex; justify-content: flex-end; align-items: center; padding: 10px 0;">
             @if (Route::has('login'))
                 <nav style="display: flex; gap: 15px;">
