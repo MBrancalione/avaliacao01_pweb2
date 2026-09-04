@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
         
         //cria o estado padrão do admin
         $estado = AssinaturaEstado::factory()->create(['status' => 'Ativa',]);
-
+        
 
         User::factory()->create([
             'name' => 'Admin',

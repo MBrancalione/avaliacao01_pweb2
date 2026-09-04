@@ -31,6 +31,6 @@ class User extends Authenticatable
     //indica que User possui um atributo em assinatura estado, retornando esse objeto como atributo do usuário; relação de chave estrangeira
     public function assinaturaEstado()
     {
-        return $this->hasOne(AssinaturaEstado::class, 'id', 'assinaturaestado_id');
+        return $this->belongsTo(AssinaturaEstado::class, 'assinaturaestado_id', 'id');
     }
 }
