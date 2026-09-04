@@ -54,7 +54,7 @@ class ProfileController extends Controller
     //listagem de usuarios
     public function list(): View
     {
-        $dados = User::with('assinaturaEstado')->get();// dados pq ele pega esse nome lá no list.blade
+        $dados = User::with('assinaturaEstado')->get();// list.blafe busca os usuarios trazedo os dados do estado da assinatura realcionada tbm
         return view('users.list', compact('dados'));
     }
 
