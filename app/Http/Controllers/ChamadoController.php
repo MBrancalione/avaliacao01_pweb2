@@ -10,7 +10,7 @@ class ChamadoController extends Controller
     public function index()
     {
         $dados = Chamado::All();
-        return view('chamado.chamadolist')->with(['dados' => $dados]);
+        return view('chamado.list')->with(['dados' => $dados]);
     }
 
 
