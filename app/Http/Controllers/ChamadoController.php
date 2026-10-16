@@ -10,14 +10,9 @@ class ChamadoController extends Controller
     public function index()
     {
         $dados = Chamado::All();
-        return view('chamado.list')->with(['dados' => $dados]);
+        return view('chamado.chamadolist')->with(['dados' => $dados]);
     }
 
-    public function indexuser()
-    {
-        $dados = Chamado::All();
-        return view('chamado.list')->with(['dados' => $dados]);
-    }
 
     function create()
     {

@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CatalogoController;
 use App\Http\Controllers\PlanosController;
 use App\Http\Controllers\AvaliacaoController;
+use App\Http\Controllers\ChamadoController;
 
 Route::get('/', function () {
     return view('welcome');
