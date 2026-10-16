@@ -31,6 +31,11 @@
                         {{ __('Usuários') }}
                     </x-nav-link>
                 </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('chamado.list')" :active="request()->routeIs('chamado.list')">
+                        {{ __('Chamados') }}
+                    </x-nav-link>
+                </div>
             </div>
 
             <!-- Settings Dropdown -->

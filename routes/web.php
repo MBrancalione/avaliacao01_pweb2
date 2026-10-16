@@ -34,6 +34,15 @@ Route::delete('/catalogo/{id}', [CatalogoController::class, 'destroy'])->name('c
 Route::post('/catalogo/searchadmin', [CatalogoController::class, 'searchadmin'])->name('catalogo.searchadmin');
 Route::post('/catalogo/searchuser', [CatalogoController::class, 'searchuser'])->name('catalogo.searchuser'); 
 
+//Chamado
+Route::get('/chamado', [ChamadoController::class, 'index'])->name('chamado.list'); //get exibe uma página de dados
+Route::get('/chamado/create', [ChamadoController::class, 'create'])->name('chamado.create'); 
+Route::post('/chamado/store', [ChamadoController::class, 'store'])->name('chamado.store'); //post envia dados do formulario
+Route::get('/chamado/edit/{id}', [ChamadoController::class, 'edit'])->name('chamado.edit'); 
+Route::put('/chamado/{id}', [ChamadoController::class, 'update'])->name('chamado.update'); //put atualiza os dados do formulario
+Route::delete('/chamado/{id}', [ChamadoController::class, 'destroy'])->name('chamado.destroy'); //delete remove os dados do formulario
+Route::post('/chamado/search', [ChamadoController::class, 'searchuser'])->name('chamado.serarch'); 
+
 
 //Planos
 Route::get('/planos', [PlanosController::class, 'index'])->name('planos');
