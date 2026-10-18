@@ -30,6 +30,7 @@ class ChamadoController extends Controller
             'data_encerramento' => 'nullable|date',
         ]);
 
+        //apresentar validação de dados??? oq significa - pedir Jackson
         Chamado::create($validatedData);
         return redirect('chamado.list')->with('success', 'Cadastro realizado com sucesso!');
     }
