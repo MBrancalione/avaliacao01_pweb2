@@ -20,5 +20,8 @@ class Catalogo extends Model
     ];
 
     // Se um catálogo tiver avaliações, podemos adicionar a relação aqui futuramente:
-
+    public function avaliacoes()
+    {
+        return $this->hasMany(Avaliacao::class);
+    }
 }

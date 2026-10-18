@@ -14,8 +14,13 @@ class Avaliacao extends Model
         'nota',
         'comentario',
         'spoiler',
+        'catalogo_id', //manter o relaconemto com catalogo, para poder salvar a avaliação de um filme específico
     ];
 
+    public function catalogo()
+    {
+        return $this->belongsTo(Catalogo::class);
+    }
 
     //protect - apenas a classe pode acessar
     protected $table = 'avaliacao';

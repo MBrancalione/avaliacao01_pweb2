@@ -16,6 +16,7 @@ class AvaliacaoFactory extends Factory
     public function definition(): array
     {
         return [
+            'catalogo_id' => \App\Models\Catalogo::factory(),
             'nota' => fake()->randomElement(['5', '4', '3', '2', '1']),
             'comentario' => fake()->randomElement(['Muito bom!', 'Boa', 'Regular', 'Ruim', 'Péssimo']),
             'spoiler' => fake()->boolean(),
