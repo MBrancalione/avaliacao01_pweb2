@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Avaliacao;
+use App\Models\Catalogo;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class AvaliacaoFactory extends Factory

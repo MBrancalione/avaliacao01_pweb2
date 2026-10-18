@@ -3,77 +3,88 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Chamado; //necessário para chamar o model Chamado
+use App\Models\Chamado;
+use Illuminate\Support\Facades\Auth;
 
 class ChamadoController extends Controller
 {
     public function index()
     {
-        $dados = Chamado::All();
-        return view('chamado.list')->with(['dados' => $dados]);
+        // Usa with('user') para carregar os dados do utilizador relacionado (evita N+1 queries)
+        $dados = Chamado::with('user')->get();
+        return view('chamado.list', compact('dados'));
     }
 
-
-    function create()
+    public function create()
     {
         return view('chamado.form');
     }
 
-    function store(Request $request)
+    public function store(Request $request)
     {
+        $this->validateForm($request);
 
-        $validatedData = $request->validate([
-            'titulo' => 'required|string|max:255',
-            'descricao' => 'nullable|string',
-            'status' => 'required|string|max:50',
-            'data_criacao' => 'nullable|date',
-            'data_encerramento' => 'nullable|date',
-        ]);
+        $data = $request->all();
+        
+        // Atribui automaticamente o ID do utilizador logado caso não venha no formulário
+        if (!isset($data['user_id'])) {
+            $data['user_id'] = Auth::id() ?? 1; // Fallback de segurança se não houver sessão ativa
+        }
 
-        //apresentar validação de dados??? oq significa - pedir Jackson
-        Chamado::create($validatedData);
-        return redirect('chamado.list')->with('success', 'Cadastro realizado com sucesso!');
+        Chamado::create($data); 
+        return redirect('chamado')->with('success', 'Cadastro realizado com sucesso!');
     }
 
-
-    function edit($id)
+    public function edit($id)
     {
-        $dado = Chamado::findOrFail($id); //ao invés de retornar apenas o erro, caso fosse só find, retorna qual o problema
+        $dado = Chamado::findOrFail($id); 
         return view('chamado.form', compact('dado'));
     }
 
-    function destroy($id)
+    public function update(Request $request, $id)
     {
-        Chamado::destroy($id);
-        return redirect('chamado.list')->with("success", 'Registro removido com sucesso!');
+        $this->validateForm($request);
+
+        $dado = Chamado::findOrFail($id);
+        $dado->update($request->except(['_token', '_method', 'id']));
+
+        return redirect('chamado')->with("success", 'Registro atualizado com sucesso!');
     }
 
-    function update(Request $request, $id)
+    public function destroy($id)
+    {
+        $dado = Chamado::findOrFail($id);
+        $dado->delete();
+        
+        return redirect('chamado')->with("success", 'Registro removido com sucesso!');
+    }
+
+    // Método centralizado de validação (padrão aplicado em todos os CRUDs)
+    private function validateForm(Request $request)
     {
         $request->validate([
-            'titulo' => 'required|string|max:255',
-            'descricao' => 'nullable|string',
-            'status' => 'required|string|max:50',
+            'titulo' => 'required',
+            'descricao' => 'nullable',
+            'status' => 'required',
             'data_criacao' => 'nullable|date',
             'data_encerramento' => 'nullable|date',
+        ], [
+            'titulo.required' => 'O campo título é obrigatório.',
+            'status.required' => 'O campo status é obrigatório.',
+            'data_criacao.date' => 'A data de criação deve ser uma data válida.',
+            'data_encerramento.date' => 'A data de encerramento deve ser uma data válida.',
         ]);
-        //dd($request->all());
-        $dado = Chamado::find($id)->update($request->except(['_token', '_method', 'id']));
-        return redirect('chamado.list')->with("success", 'Registro atualizado com sucesso!');
     }
 
     public function search(Request $request)
     {
+        $query = Chamado::with('user');
 
         if (!empty($request->valor)) {
-            $dados = Chamado::where(
-                $request->tipo,
-                'like',
-                '%' . $request->valor . '%'
-            )->get();
-        } else {
-            $dados = Chamado::All();
+            $query->where($request->tipo, 'like', '%' . $request->valor . '%');
         }
+
+        $dados = $query->get();
 
         return view('chamado.list', compact('dados'));
     }

@@ -11,14 +11,13 @@ return new class extends Migration
     {
         Schema::create('catalogos', function (Blueprint $table) {
             $table->id();
-            $table->string('url_poster', 255);
+            
             $table->string('titulo', 255);
-            $table->string('sinopse'); 
+            $table->string('sinopse', 255);
             $table->string('genero', 255);
             $table->string('ano', 4);
             $table->string('classificacao', 255);
-
-            $table->timestamps(); //para criar os campos
+            $table->string('poster', 255)->nullable();
         });
     }
 

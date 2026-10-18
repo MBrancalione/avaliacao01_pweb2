@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('chamados', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // Adicionado para fazer o 1:N com User
             $table->string('titulo', 255);
             $table->text('descricao');
             $table->string('status', 100);

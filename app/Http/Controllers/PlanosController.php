@@ -20,12 +20,7 @@ class PlanosController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'nome_plano' => 'required|string|max:255',
-            'preco_mensal' => 'required|numeric|min:0',
-            'limite_telas' => 'required|integer|min:1',
-            'resolucao_max' => 'required|string|max:50',
-        ]);
+        $this->validateForm($request);
 
         Planos::create($request->all());
         return redirect('planos')->with('success', 'Cadastro realizado com sucesso!');
@@ -45,13 +40,7 @@ class PlanosController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'nome_plano' => 'required|string|max:255',
-            'preco_mensal' => 'required|numeric|min:0',
-            'limite_telas' => 'required|integer|min:1',
-            'resolucao_max' => 'required|string|max:50',
-        ]);
-
+       $this->validateForm($request);
         $plano = Planos::findOrFail($id);
         $plano->update($request->except(['_token', '_method', 'id']));
 
@@ -71,5 +60,20 @@ class PlanosController extends Controller
         }
 
         return view('planos.listplanos', compact('dados'));
+    }
+
+    private function validateForm(Request $request)
+    {
+        $request->validate([
+            'nome_plano' => 'required',
+            'preco_mensal' => 'required',
+            'limite_telas' => 'required',
+            'resolucao_max' => 'required',
+        ], [
+            'nome_plano.required' => 'O campo nome do plano é obrigatório.',
+            'preco_mensal.required' => 'O campo preço mensal é obrigatório.',
+            'limite_telas.required' => 'O limite de telas é obrigatório.',
+            'resolucao_max.required' => 'A resolução máxima é obrigatória.',
+        ]);
     }
 }

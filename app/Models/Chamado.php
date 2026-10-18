@@ -14,5 +14,12 @@ class Chamado extends Model
         'status',
         'data_criacao',
         'data_encerramento',
+        'user_id',
     ];
+
+    // Relacionamento 1:N inverso: O chamado pertence a um usuário
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

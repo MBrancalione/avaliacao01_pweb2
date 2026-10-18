@@ -11,11 +11,17 @@ class Catalogo extends Model
     use HasFactory; 
     public $timestamps = false; 
     protected $fillable = [
-        'url_poster',
+        'poster',
         'titulo',
         'sinopse',
         'genero',
         'ano',
         'classificacao',
     ];
+
+    // Se um catálogo tiver avaliações, podemos adicionar a relação aqui futuramente:
+    public function avaliacoes()
+    {
+        return $this->hasMany(Avaliacao::class);
+    }
 }

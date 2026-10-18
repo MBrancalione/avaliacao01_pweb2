@@ -15,7 +15,7 @@ class CatalogoFactory extends Factory
     public function definition(): array
     {
         return [
-            'url_poster' => 'https://picsum.photos/seed/' . $this->faker->unique()->word . '/200/300',
+            'poster' => 'https://picsum.photos/200/300',
             'titulo' => fake()->sentence(3),
             'sinopse' => fake()->paragraph(),
             'genero' => fake()->randomElement(['Ação', 'Comédia', 'Drama', 'Sci-Fi']),

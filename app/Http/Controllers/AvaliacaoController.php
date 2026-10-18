@@ -12,22 +12,15 @@ class AvaliacaoController extends Controller
         return view('avaliacao.listavaliacao', compact('dados'));
     }
 
-
     public function create(Request $request)
     {
         $catalogo_id = $request->catalogo_id; // pega o id que o botão do catalogo deu
-
         return view('avaliacao.formavaliacao', compact('catalogo_id')); // retorna o form + id do botao
     }
 
     public function store(Request $request)
     {
-        $request->validate([
-            'nota' => 'required|integer|min:1|max:5',
-            'comentario' => 'required|string|max:500',
-            'spoiler' => 'boolean',
-        ]);
-
+        $this->validateForm($request);
         Avaliacao::create($request->all());
         return redirect('avaliacao')->with('success', 'Cadastro realizado com sucesso!');
     }
@@ -40,14 +33,11 @@ class AvaliacaoController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'nota' => 'required|integer|min:1|max:5',
-            'comentario' => 'required|string|max:500',
-            'spoiler' => 'boolean',
-        ]);
+        $this->validateForm($request);
         $dados = Avaliacao::findOrFail($id);
-        $dados->update($request->only(['nota', 'comentario', 'spoiler']));
+        $data['spoiler'] = $request->has('spoiler') ? 1 : 0;
 
+        $dados->update($data);
         return redirect('avaliacao')->with('success', 'Registro atualizado com sucesso!');
     }
 
@@ -68,5 +58,21 @@ class AvaliacaoController extends Controller
         }
 
         return view('avaliacao.listavaliacao', compact('dados'));
+    }
+
+    private function validateForm(Request $request)
+    {
+        $request->validate([
+            'catalogo_id' => 'required|exists:catalogos,id',
+            'nota' => 'required|integer',
+            'comentario' => 'required',
+            'spoiler' => 'nullable|boolean',
+        ], [
+            'catalogo_id.required' => 'O ID do catálogo é obrigatório.',
+            'catalogo_id.exists' => 'O catálogo selecionado não existe.',
+            'nota.required' => 'O campo nota é obrigatório.',
+            'nota.integer' => 'A nota deve ser um número inteiro.',
+            'comentario.required' => 'O campo comentário é obrigatório.',
+        ]);
     }
 }

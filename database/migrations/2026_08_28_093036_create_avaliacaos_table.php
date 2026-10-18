@@ -12,10 +12,10 @@ return new class extends Migration {
     {
         Schema::create('avaliacao', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('catalogo_id')->constrained('catalogos')->onDelete('cascade'); // Chave estrangeira para o catálogo
             $table->integer('nota');
             $table->text('comentario')->nullable();
             $table->boolean('spoiler')->default(false);
-            $table->timestamps();
         });
 
     }
@@ -25,6 +25,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('avaliacoes');
+        Schema::dropIfExists('avaliacao');
     }
 };

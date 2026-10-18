@@ -10,7 +10,6 @@ class AssinaturaEstado extends Model
     /** @use HasFactory<\Database\Factories\AssinaturaEstadoFactory> */
     use HasFactory;
     protected $fillable = [
-        'user_id',
         'status',
     ];
 

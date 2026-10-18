@@ -17,8 +17,6 @@ public function up(): void
         $table->decimal('preco_mensal', 8, 2);
         $table->integer('limite_telas');
         $table->string('resolucao_max');
-        $table->timestamps();
-
     });
 }
 

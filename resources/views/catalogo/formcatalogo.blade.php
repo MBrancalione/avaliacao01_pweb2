@@ -1,4 +1,4 @@
-<!-- 
+
 @if ($errors->any())
     <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-md">
         <ul class="list-disc pl-5">
@@ -8,7 +8,7 @@
         </ul>
     </div>
 @endif
--->
+
 
 <x-app-layout>
     <x-slot name="header">
@@ -32,7 +32,7 @@
                 @endphp
 
                 <h4 class="text-lg font-medium text-gray-900 mb-4">Formulário Catalogo</h4>
-                <form action="{{ $action }}" method="POST"><!--inserir a variável do php-->
+                <form action="{{ $action }}" method="POST" enctype="multipart/form-data"><!--inserir a variável do php-->
                     @csrf <!--formulario submetido faça a verificação se houver um formulário de um sistema externo, para bloquear-->
 
                     @if(!empty($dado->id))
@@ -41,12 +41,7 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                         <input type="hidden" name="id" value="{{$dado->id ?? '' }}"> <!--fazer as altrações do laragon. quando for salvar os dados do formulário após validação e mantem os dados do formulário caso algum erro-->
-                        
-                        <div>
-                            <label for="url_poster" class="block font-medium text-sm text-gray-700">URL do Poster</label>
-                            <input type="text" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm w-full" name="url_poster" value="{{ old('url_poster', $dado->url_poster ?? '') }}">
-                        </div>
-
+                    
                         <div>
                             <label for="titulo" class="block font-medium text-sm text-gray-700">Título</label>
                             <input type="text" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm w-full" name="titulo" value="{{ old('titulo', $dado->titulo ?? '') }}">
@@ -71,6 +66,15 @@
                             <label for="classificacao" class="block font-medium text-sm text-gray-700">Classificação</label>
                             <input type="text" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm w-full" name="classificacao" value="{{ old('classificacao', $dado->classificacao ?? '') }}">
                         </div>
+                    </div>
+
+                    <div>
+                        <label for="poster" class="block font-medium text-sm text-gray-700">Poster</label>
+                        @php
+                            $nome_imagem = !empty($dado->poster) ? $dado->poster : 'sem_imagem.jpg'; // Verifica se há uma imagem associada ao registro, caso contrário, usa uma imagem padrão
+                        @endphp
+                        <img src="/storage/ {{ $nome_imagem }}" alt="Poster" class="mt-2 w-32 h-auto"> <!-- Exibe a imagem atual do poster, se houver -->
+                        <input type="file" name="poster" value="{{ old('poster', $dado->poster ?? '') }}"> <!-- Campo de upload de arquivo para o poster -->
                     </div>
 
                     <div class="flex items-center gap-2 mt-4">
