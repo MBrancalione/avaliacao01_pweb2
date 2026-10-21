@@ -14,10 +14,12 @@ return new class extends Migration
             
             $table->string('titulo', 255);
             $table->string('sinopse', 255);
-            $table->string('genero', 255);
             $table->string('ano', 4);
             $table->string('classificacao', 255);
             $table->string('poster', 255)->nullable();
+            //Chave Estrangeira Generp
+            $table->foreignId('genero_filme_id')->constrained('genero_filmes')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 

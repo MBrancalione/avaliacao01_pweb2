@@ -17,6 +17,7 @@ class Catalogo extends Model
         'genero',
         'ano',
         'classificacao',
+        'generofilme',
     ];
 
     // Se um catálogo tiver avaliações, podemos adicionar a relação aqui futuramente:
