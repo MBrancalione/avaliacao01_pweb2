@@ -11,9 +11,17 @@ class AssinaturaEstado extends Model
     use HasFactory;
     protected $fillable = [
         'status',
+        'data_vencimento',
+        'codigo_transacao',
+        'user_id',
+        'plano_id',
     ];
 
     //indica na relação que assinatura estado pertence a um usuário, retornando esse objeto como atributo do assinatura estado; relação de chave estrangeira
+    public function plano()
+    {
+        return $this->hasOne(Planos::class, 'assinaturaestado_id', 'id');
+    }
     public function user()
     {
         return $this->hasOne(User::class, 'assinaturaestado_id', 'id');

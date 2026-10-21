@@ -22,7 +22,7 @@ class CatalogoFactory extends Factory
             'sinopse' => fake()->paragraph(2),
             'ano' => fake()->year(),
             'classificacao' => fake()->randomElement(['L', '10', '12', '14', '16', '18']),
-            'genero_filme_id' => GeneroFilme::factory(), //cria um estado de assinatura para cada usuário criado
+            'genero_filme_id' => GeneroFilme::All()->random()->id, //cria um estado de assinatura para cada usuário criado
 
         ];
     }

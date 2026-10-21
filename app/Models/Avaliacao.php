@@ -14,12 +14,23 @@ class Avaliacao extends Model
         'nota',
         'comentario',
         'spoiler',
-        'catalogo_id', //manter o relaconemto com catalogo, para poder salvar a avaliação de um filme específico
+        'catalogo_id',
+        'user_id'//manter o relaconemto com catalogo, para poder salvar a avaliação de um filme específico
+    ];
+
+    //quando tiver chave estrangeira e os campos forem diferentes de string tem que add esse cast
+    protected $cast = [
+        'user_id' => 'integer',
+        'catalogo_id' => 'integer'
     ];
 
     public function catalogo()
     {
         return $this->belongsTo(Catalogo::class);
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
     //protect - apenas a classe pode acessar

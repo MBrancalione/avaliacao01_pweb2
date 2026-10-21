@@ -26,7 +26,10 @@ class AuthenticatedSessionController extends Controller
     {
         $request->authenticate();
 
+
         $request->session()->regenerate();
+        $request->session()->put('user_id', $request->user()->id);
+        
 
         // Verifica se o usuário é administrador
     if ($request->user()->is_admin) {

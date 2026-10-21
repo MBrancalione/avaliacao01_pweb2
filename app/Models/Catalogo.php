@@ -17,8 +17,18 @@ class Catalogo extends Model
         'genero',
         'ano',
         'classificacao',
-        'generofilme',
+        'genero_filme_id',
     ];
+
+    
+    protected $cast = [
+        'genero_filme_id' => 'integer',
+    ];
+
+        public function GeneroFilme()
+    {
+        return $this->belongsTo(GeneroFilme::class, 'genero_filme_id', 'id');
+    }
 
     // Se um catálogo tiver avaliações, podemos adicionar a relação aqui futuramente:
     public function avaliacoes()

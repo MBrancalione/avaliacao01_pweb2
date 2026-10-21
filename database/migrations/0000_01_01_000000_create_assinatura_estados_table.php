@@ -10,9 +10,12 @@ return new class extends Migration {
     {
         Schema::create('assinatura_estados', function (Blueprint $table) {
             $table->id();
-            $table->string('status');               
-            $table->date('data_vencimento');        
-            $table->string('codigo_transacao')->unique(); 
+            $table->string('status');
+            $table->date('data_vencimento');
+            $table->string('codigo_transacao')->unique();
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // Chave estrangeira para o catálogo
+            $table->foreignId('plano_id')->constrained('planos')->onDelete('cascade'); // Chave estrangeira para o catálogo
+
             $table->timestamps();
         });
     }

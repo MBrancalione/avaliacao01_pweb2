@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Catalogo;
 use Illuminate\Http\Request;
 use App\Models\Avaliacao;
+use Illuminate\Validation\Rules\Exists;
 
 class AvaliacaoController extends Controller
 {
@@ -14,15 +16,26 @@ class AvaliacaoController extends Controller
 
     public function create(Request $request)
     {
-        $catalogo_id = $request->catalogo_id; // pega o id que o botão do catalogo deu
-        return view('avaliacao.formavaliacao', compact('catalogo_id')); // retorna o form + id do botao
+        //   $catalogo_id = $request->catalogo_id; // pega o id que o botão do catalogo deu
+        $user_id = $request->session()->get('user_id'); // pega o id da sessão
+        //$categorias = Catalogo::orderBy('nome')->get();
+        //dd($user_id, $catalogo_id);
+        return view('avaliacao.formavaliacao', compact('catalogo_id', 'user_id')); // retorna o form + id do botao
     }
 
     public function store(Request $request)
     {
+        dd($request->all());
+
         $this->validateForm($request);
         Avaliacao::create($request->all());
+
+        //verificação se o user_id está associado a uma avaliação
+
+
+
         return redirect('avaliacao')->with('success', 'Cadastro realizado com sucesso!');
+
     }
 
     public function edit($id)

@@ -20,6 +20,8 @@ class AssinaturaEstadoFactory extends Factory
             'status' => fake()->randomElement(['Ativa', 'Cancelada', 'Pendente']),
             'data_vencimento' => fake()->dateTimeBetween('now', '+1 year'),
             'codigo_transacao' => 'TRX-' . fake()->unique()->regexify('[A-Za-z0-9]{10}'),
+            'plano_id' => \App\Models\Planos::All()->random()->id,
+
         ];
     }
 }
