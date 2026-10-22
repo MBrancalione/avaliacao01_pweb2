@@ -75,4 +75,6 @@ Route::put('/avaliacao/{id}', [AvaliacaoController::class, 'update'])->name('ava
 Route::delete('/avaliacao/{id}', [AvaliacaoController::class, 'destroy'])->name('avaliacao.destroy');
 Route::post('/avaliacao/search', [AvaliacaoController::class, 'search'])->name('avaliacao.search');
 
+
+Route::get('generate-pdf', [ChamadoController::class, 'generatePDF']);
 require __DIR__ . '/auth.php';

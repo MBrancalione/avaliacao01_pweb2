@@ -88,4 +88,6 @@ class AvaliacaoController extends Controller
             'comentario.required' => 'O campo comentário é obrigatório.',
         ]);
     }
+
+    
 }

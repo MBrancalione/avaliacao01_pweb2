@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Chamado;
 use Illuminate\Support\Facades\Auth;
+use PDF;
 
 class ChamadoController extends Controller
 {
@@ -87,5 +88,20 @@ class ChamadoController extends Controller
         $dados = $query->get();
 
         return view('chamado.list', compact('dados'));
+    }
+
+    public function generatePDF()
+
+    {
+
+        $chamados = Chamado::get();
+        $data = [
+            'title' => 'Welcome to ItSolutionStuff.com',
+            'date' => date('m/d/Y'),
+            'chamados' => $chamados
+        ]; 
+        $pdf = PDF::loadView('chamado.reportchamado', $data);
+        return $pdf->download('chamados.pdf');
+
     }
 }
