@@ -58,7 +58,7 @@
                         <th scope="row" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{$item->id}}</th>
                         <td class="px-6 py-4 whitespace-nowrap flex justify-center"><img src="{{$item->url_poster}}" alt="Poster" class="w-20 rounded shadow-sm"></td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{$item->titulo}}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{$item->genero}}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{$item->GeneroFilme->genero_filme ?? 'Gênero não especificado'}}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{$item->classificacao}}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{$item->ano}}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm">

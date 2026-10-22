@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight text-center">
-            {{ __('Listagem de Catálogo') }}
+            {{ __('Listagem de Filmes') }}
         </h2>
     </x-slot>
 
@@ -57,7 +57,7 @@
                             <th scope="row" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{$item->id}}</th>
                             <td class="px-6 py-4 whitespace-nowrap flex justify-center"><img src="{{ asset('storage/' . $item->poster) }}" alt="Poster" class="w-20 rounded"></td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{$item->titulo}}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{$item->genero}}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{$item->GeneroFilme->genero_filme ?? 'Gênero não especificado'}}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{$item->classificacao}}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{$item->ano}}</td>
                             <!--botões de ação para chamar função de edit e destroy-->

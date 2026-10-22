@@ -17,7 +17,7 @@ class FilmeFactory extends Factory
     public function definition(): array
     {
         return [
-            'poster' => 'https://picsum.photos/200/300',
+            'poster' => '/storage/app/public/imagem/filme/nome-do-arquivo.jpg', // Caminho relativo para a imagem do poster
             'titulo' => fake()->sentence(3),
             'sinopse' => fake()->paragraph(2),
             'ano' => fake()->year(),

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Filme;
+use App\Models\GeneroFilme;
 use App\Charts\AvaliacaoChart;
 
 class FilmeController extends Controller
@@ -13,6 +14,7 @@ class FilmeController extends Controller
     public function index(Request $request)
     {
         $dados = Filme::all();
+
         if ($request->is('*admin*')) {
             return view('filme.listfilme', compact('dados'));
         }
@@ -21,7 +23,8 @@ class FilmeController extends Controller
 
     function create()
     {
-        return view('filme.formfilme');
+        $generos = GeneroFilme::orderBy('genero_filme')->get(); // Obtém todos os gêneros ordenados pelo nome
+        return view('filme.formfilme', compact('generos')); // Passa os gêneros para a view
     }
 
     function store(Request $request)
@@ -46,7 +49,8 @@ class FilmeController extends Controller
     function edit($id)
     {
         $dado = Filme::findOrFail($id); //ao invés de retornar apenas o erro, caso fosse só find, retorna qual o problema
-        return view('filme.formfilme', compact('dado'));
+        $generos = GeneroFilme::orderBy('genero_filme')->get();
+        return view('filme.formfilme', compact('dado', 'generos'));
     }
 
     function destroy($id)
@@ -88,14 +92,15 @@ class FilmeController extends Controller
         $request->validate([
             'titulo' => 'required',
             'sinopse' => 'required|string',
-            'genero' => 'required',
+            'genero_filme_id' => 'required', // Corrigido nome da coluna e da tabela
             'classificacao' => 'required',
             'ano' => 'required',
             'poster' => 'nullable|image|mimes:jpeg,png,jpg,gif',
         ], [
             'titulo.required' => 'O campo título é obrigatório.',
             'sinopse.required' => 'O campo sinopse é obrigatório.',
-            'genero.required' => 'O campo gênero é obrigatório.',
+            'genero_filme_id.required' => 'O campo gênero é obrigatório.', 
+            'genero_filme_id.exists' => 'O gênero selecionado é inválido.',
             'classificacao.required' => 'O campo classificação é obrigatório.',
             'ano.required' => 'O campo ano é obrigatório.',
             'poster.image' => 'O arquivo enviado deve ser uma imagem.',

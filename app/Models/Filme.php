@@ -14,7 +14,6 @@ class Filme extends Model
         'poster',
         'titulo',
         'sinopse',
-        'genero',
         'ano',
         'classificacao',
         'genero_filme_id',
