@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use App\Models\User;
+use App\Models\AssinaturaEstado;
 
 class UsuarioController extends Controller
 {
@@ -106,5 +107,63 @@ class UsuarioController extends Controller
             'foto_perfil.image' => 'O arquivo enviado deve ser uma imagem.',
             'foto_perfil.mimes' => 'A imagem deve ser do tipo: jpeg, png, jpg, gif.',
         ]);
+    }
+
+
+    //gemini criou isso antes de eu fazer caca e esquecer de puxar da origem dps q vc mexeu, ent deixarei aqui
+    public function editUser($id)
+    {
+        $dado = User::findOrFail($id);
+        $assinaturas = AssinaturaEstado::all();
+
+        // Altere de 'users.form' para 'usuario.form'
+        return view('usuario.form', compact('dado', 'assinaturas'));
+    }
+
+    public function updateUser(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $id,
+        ]);
+
+        $user->update($request->only(['name', 'email', 'is_admin', 'assinaturaestado_id']));
+
+        return redirect()->route('users.list')->with('success', 'Utilizador atualizado com sucesso!');
+    }
+
+    public function destroyUser($id)
+    {
+        $user = User::findOrFail($id);
+
+        // Evita que o administrador elimine a própria conta com que está logado
+        if ($user->id === auth()->id()) {
+            return redirect()->back()->with('error', 'Não pode eliminar a sua própria conta.');
+        }
+
+        $user->delete();
+
+        return redirect()->route('users.list')->with('success', 'Utilizador eliminado com sucesso!');
+    }
+
+    public function storeUser(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:8',
+        ]);
+
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'is_admin' => $request->has('is_admin') ? 1 : 0,
+            'assinaturaestado_id' => $request->assinaturaestado_id,
+        ]);
+
+        return redirect()->route('users.list')->with('success', 'Utilizador criado com sucesso!');
     }
 }

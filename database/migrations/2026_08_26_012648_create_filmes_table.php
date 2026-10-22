@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('classificacao', 255);
             $table->string('poster', 255)->nullable();
             //Chave Estrangeira Generp
-            $table->foreignId('genero_filme_id')->constrained('genero_filmes')->onDelete('cascade');
+            $table->string('genero_filme');
             $table->timestamps();
         });
     }

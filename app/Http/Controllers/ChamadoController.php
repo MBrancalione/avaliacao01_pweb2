@@ -11,35 +11,48 @@ class ChamadoController extends Controller
 {
     public function index()
     {
-        // Usa with('user') para carregar os dados do utilizador relacionado (evita N+1 queries)
-        $dados = Chamado::with('user')->get();
+        $user = Auth::user();
+
+        // Admin vê todos os chamados. Usuário comum vê apenas os seus próprios.
+        if ($user && $user->is_admin) {
+            $dados = Chamado::with('user')->get();
+        } else {
+            $dados = Chamado::where('user_id', Auth::id())->with('user')->get();
+        }
+
         return view('chamado.listchamado', compact('dados'));
     }
-
     public function create()
     {
-        return view('chamado.form');
+        if (Auth::user() && Auth::user()->is_admin) {
+            return redirect('chamado')->with('error', 'Administradores apenas visualizam chamados.');
+        }
+
+        // Alterado de 'chamado.form' para 'chamado.formchamado'
+        return view('chamado.formchamado');
     }
 
     public function store(Request $request)
     {
+        $data['data_criacao'] = now();      // Pega data e hora atuais do sistema
         $this->validateForm($request);
 
         $data = $request->all();
-        
+
+
         // Atribui automaticamente o ID do utilizador logado caso não venha no formulário
         if (!isset($data['user_id'])) {
             $data['user_id'] = Auth::id() ?? 1; // Fallback de segurança se não houver sessão ativa
         }
 
-        Chamado::create($data); 
+        Chamado::create($data);
         return redirect('chamado')->with('success', 'Cadastro realizado com sucesso!');
     }
 
     public function edit($id)
     {
-        $dado = Chamado::findOrFail($id); 
-        return view('chamado.form', compact('dado'));
+        $dado = Chamado::findOrFail($id);
+        return view('chamado.formchamado', compact('dado'));
     }
 
     public function update(Request $request, $id)
@@ -56,7 +69,7 @@ class ChamadoController extends Controller
     {
         $dado = Chamado::findOrFail($id);
         $dado->delete();
-        
+
         return redirect('chamado')->with("success", 'Registro removido com sucesso!');
     }
 
@@ -87,10 +100,10 @@ class ChamadoController extends Controller
 
         $dados = $query->get();
 
-        return view('chamado.listchamado', compact('dados'));
+        return view('chamado.list', compact('dados'));
     }
 
-    public function generatePDF()
+        public function generatePDF()
 
     {
 

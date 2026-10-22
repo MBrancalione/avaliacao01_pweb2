@@ -2,12 +2,12 @@
 
 namespace Database\Factories;
 
-use App\Models\Filme;
+use App\Models\Catalogo;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<Filme>
+ * @extends Factory<Catalogo>
  */
 class GeneroFilmeFactory extends Factory
 {
@@ -17,7 +17,7 @@ class GeneroFilmeFactory extends Factory
     public function definition(): array
     {
         return [
-            'genero_filme' => fake()->randomElement([
+            'genero_filme' => fake()->unique()->randomElement([
                 'Ação',
                 'Aventura',
                 'Comédia',

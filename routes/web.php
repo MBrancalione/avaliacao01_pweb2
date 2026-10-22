@@ -28,6 +28,11 @@ Route::middleware('auth')->group(function () {
     // Rotas de listagem e pesquisa de utilizadores (Relacionamento 1:1)
     Route::get('/users/list', [UsuarioController::class, 'list'])->name('users.list');
     Route::post('/users/search', [UsuarioController::class, 'search'])->name('users.search');
+
+    // NOVAS ROTAS: Edição e Eliminação de Utilizadores (bater com os nomes 'user.edit' e 'user.destroy' da view)
+    Route::get('/users/edit/{id}', [UsuarioController::class, 'editUser'])->name('users.edit');
+    Route::put('/users/{id}', [UsuarioController::class, 'updateUser'])->name('users.update');
+    Route::delete('/users/{id}', [UsuarioController::class, 'destroyUser'])->name('users.destroy');
 });
 
 // Filmes

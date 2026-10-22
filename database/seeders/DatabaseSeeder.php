@@ -17,14 +17,13 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            PlanosSeeder::class,
             GeneroFilmeSeeder::class,
-            FilmeSeeder::class,
+            PlanosSeeder::class,
             UserSeeder::class,
+            AssinaturaEstadoSeeder::class,
+            FilmeSeeder::class,
             AvaliacaoSeeder::class,
             ChamadoSeeder::class,
-            AssinaturaEstadoSeeder::class,
         ]);
- 
-        }
+    }
 }

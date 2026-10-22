@@ -13,8 +13,7 @@ return new class extends Migration {
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->foreignId('assinaturaestado_id')->nullable()->constrained('assinatura_estados')->nullOnDelete(); // Relacionamento 1:1 com AssinaturaEstado
-
+            $table->foreignId('assinaturaestado_id')->nullable();
             $table->boolean('is_admin')->default(false); // Para diferenciar admin de usuário comum
             $table->string('foto_perfil')->nullable(); // Para o upload de imagem (Requisito do trabalho)
             $table->rememberToken();

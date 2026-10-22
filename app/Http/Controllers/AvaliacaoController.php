@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Catalogo;
 use Illuminate\Http\Request;
 use App\Models\Avaliacao;
+use Illuminate\Validation\Rules\Exists;
 
 class AvaliacaoController extends Controller
 {
@@ -14,12 +16,12 @@ class AvaliacaoController extends Controller
 
     public function create(Request $request)
     {
-        //   $filme_id = $request->filme_id; // pega o id que o botão do filme deu
+        $catalogo_id = $request->catalogo_id; // pega o id que o botão do catalogo deu
         $user_id = $request->session()->get('user_id'); // pega o id da sessão
-        //$categorias = Filme::orderBy('nome')->get();
-        //dd($user_id, $filme_id);
-        return view('avaliacao.formavaliacao', compact('filme_id', 'user_id')); // retorna o form + id do botao
-    } //Ryan?
+        //$categorias = Catalogo::orderBy('nome')->get();
+        //dd($user_id, $catalogo_id);
+        return view('avaliacao.formavaliacao', compact('catalogo_id', 'user_id')); // retorna o form + id do botao
+    }
 
     public function store(Request $request)
     {
@@ -27,8 +29,13 @@ class AvaliacaoController extends Controller
 
         $this->validateForm($request);
         Avaliacao::create($request->all());
+
         //verificação se o user_id está associado a uma avaliação
+
+
+
         return redirect('avaliacao')->with('success', 'Cadastro realizado com sucesso!');
+
     }
 
     public function edit($id)
@@ -42,6 +49,7 @@ class AvaliacaoController extends Controller
         $this->validateForm($request);
         $dados = Avaliacao::findOrFail($id);
         $data['spoiler'] = $request->has('spoiler') ? 1 : 0;
+
         $dados->update($data);
         return redirect('avaliacao')->with('success', 'Registro atualizado com sucesso!');
     }
@@ -55,11 +63,11 @@ class AvaliacaoController extends Controller
     public function search(Request $request)
     {
         if (!empty($request->valor)) {
-            $dados = Avaliacao::with('filme')
+            $dados = Avaliacao::with('catalogo')
                 ->where($request->tipo, 'like', '%' . $request->valor . '%')
                 ->get();
         } else {
-            $dados = Avaliacao::with('filme')->get();
+            $dados = Avaliacao::with('catalogo')->get();
         }
 
         return view('avaliacao.listavaliacao', compact('dados'));
@@ -68,13 +76,13 @@ class AvaliacaoController extends Controller
     private function validateForm(Request $request)
     {
         $request->validate([
-            'filme_id' => 'required|exists:filmes,id',
+            'catalogo_id' => 'required|exists:catalogos,id',
             'nota' => 'required|integer',
             'comentario' => 'required',
             'spoiler' => 'nullable|boolean',
         ], [
-            'filme_id.required' => 'O ID do catálogo é obrigatório.',
-            'filme_id.exists' => 'O catálogo selecionado não existe.',
+            'catalogo_id.required' => 'O ID do catálogo é obrigatório.',
+            'catalogo_id.exists' => 'O catálogo selecionado não existe.',
             'nota.required' => 'O campo nota é obrigatório.',
             'nota.integer' => 'A nota deve ser um número inteiro.',
             'comentario.required' => 'O campo comentário é obrigatório.',

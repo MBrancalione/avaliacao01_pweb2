@@ -8,23 +8,23 @@ use Database\Factories\FilmeFactory;
 
 class Filme extends Model
 {
-    use HasFactory; 
-    public $timestamps = false; 
+    use HasFactory;
+    public $timestamps = false;
     protected $fillable = [
         'poster',
         'titulo',
         'sinopse',
+        'genero_filme',
         'ano',
         'classificacao',
-        'genero_filme_id',
     ];
 
-    
+
     protected $cast = [
-        'genero_filme_id' => 'integer',
+        'genero_filme' => 'integer',
     ];
 
-        public function GeneroFilme()
+    public function GeneroFilme()
     {
         return $this->belongsTo(GeneroFilme::class, 'genero_filme_id', 'id');
     }

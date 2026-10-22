@@ -13,6 +13,7 @@ class AssinaturaEstado extends Model
         'status',
         'data_vencimento',
         'codigo_transacao',
+        'user_id',
         'plano_id',
     ];
 
@@ -26,5 +27,5 @@ class AssinaturaEstado extends Model
         return $this->hasOne(User::class, 'assinaturaestado_id', 'id');
     }
 
-    
+
 }

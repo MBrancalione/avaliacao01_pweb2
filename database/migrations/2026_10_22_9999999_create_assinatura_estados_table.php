@@ -13,11 +13,12 @@ return new class extends Migration {
             $table->string('status');
             $table->date('data_vencimento');
             $table->string('codigo_transacao')->unique();
-            $table->foreignId('plano_id')->constrained('planos')->onDelete('cascade'); // Chave estrangeira para o catálogo
-
+            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('cascade');
+            $table->foreignId('plano_id')->constrained('planos')->onDelete('cascade');
             $table->timestamps();
         });
     }
+
     public function down(): void
     {
         Schema::dropIfExists('assinatura_estados');

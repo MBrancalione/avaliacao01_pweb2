@@ -40,7 +40,7 @@ class PlanosController extends Controller
 
     public function update(Request $request, $id)
     {
-        $this->validateForm($request);
+       $this->validateForm($request);
         $plano = Planos::findOrFail($id);
         $plano->update($request->except(['_token', '_method', 'id']));
 
