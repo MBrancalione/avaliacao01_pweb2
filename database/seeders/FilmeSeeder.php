@@ -4,14 +4,14 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents; //serve para evitar que os eventos do modelo sejam disparados durante a execução do seeder
 use Illuminate\Database\Seeder;
-use App\Models\Catalogo;
+use App\Models\Filme;
 
-class CatalogoSeeder extends Seeder
+class FilmeSeeder extends Seeder
 {
     public function run(): void
     {
         //define os arquivos para popular o banco de dados
-        Catalogo::factory()
+        Filme::factory()
         ->count(10)
         ->create();
     }

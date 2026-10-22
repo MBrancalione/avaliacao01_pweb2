@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Database\Factories\AvaliacaoFactory;
 
 class Avaliacao extends Model
 {
@@ -14,19 +13,19 @@ class Avaliacao extends Model
         'nota',
         'comentario',
         'spoiler',
-        'catalogo_id',
-        'user_id'//manter o relaconemto com catalogo, para poder salvar a avaliação de um filme específico
+        'filme_id',
+        'user_id'//manter o relaconemto com filme, para poder salvar a avaliação de um filme específico
     ];
 
     //quando tiver chave estrangeira e os campos forem diferentes de string tem que add esse cast
     protected $cast = [
         'user_id' => 'integer',
-        'catalogo_id' => 'integer'
+        'filme_id' => 'integer'
     ];
 
-    public function catalogo()
+    public function filme()
     {
-        return $this->belongsTo(Catalogo::class);
+        return $this->belongsTo(Filme::class);
     }
     public function user()
     {

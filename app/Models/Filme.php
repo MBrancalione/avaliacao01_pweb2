@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\Hasfactory;
-use Database\Factories\CatalogoFactory;
+use Database\Factories\FilmeFactory;
 
-class Catalogo extends Model
+class Filme extends Model
 {
     use HasFactory; 
     public $timestamps = false; 

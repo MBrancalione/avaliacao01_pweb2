@@ -28,7 +28,7 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
 
-                        <a href="{{ url('catalogouser') }}"
+                        <a href="{{ url('filmeuser') }}"
                             class="p-4 bg-gray-50 border border-gray-200 rounded-lg hover:border-purple-600 hover:bg-purple-50 transition duration-150 flex flex-col items-center text-center group">
                             <div
                                 class="p-3 bg-purple-100 text-purple-600 rounded-full mb-2 group-hover:bg-purple-600 group-hover:text-white transition">

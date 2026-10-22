@@ -13,7 +13,7 @@ class ChamadoController extends Controller
     {
         // Usa with('user') para carregar os dados do utilizador relacionado (evita N+1 queries)
         $dados = Chamado::with('user')->get();
-        return view('chamado.list', compact('dados'));
+        return view('chamado.listchamado', compact('dados'));
     }
 
     public function create()
@@ -87,7 +87,7 @@ class ChamadoController extends Controller
 
         $dados = $query->get();
 
-        return view('chamado.list', compact('dados'));
+        return view('chamado.listchamado', compact('dados'));
     }
 
     public function generatePDF()

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,18 +9,19 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use App\Models\User;
 
-class ProfileController extends Controller
+class UsuarioController extends Controller
 {
+
     public function edit(Request $request): View
     {
-        return view('profile.edit', [
+        return view('usuario.edit', [
             'user' => $request->user(),
         ]);
     }
     public function update(Request $request): RedirectResponse
     {
         $user = $request->user();
-        
+
         $this->validateForm($request, $user->id);
         $user->fill($request->only(['name', 'email']));
 
@@ -29,7 +29,7 @@ class ProfileController extends Controller
             $user->email_verified_at = null;
         }
 
-        // Tratamento da imagem de perfil (caso seja enviada)
+        // Upload de Imagem 2
         if ($request->hasFile('foto_perfil')) {
             // Apaga a foto antiga se existir
             if ($user->foto_perfil && \Illuminate\Support\Facades\Storage::disk('public')->exists($user->foto_perfil)) {
@@ -39,14 +39,12 @@ class ProfileController extends Controller
             $imagem = $request->file('foto_perfil');
             $nome_imagem = 'user_' . $user->id . '_' . date('YmdHis') . '.' . $imagem->getClientOriginalExtension();
             $diretorio = "imagem/usuarios/";
-            
+
             $imagem->storeAs($diretorio, $nome_imagem, 'public');
             $user->foto_perfil = $diretorio . $nome_imagem;
         }
-
         $user->save();
-
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return Redirect::route('usuario.edit')->with('status', 'usuario-updated');
     }
 
     public function destroy(Request $request): RedirectResponse
@@ -54,16 +52,11 @@ class ProfileController extends Controller
         $request->validateWithBag('userDeletion', [
             'password' => ['required', 'current_password'],
         ]);
-
         $user = $request->user();
-
         Auth::logout();
-
         $user->delete();
-
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-
         return Redirect::to('/');
     }
 
@@ -73,7 +66,7 @@ class ProfileController extends Controller
     public function list(): View
     {
         $dados = User::with('assinaturaEstado')->get();// list.blafe busca os usuarios trazedo os dados do estado da assinatura realcionada tbm
-        return view('users.list', compact('dados'));
+        return view('usuario.list', compact('dados'));
     }
 
     public function search(Request $request): View
@@ -96,8 +89,7 @@ class ProfileController extends Controller
         }
 
         $dados = $query->get();
-
-        return view('users.list', compact('dados'));
+        return view('usuario.list', compact('dados'));
     }
 
     private function validateForm(Request $request, $userId)

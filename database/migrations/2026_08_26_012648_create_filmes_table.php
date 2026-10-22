@@ -6,10 +6,10 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /*variáveis da tabela Catalogo*/
+    /*variáveis da tabela Filme*/
     public function up(): void
     {
-        Schema::create('catalogos', function (Blueprint $table) {
+        Schema::create('filmes', function (Blueprint $table) {
             $table->id();
             
             $table->string('titulo', 255);
@@ -25,6 +25,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('catalogos'); //para apagar a tabela caso seja necessário
+        Schema::dropIfExists('filmes'); //para apagar a tabela caso seja necessário
     }
 };

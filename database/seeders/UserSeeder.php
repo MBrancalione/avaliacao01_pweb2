@@ -12,7 +12,12 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        $estado = AssinaturaEstado::firstOrCreate(['status' => 'Ativa']);
+        $estado = AssinaturaEstado::firstOrCreate(['status' => 'Ativa'],
+        [
+            'data_vencimento' => now()->addYear(),
+            'codigo_transacao' => 'TRX-' . fake()->unique()->regexify('[A-Za-z0-9]{10}'),
+            'plano_id' => \App\Models\Planos::All()->random()->id,
+        ]);
 
         // Cria o Administrador garantido
         User::updateOrCreate(

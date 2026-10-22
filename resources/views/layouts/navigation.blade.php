@@ -17,7 +17,7 @@
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('catalogoadmin')" :active="request()->routeIs('catalogoadmin')">
+                    <x-nav-link :href="route('filmeadmin')" :active="request()->routeIs('filmeadmin')">
                         {{ __('Catálogo') }}
                     </x-nav-link>
                 </div>
@@ -32,7 +32,7 @@
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('chamado.list')" :active="request()->routeIs('chamado.list')">
+                    <x-nav-link :href="route('chamado.listchamado')" :active="request()->routeIs('chamado.list')">
                         {{ __('Chamados') }}
                     </x-nav-link>
                 </div>
@@ -54,7 +54,7 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')">
+                        <x-dropdown-link :href="route('usuario.edit')">
                             {{ __('Profile') }}
                         </x-dropdown-link>
 
@@ -100,7 +100,7 @@
             </div>
 
             <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
+                <x-responsive-nav-link :href="route('usuario.edit')">
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
 

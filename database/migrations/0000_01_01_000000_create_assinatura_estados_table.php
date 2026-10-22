@@ -13,7 +13,6 @@ return new class extends Migration {
             $table->string('status');
             $table->date('data_vencimento');
             $table->string('codigo_transacao')->unique();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // Chave estrangeira para o catálogo
             $table->foreignId('plano_id')->constrained('planos')->onDelete('cascade'); // Chave estrangeira para o catálogo
 
             $table->timestamps();

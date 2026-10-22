@@ -10,7 +10,7 @@
             
             <div class="p-6 bg-white shadow sm:rounded-lg w-full max-w-4xl flex flex-col items-center">
                 <!--busca de dados por valor específico-->
-                <form  action="{{ route('catalogo.searchadmin')}}" method="post" class="w-full">
+                <form  action="{{ route('filme.searchadmin')}}" method="post" class="w-full">
                     @csrf
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end justify-center">
                         <div>
@@ -30,7 +30,7 @@
 
                         <div class="flex items-center justify-center gap-2">
                             <button type="submit" class="px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-500">Buscar</button>
-                            <a href="{{url('catalogo/create')}}" style="background-color: #16a34a; color: #ffffff;" class="px-4 py-2 border border-transparent rounded-md font-semibold text-xs uppercase tracking-widest hover:opacity-90"> Novo</a> <!--linkagem de páginas Laravel (substituir tudo que estava como php)-->
+                            <a href="{{url('filme/create')}}" style="background-color: #16a34a; color: #ffffff;" class="px-4 py-2 border border-transparent rounded-md font-semibold text-xs uppercase tracking-widest hover:opacity-90"> Novo</a> <!--linkagem de páginas Laravel (substituir tudo que estava como php)-->
                         </div>
                     </div>
                 </form>
@@ -62,10 +62,10 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{$item->ano}}</td>
                             <!--botões de ação para chamar função de edit e destroy-->
                             <td class="px-3 py-4 whitespace-nowrap text-sm">
-                                <a style="background-color: #f59e0b; color: #ffffff; padding: 4px 12px; border-radius: 4px; font-weight: bold; text-decoration: none; font-size: 12px; text-transform: uppercase;" title="Editar" href="{{route('catalogo.edit', $item->id)}}">Editar</a> <!--passa o id como parâmetro-->
+                                <a style="background-color: #f59e0b; color: #ffffff; padding: 4px 12px; border-radius: 4px; font-weight: bold; text-decoration: none; font-size: 12px; text-transform: uppercase;" title="Editar" href="{{route('filme.edit', $item->id)}}">Editar</a> <!--passa o id como parâmetro-->
                             </td>
                             <td class="px-3 py-4 whitespace-nowrap text-sm">
-                                <form action="{{route('catalogo.destroy', $item->id)}}" method="POST"> <!--pq precisa ser um form?-->
+                                <form action="{{route('filme.destroy', $item->id)}}" method="POST"> <!--pq precisa ser um form?-->
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 text-xs font-semibold uppercase" title="Excluir" onclick="return confirm('Deseja excluir?')">Deletar</button>

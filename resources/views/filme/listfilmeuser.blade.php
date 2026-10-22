@@ -9,7 +9,7 @@
         <h3 class="text-lg font-medium text-gray-900 mb-4 text-center">Listagem de Catalogos</h3>
 
         <!--busca de dados por valor específico-->
-        <form action="{{route('catalogo.searchuser')}}" method="post" class="w-full">
+        <form action="{{route('filme.searchuser')}}" method="post" class="w-full">
             @csrf
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end justify-center">
                 <div>
@@ -62,7 +62,7 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{$item->classificacao}}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{$item->ano}}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm">
-                            <a href="{{ route('avaliacao.create', ['catalogo_id' => $item->id]) }}" style="background-color: #2563eb; color: #ffffff;" class="px-3 py-1 border border-transparent rounded text-xs font-semibold uppercase hover:opacity-90">
+                            <a href="{{ route('avaliacao.create', ['filme_id' => $item->id]) }}" style="background-color: #2563eb; color: #ffffff;" class="px-3 py-1 border border-transparent rounded text-xs font-semibold uppercase hover:opacity-90">
                                 Avaliar Filme
                             </a>
                         </td>

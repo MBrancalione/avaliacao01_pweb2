@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('avaliacao', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('catalogo_id')->constrained('catalogos')->onDelete('cascade'); // Chave estrangeira para o catálogo
+            $table->foreignId('filme_id')->constrained('filmes')->onDelete('cascade'); // Chave estrangeira para o catálogo
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // Chave estrangeira para o catálogo
             $table->integer('nota');
             $table->text('comentario')->nullable();

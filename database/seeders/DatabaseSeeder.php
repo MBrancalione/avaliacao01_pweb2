@@ -17,11 +17,14 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            AssinaturaEstadoSeeder::class,
             PlanosSeeder::class,
-            CatalogoSeeder::class,
-            AvaliacaoSeeder::class,
+            GeneroFilmeSeeder::class,
+            FilmeSeeder::class,
             UserSeeder::class,
+            AvaliacaoSeeder::class,
             ChamadoSeeder::class,
-        ]);}
+            AssinaturaEstadoSeeder::class,
+        ]);
+ 
+        }
 }

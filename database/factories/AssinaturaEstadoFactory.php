@@ -2,12 +2,13 @@
 
 namespace Database\Factories;
 
-use App\Models\Catalogo;
+use App\Models\Filme;
 use App\Models\User;
+use App\Models\AssinaturaEstado;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<Catalogo>
+ * @extends Factory<AssinaturaEstado>
  */
 class AssinaturaEstadoFactory extends Factory
 {

@@ -17,8 +17,8 @@ class GeneroFilme extends Model
     ];
 
     // Um gênero pode estar associado a vários itens do catálogo
-    public function catalogos(): HasMany
+    public function filmes(): HasMany
     {
-        return $this->hasMany(Catalogo::class, 'genero_filme_id'); //mais de um hasmany
+        return $this->hasMany(Filme::class, 'genero_filme_id'); //mais de um hasmany
     }
 }

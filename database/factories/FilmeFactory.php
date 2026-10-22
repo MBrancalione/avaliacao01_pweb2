@@ -2,12 +2,12 @@
 
 namespace Database\Factories;
 
-use App\Models\Catalogo;
+use App\Models\Filme;
 use App\Models\GeneroFilme;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class CatalogoFactory extends Factory
+class FilmeFactory extends Factory
 {
     /**
      * Define the model's default state.
