@@ -1,75 +1,123 @@
 <section>
-    <header>
-        <h2 class="text-lg font-medium text-gray-900">
-            {{ __('Profile Information') }}
-        </h2>
+    <style>
+        /* Cartão de perfil */
+        .pi-card   { display: flex; align-items: center; gap: 20px; padding: 20px; margin-bottom: 28px;
+                     background: linear-gradient(135deg, #ede9f9 0%, #f8f6fe 100%); border: 1px solid #e0d9f5; border-radius: 16px; }
+        .pi-avatar { flex-shrink: 0; width: 96px; height: 96px; border-radius: 999px; object-fit: cover;
+                     border: 4px solid #fff; box-shadow: 0 4px 14px rgba(76,50,168,.25); }
+        .pi-initial { display: flex; align-items: center; justify-content: center; background: #4c32a8; color: #fff;
+                      font-size: 38px; font-weight: 700; }
+        .pi-info   { min-width: 0; }
+        .pi-name   { margin: 0; font-size: 22px; font-weight: 700; color: #4c32a8; overflow: hidden; text-overflow: ellipsis; }
+        .pi-email  { margin: 2px 0 10px; font-size: 14px; color: #4b5563; overflow: hidden; text-overflow: ellipsis; }
+        .pi-plan   { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 999px;
+                     background: #4c32a8; color: #fff; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; }
+        .pi-plan-none { background: #fff; color: #6b7280; border: 1px solid #d1d5db; }
+        @media (max-width: 480px) { .pi-card { flex-direction: column; text-align: center; } }
 
-        <p class="mt-1 text-sm text-gray-600">
-            {{ __("Update your account's profile information and email address.") }}
-        </p>
-    </header>
+        /* Formulário */
+        .pi-title { color: #4c32a8; font-size: 18px; font-weight: 700; margin: 0 0 4px; }
+        .pi-sub   { color: #4b5563; font-size: 14px; margin: 0 0 20px; }
+
+        .pi-form  { display: grid; grid-template-columns: 1fr; gap: 18px; }
+        .pi-label { display: block; margin-bottom: 6px; font-size: 13px; font-weight: 600; color: #374151; }
+        .pi-input {
+            width: 100%; box-sizing: border-box; padding: 10px 12px; font-size: 14px; color: #111827; background: #fff;
+            border: 1px solid #d1d5db; border-radius: 10px; box-shadow: 0 1px 2px rgba(0,0,0,.04);
+            transition: border-color .15s ease, box-shadow .15s ease; color-scheme: light;
+        }
+        .pi-input:focus { outline: none; border-color: #4c32a8; box-shadow: 0 0 0 3px rgba(76,50,168,.18); }
+        .pi-file { padding: 8px 12px; cursor: pointer; }
+
+        .pi-error  { margin: 6px 0 0; font-size: 13px; color: #991b1b; }
+        .pi-warn   { margin-top: 8px; font-size: 14px; color: #374151; }
+        .pi-link   { background: none; border: 0; padding: 0; cursor: pointer; font: inherit; font-size: 14px; color: #4c32a8; text-decoration: underline; }
+        .pi-link:hover { opacity: .8; }
+        .pi-ok     { margin-top: 8px; font-size: 14px; font-weight: 600; color: #16a34a; }
+
+        .pi-actions { display: flex; align-items: center; gap: 14px; margin-top: 8px; padding-top: 22px; border-top: 1px solid #f0edf9; }
+        .pi-btn {
+            display: inline-flex; align-items: center; padding: 10px 22px; border-radius: 10px; cursor: pointer;
+            background: #4c32a8; color: #fff; border: 1px solid transparent;
+            font-family: inherit; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; line-height: 1;
+            transition: opacity .15s ease;
+        }
+        .pi-btn:hover { opacity: .9; }
+        .pi-saved { font-size: 14px; font-weight: 600; color: #4c32a8; margin: 0; }
+    </style>
+
+    {{-- Cartão de perfil: foto, nome, email e plano --}}
+    <div class="pi-card">
+        @if ($user->foto_perfil)
+            <img src="{{ asset('storage/' . $user->foto_perfil) }}" alt="Foto de perfil" class="pi-avatar">
+        @else
+            <div class="pi-avatar pi-initial">{{ mb_strtoupper(mb_substr($user->name, 0, 1)) }}</div>
+        @endif
+
+        <div class="pi-info">
+            <h3 class="pi-name">{{ $user->name }}</h3>
+            <p class="pi-email">{{ $user->email }}</p>
+
+            @if ($user->plano)
+                <span class="pi-plan">Plano {{ $user->plano->nome_plano }}</span>
+            @else
+                <span class="pi-plan pi-plan-none">Sem plano</span>
+            @endif
+        </div>
+    </div>
 
     <form id="send-verification" method="post" action="{{ route('verification.send') }}">
         @csrf
     </form>
 
-    {{-- CORREÇÃO: enctype="multipart/form-data" é obrigatório para enviar arquivo. Sem ele o controller nunca recebia a foto --}}
-    <form method="post" action="{{ route('usuario.update') }}" class="mt-6 space-y-6" enctype="multipart/form-data">
+    <form method="post" action="{{ route('usuario.update') }}" class="pi-form" enctype="multipart/form-data">
         @csrf
         @method('patch')
 
         <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
-            <x-input-error class="mt-2" :messages="$errors->get('name')" />
+            <label for="name" class="pi-label">{{ __('Name') }}</label>
+            <input id="name" name="name" type="text" class="pi-input" value="{{ old('name', $user->name) }}" required autofocus autocomplete="name">
+            @error('name') <p class="pi-error">{{ $message }}</p> @enderror
         </div>
 
         <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
-            <x-input-error class="mt-2" :messages="$errors->get('email')" />
+            <label for="email" class="pi-label">{{ __('Email') }}</label>
+            <input id="email" name="email" type="email" class="pi-input" value="{{ old('email', $user->email) }}" required autocomplete="username">
+            @error('email') <p class="pi-error">{{ $message }}</p> @enderror
 
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
                 <div>
-                    <p class="text-sm mt-2 text-gray-800">
+                    <p class="pi-warn">
                         {{ __('Your email address is unverified.') }}
 
-                        <button form="send-verification" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <button form="send-verification" class="pi-link">
                             {{ __('Click here to re-send the verification email.') }}
                         </button>
                     </p>
 
                     @if (session('status') === 'verification-link-sent')
-                        <p class="mt-2 font-medium text-sm text-green-600">
-                            {{ __('A new verification link has been sent to your email address.') }}
-                        </p>
+                        <p class="pi-ok">{{ __('A new verification link has been sent to your email address.') }}</p>
                     @endif
                 </div>
             @endif
         </div>
 
-        {{-- CORREÇÃO: campo de upload da foto (critério 4: mostra a imagem atual na edição).
-             O UsuarioController::update já trata o arquivo e apaga a foto antiga --}}
         <div>
-            <x-input-label for="foto_perfil" :value="__('Foto de perfil')" />
-            @if ($user->foto_perfil)
-                <img src="{{ asset('storage/' . $user->foto_perfil) }}" alt="Foto de perfil" class="mt-2 w-24 h-24 rounded-full object-cover">
-            @endif
-            <input id="foto_perfil" name="foto_perfil" type="file" class="mt-2 block w-full text-sm">
-            <x-input-error class="mt-2" :messages="$errors->get('foto_perfil')" />
+            <label for="foto_perfil" class="pi-label">{{ __('Alterar foto de perfil') }}</label>
+            <input id="foto_perfil" name="foto_perfil" type="file" class="pi-input pi-file">
+            @error('foto_perfil') <p class="pi-error">{{ $message }}</p> @enderror
         </div>
 
-        <div class="flex items-center gap-4">
-            <x-primary-button>{{ __('Save') }}</x-primary-button>
+        <div class="pi-actions">
+            <button type="submit" class="pi-btn">{{ __('Save') }}</button>
 
-            {{-- CORREÇÃO: o controller devolve 'usuario-updated'. Comparava com 'profile-updated' e o "Saved." nunca aparecia --}}
             @if (session('status') === 'usuario-updated')
                 <p
                     x-data="{ show: true }"
                     x-show="show"
                     x-transition
                     x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm text-gray-600"
+                    class="pi-saved"
                 >{{ __('Saved.') }}</p>
             @endif
         </div>

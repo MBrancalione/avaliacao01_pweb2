@@ -1,60 +1,145 @@
 <style>
-    /* CSS próprio: não depende de recompilar o Tailwind */
+    /* CSS Simplificado e Minimalista */
     .bibi-nav {
-        position: sticky; top: 0; z-index: 50;
-        background: linear-gradient(90deg, #2a1670 0%, #4c32a8 55%, #6d4fd1 100%);
-        box-shadow: 0 4px 16px rgba(42, 22, 112, .35);
+        position: sticky; 
+        top: 0; 
+        z-index: 50;
+        background-color: #24145c;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     /* Marca */
-    .bibi-brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; }
-    .bibi-brand-icon {
-        width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;
-        background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.3);
+    .bibi-brand { 
+        display: inline-flex; 
+        align-items: center; 
+        gap: 10px; 
+        text-decoration: none; 
+        color: #ffffff; 
     }
-    .bibi-brand-text { font-weight: 800; font-size: 20px; letter-spacing: .12em; }
+    .bibi-brand-icon {
+        width: 32px; 
+        height: 32px; 
+        border-radius: 6px; 
+        display: flex; 
+        align-items: center; 
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.1);
+    }
+    .bibi-brand-text { 
+        font-weight: 700; 
+        font-size: 18px; 
+        letter-spacing: .05em; 
+    }
 
     /* Links desktop */
     .bibi-link {
-        display: inline-flex; align-items: center; height: 100%; padding: 0 4px;
-        font-size: 14px; font-weight: 600; letter-spacing: .03em; text-decoration: none;
-        color: rgba(255,255,255,.72); border-bottom: 3px solid transparent;
-        transition: color .2s ease, border-color .2s ease;
+        display: inline-flex; 
+        align-items: center; 
+        height: 100%; 
+        padding: 0 4px;
+        font-size: 14px; 
+        font-weight: 500; 
+        text-decoration: none;
+        color: rgba(255, 255, 255, 0.7); 
+        border-bottom: 2px solid transparent;
+        transition: color .15s ease, border-color .15s ease;
     }
-    .bibi-link:hover { color: #fff; border-bottom-color: rgba(196,181,253,.7); }
-    .bibi-link.is-active { color: #fff; border-bottom-color: #c4b5fd; }
+    .bibi-link:hover { 
+        color: #ffffff; 
+    }
+    .bibi-link.is-active { 
+        color: #ffffff; 
+        border-bottom-color: #a78bfa; 
+    }
 
     /* Botão do usuário */
     .bibi-user-btn {
-        display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px;
-        font-size: 14px; font-weight: 600; color: #fff; cursor: pointer;
-        background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.28); border-radius: 999px;
-        transition: background .2s ease;
+        display: inline-flex; 
+        align-items: center; 
+        gap: 8px; 
+        padding: 6px 12px;
+        font-size: 14px; 
+        font-weight: 500; 
+        color: #ffffff; 
+        cursor: pointer;
+        background: transparent; 
+        border: 1px solid rgba(255, 255, 255, 0.15); 
+        border-radius: 6px;
+        transition: background-color .15s ease;
     }
-    .bibi-user-btn:hover { background: rgba(255,255,255,.26); }
+    .bibi-user-btn:hover { 
+        background: rgba(255, 255, 255, 0.08); 
+    }
     .bibi-avatar {
-        width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
-        background: #fff; color: #4c32a8; font-size: 12px; font-weight: 800; text-transform: uppercase;
+        width: 24px; 
+        height: 24px; 
+        border-radius: 50%; 
+        display: inline-flex; 
+        align-items: center; 
+        justify-content: center;
+        background: #a78bfa; 
+        color: #ffffff; 
+        font-size: 11px; 
+        font-weight: 700; 
+        text-transform: uppercase;
     }
 
     /* Botão hambúrguer (mobile) */
     .bibi-burger {
-        display: inline-flex; align-items: center; justify-content: center; padding: 8px; border-radius: 8px;
-        color: #fff; background: rgba(255,255,255,.12); border: 0; cursor: pointer;
+        display: inline-flex; 
+        align-items: center; 
+        justify-content: center; 
+        padding: 6px; 
+        border-radius: 6px;
+        color: rgba(255, 255, 255, 0.8); 
+        background: transparent; 
+        border: 0; 
+        cursor: pointer;
+        transition: background-color .15s ease, color .15s ease;
     }
-    .bibi-burger:hover { background: rgba(255,255,255,.24); }
+    .bibi-burger:hover { 
+        background: rgba(255, 255, 255, 0.08); 
+        color: #ffffff; 
+    }
 
     /* Menu mobile */
-    .bibi-mobile { background: #35208a; border-top: 1px solid rgba(255,255,255,.15); }
-    .bibi-mlink {
-        display: block; width: 100%; padding: 10px 16px; font-size: 16px; font-weight: 600; text-decoration: none;
-        color: rgba(255,255,255,.8); border-left: 4px solid transparent;
+    .bibi-mobile { 
+        background: #1e114d; 
+        border-top: 1px solid rgba(255, 255, 255, 0.08); 
     }
-    .bibi-mlink:hover { background: rgba(255,255,255,.1); color: #fff; }
-    .bibi-mlink.is-active { background: rgba(255,255,255,.16); color: #fff; border-left-color: #c4b5fd; }
-    .bibi-muser { padding: 14px 16px 6px; border-top: 1px solid rgba(255,255,255,.15); }
-    .bibi-muser-name { color: #fff; font-weight: 700; }
-    .bibi-muser-mail { color: rgba(255,255,255,.65); font-size: 14px; }
+    .bibi-mlink {
+        display: block; 
+        width: 100%; 
+        padding: 10px 16px; 
+        font-size: 15px; 
+        font-weight: 500; 
+        text-decoration: none;
+        color: rgba(255, 255, 255, 0.7); 
+        border-left: 3px solid transparent;
+        transition: background-color .15s ease, color .15s ease;
+    }
+    .bibi-mlink:hover { 
+        background: rgba(255, 255, 255, 0.05); 
+        color: #ffffff; 
+    }
+    .bibi-mlink.is-active { 
+        background: rgba(255, 255, 255, 0.08); 
+        color: #ffffff; 
+        border-left-color: #a78bfa; 
+    }
+    .bibi-muser { 
+        padding: 12px 16px; 
+        border-top: 1px solid rgba(255, 255, 255, 0.08); 
+    }
+    .bibi-muser-name { 
+        color: #ffffff; 
+        font-weight: 600; 
+        font-size: 14px; 
+    }
+    .bibi-muser-mail { 
+        color: rgba(255, 255, 255, 0.6); 
+        font-size: 13px; 
+    }
 </style>
 
 <nav x-data="{ open: false }" class="bibi-nav">
@@ -80,12 +165,11 @@
                         {{ __('Avaliação') }}
                     </a>
                     <a href="{{ route('chamado.listchamado') }}" class="bibi-link {{ request()->routeIs('chamado.*') ? 'is-active' : '' }}">
-    {{ __('Chamados') }}
-</a>
-{{-- CORREÇÃO: as telas de chamado usam este menu também para o admin, que precisa de um caminho de volta ao painel --}}
-@if(Auth::user()->is_admin)
-    <a href="{{ route('dashboard') }}" class="bibi-link">{{ __('Painel') }}</a>
-@endif
+                        {{ __('Chamados') }}
+                    </a>
+                    @if(Auth::user()->is_admin)
+                        <a href="{{ route('dashboard') }}" class="bibi-link">{{ __('Painel') }}</a>
+                    @endif
                 </div>
             </div>
 
