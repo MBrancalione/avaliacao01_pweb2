@@ -55,7 +55,7 @@ class ChamadoController extends Controller
         $this->validateForm($request);
 
         $dado = Chamado::findOrFail($id);
-        $this->autorizar($dado); // CORREÇÃO
+        $this->autorizar($dado);
         $dado->update($request->except(['_token', '_method', 'id', 'user_id', ]));
 
         return redirect('chamado')->with("success", 'Registro atualizado com sucesso!');
@@ -64,7 +64,7 @@ class ChamadoController extends Controller
     public function destroy($id)
     {
         $dado = Chamado::findOrFail($id);
-                $this->autorizar($dado); // CORREÇÃO
+                $this->autorizar($dado); 
 
         $dado->delete();
 

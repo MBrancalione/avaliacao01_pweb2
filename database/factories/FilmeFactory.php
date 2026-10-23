@@ -17,8 +17,7 @@ class FilmeFactory extends Factory
     public function definition(): array
     {
         return [
-            'poster' => '/storage/app/public/imagem/filme/nome-do-arquivo.jpg', // Caminho relativo para a imagem do poster
-            'titulo' => fake()->sentence(3),
+            'poster' => fake()->imageUrl(400, 600, 'movies', true),            'titulo' => fake()->sentence(3),
             'sinopse' => fake()->paragraph(2),
             'ano' => fake()->year(),
             'classificacao' => fake()->randomElement(['L', '10', '12', '14', '16', '18']),

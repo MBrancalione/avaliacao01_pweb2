@@ -31,9 +31,18 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
-            'assinaturaestado_id' => AssinaturaEstado::factory(), //cria um estado de assinatura para cada usuário criado
+            'assinaturaestado_id' => AssinaturaEstado::factory(), // cria um estado de assinatura para cada usuário criado
             'is_admin' => false,
             'foto_perfil' => fake()->imageUrl(200, 200, 'people', true), // Simula o upload de imagem do utilizador
+            
+            // Campos de Endereço
+            'cep' => fake()->postcode(),
+            'logradouro' => fake()->streetName(),
+            'numero' => fake()->buildingNumber(),
+            'complemento' => fake()->optional()->secondaryAddress(),
+            'bairro' => fake()->word(),
+            'cidade' => fake()->city(),
+            'estado' => fake()->stateAbbr(),
         ];
     }
 

@@ -18,7 +18,7 @@ class AvaliacaoController extends Controller
     public function create(Request $request)
     {
         $filme_id = $request->filme_id; // pega o id que o botão do catalogo deu
-        $user_id = $request->session()->get('user_id'); // pega o id da sessão
+        $user_id = Auth::id(); // pega o id da sessão
         $filmes = Filme::orderBy('titulo')->get();
         return view('avaliacao.formavaliacao', compact('filme_id', 'user_id', 'filmes')); // retorna o form + id do botao
     }
@@ -32,7 +32,7 @@ class AvaliacaoController extends Controller
             return redirect('avaliacao')->with('error', 'Você já avaliou este filme.');
         }
         $data = $request->all();
-        $data['user_id'] = $request->session()->get('user_id');
+        $data['user_id'] = Auth::id();
         $data['spoiler'] = $request->boolean('spoiler');
         Avaliacao::create($data);
         return redirect('avaliacao')->with('success', 'Cadastro realizado com sucesso!');

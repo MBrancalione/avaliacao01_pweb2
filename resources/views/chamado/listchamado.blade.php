@@ -1,10 +1,6 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl leading-tight" style="color: #4c32a8;">
-            {{ __('Listagem de Chamados') }}
-        </h2>
-    </x-slot>
-
+@extends('main')
+@section('titulo', 'Listagem de Chamados')
+@section('conteudo')
     <style>
         /* CSS próprio: funciona mesmo se o Tailwind do projeto não foi recompilado */
         .cat-wrap   { width: 100%; max-width: 1100px; margin: 0 auto; }
@@ -153,4 +149,4 @@
 
         </div>
     </div>
-</x-app-layout>
+@endsection

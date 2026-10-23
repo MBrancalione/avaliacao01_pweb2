@@ -16,7 +16,11 @@
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
-            @include('layouts.navigation')
+            @if(Auth::check() && Auth::user()->is_admin)
+    @include('layouts.navigation')
+@else
+    @include('sidebar')
+@endif
 
             <!-- Page Content -->
             <main>
