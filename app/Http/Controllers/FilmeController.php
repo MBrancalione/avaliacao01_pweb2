@@ -8,6 +8,7 @@ use App\Models\Filme; //necessário para chamar o model Filme
 use App\Models\GeneroFilme;
 use App\Models\Avaliacao;
     use ArielMejiaDev\LarapexCharts\LarapexChart; 
+    use App\Charts\FilmesPorGeneroChart;
 
 class FilmeController extends Controller
 {
@@ -170,4 +171,11 @@ class FilmeController extends Controller
 
         return view('filme.graficobarras', compact('filme', 'chart', 'total', 'media'));
     }
+
+public function graficoGeneros(FilmesPorGeneroChart $chart)
+{
+    return view('filme.graficosetores', [
+        'chart' => $chart->build()
+    ]);
+}
 }

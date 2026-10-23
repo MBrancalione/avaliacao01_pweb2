@@ -91,6 +91,11 @@
                                     class="px-4 py-2 border border-transparent rounded-md font-semibold text-xs uppercase tracking-widest hover:opacity-90">
                                     Novo
                                 </a>
+
+                                <a href="{{ route('users.pdf') }}" style="background-color: #ffffff; color: #4c32a8; border: 1px solid #4c32a8;"
+                                    class="px-4 py-2 rounded-md font-semibold text-xs uppercase tracking-widest hover:opacity-90">
+                                    PDF
+                                </a>
                             </div>
                         </div>
                     </form>

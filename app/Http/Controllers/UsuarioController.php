@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use App\Models\User;
 use App\Models\AssinaturaEstado;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class UsuarioController extends Controller
 {
@@ -183,4 +184,35 @@ class UsuarioController extends Controller
 
         return redirect()->route('users.list')->with('success', 'Utilizador criado com sucesso!');
     }
+    public function relatorioUsuario()
+    {
+        // CORREÇÃO: chamava consultaChamados() (copiado do controller de chamados) e usava $users sem definir
+        $usuarios = $this->consultaUsuarios()->get();
+
+        $data = [
+            'title'    => 'Relatório de Usuários',
+            'date'     => date('d/m/Y H:i'),
+            'usuarios' => $usuarios, // CORREÇÃO: a view usa a variável $usuarios
+        ];
+
+        // paisagem: a tabela do relatório tem 8 colunas
+        $pdf = Pdf::loadView('usuario.reportusers', $data)->setPaper('a4', 'landscape');
+
+        return $pdf->download('relatorio-usuarios.pdf');
+    }
+
+    private function consultaUsuarios()
+    {
+        // CORREÇÃO: usava o model "Usuario" (não existe) com with('user') e filtrava por user_id (era do chamado).
+        // Agora usa o model User e carrega o relacionamento 1:1 com a assinatura e o plano dela
+        $query = User::with('assinaturaEstado.plano')->orderBy('name');
+
+        // mesma regra que já existia: admin vê todos; usuário comum vê só o próprio registro
+        if (!(Auth::user() && Auth::user()->is_admin)) {
+            $query->where('id', Auth::id());
+        }
+
+        return $query;
+    }
+
 }

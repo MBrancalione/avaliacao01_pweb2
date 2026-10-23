@@ -124,12 +124,14 @@
 
                     <!--<php tem sua linguagem própria-->
                     @forelse ($dados as $item)
+                    
                         <div class="cat-card">
                             <div class="cat-poster">
                                 <!-- Aparece por trás; só fica visível se a imagem falhar -->
                                 <div class="cat-fallback">{{$item->titulo}}</div>
 
                                 @if($item->poster)
+                                
                                     <img src="{{ asset('storage/' . $item->poster) }}" alt="Poster de {{$item->titulo}}" loading="lazy" onerror="this.style.display='none'">
                                 @endif
 

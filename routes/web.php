@@ -50,19 +50,21 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/users/edit/{id}', [UsuarioController::class, 'editUser'])->name('users.edit');
     Route::put('/users/{id}', [UsuarioController::class, 'updateUser'])->name('users.update');
     Route::delete('/users/{id}', [UsuarioController::class, 'destroyUser'])->name('users.destroy');
+
+    Route::get('/users/pdf', [UsuarioController::class, 'relatorioUsuario'])->name('users.pdf');
+    Route::get('generate-pdf', [UsuarioController::class, 'relatorioUsuario'])->name('users.pdf');
 });
 
 // Filmes
 // CORREÇÃO: visão do usuário e gráficos exigem login (critério "Session (Login)")
 Route::middleware('auth')->group(function () {
+    Route::get('/filme/graficogeneros', [FilmeController::class, 'graficoGeneros'])->name('filme.graficogeneros');
     Route::get('/filmeuser', [FilmeController::class, 'index'])->name('filmeuser');
     Route::post('/filme/searchuser', [FilmeController::class, 'search'])->name('filme.searchuser');
     // Rota para exibir o gráfico de avaliações de um filme específico
     // CORREÇÃO: o método grafico() não existia no controller. Também mudei a URL de '/filme/{id}' para
     // '/filme/grafico/{id}', porque '/filme/{id}' engolia qualquer GET em /filme/xxx. O NOME da rota continua igual.
     Route::get('/filme/grafico/{id}', [FilmeController::class, 'grafico'])->whereNumber('id')->name('filme.graficobarras');
-    // CORREÇÃO: segundo gráfico (formato diferente: pizza)
-    Route::get('/filme/graficogeneros', [FilmeController::class, 'graficoGeneros'])->name('filme.graficogeneros');
 });
 // CORREÇÃO: CRUD de filmes só para admin
 Route::middleware(['auth', 'admin'])->group(function () {
