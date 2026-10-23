@@ -71,7 +71,7 @@ class AvaliacaoController extends Controller
     {
         abort_unless(Auth::user()->is_admin || (int) $avaliacao->user_id === Auth::id(), 403);
     }
-
+    
     public function search(Request $request)
     {
         if (!empty($request->valor)) {

@@ -55,8 +55,6 @@
 </style>
 
 <div class="space-y-6 flex flex-col items-center">
-
-    <!-- Box do Formulário de Busca -->
     <div class="lst-search">
         <div class="p-6 bg-white shadow w-full flex flex-col items-center" style="border-radius: 16px;">
             <h3 class="mb-1 text-center" style="color: #4c32a8; font-size: 28px; font-weight: 700;">Listagem de Avaliações</h3>
@@ -68,8 +66,6 @@
                     <div>
                         <label for="tipo" class="block font-medium text-sm text-gray-700">Tipo</label>
                         <select name="tipo" id="tipo" class="border-gray-300 rounded-md shadow-sm w-full">
-                            {{-- CORREÇÃO: só existia "Nota". Agora busca também pelo título do filme (relacionamento) e pelo comentário.
-                                 Os values batem com o que o AvaliacaoController::search espera --}}
                             <option value="titulo" {{ request('tipo') == 'titulo' ? 'selected' : '' }}>Título do filme</option>
                             <option value="nota" {{ request('tipo') == 'nota' ? 'selected' : '' }}>Nota</option>
                             <option value="comentario" {{ request('tipo') == 'comentario' ? 'selected' : '' }}>Comentário</option>
@@ -78,7 +74,6 @@
 
                     <div>
                         <label for="valor" class="block font-medium text-sm text-gray-700">Valor</label>
-                        {{-- CORREÇÃO: value mantém o texto digitado depois da busca --}}
                         <input type="text" name="valor" id="valor" placeholder="Pesquisar..." value="{{ request('valor') }}" class="border-gray-300 rounded-md shadow-sm w-full">
                     </div>
 
@@ -92,15 +87,12 @@
         </div>
     </div>
 
-    <!-- Box da Tabela -->
-    {{-- CORREÇÃO: max-w-4xl -> max-w-6xl, porque a tabela ganhou duas colunas (Filme e Usuário) --}}
     <div class="lst-table">
         <div class="pl-box">
             <table class="pl-table">
                 <thead>
                     <tr>
                         <th scope="col" class="pl-th">#</th>
-                        {{-- CORREÇÃO: critério 7 pede o NOME em vez do ID. O controller já carrega filme e user com with() --}}
                         <th scope="col" class="pl-th">Filme</th>
                         <th scope="col" class="pl-th">Usuário</th>
                         <th scope="col" class="pl-th">Nota</th>
@@ -114,20 +106,18 @@
                         <tr>
                             <th scope="row">{{ $item->id }}</th>
                             <td class="pl-name">{{ $item->filme->titulo ?? '-' }}</td>
-                            <td>{{ $item->user->name ?? '-' }}</td>
+                            <td>{{ $item->user->name ?? '-' }}</td> <!--apresenta por uma propriedade de user, o nome-->
                             <td>
                                 <span class="pl-note">
                                     <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>
                                     {{ $item->nota }}
                                 </span>
                             </td>
-                            {{-- CORREÇÃO: sem whitespace-nowrap no comentário, para um comentário longo não esticar a tabela --}}
                             <td class="pl-comment">{{ $item->comentario }}</td>
                             <td>
                                 <span class="pl-chip {{ $item->spoiler ? 'pl-spoiler-yes' : 'pl-spoiler-no' }}">{{ $item->spoiler ? 'Sim' : 'Não' }}</span>
                             </td>
 
-                            {{-- CORREÇÃO: Editar/Deletar só para o dono da avaliação ou admin (o controller também bloqueia com 403) --}}
                             @if(Auth::user()->is_admin || $item->user_id == Auth::id())
                                 <td style="padding-right: 4px;">
                                     <a title="Editar" href="{{ route('avaliacao.edit', $item->id) }}" class="pl-act pl-act-edit">
@@ -146,7 +136,6 @@
                                     </form>
                                 </td>
                             @else
-                                {{-- Avaliação de outro usuário: as ações aparecem bloqueadas (o controller também bloqueia com 403) --}}
                                 <td style="padding-right: 4px;">
                                     <span class="pl-act pl-act-disabled" title="Só o autor da avaliação pode editar">
                                         <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>

@@ -72,7 +72,6 @@
                 <h4 class="text-center" style="color: #4c32a8; font-size: 28px; font-weight: 700; margin: 0 0 4px;">Formulário Filme</h4>
                 <p class="text-center text-gray-600" style="margin: 0 0 24px;">Preencha os dados do filme.</p>
 
-                {{-- Antes este bloco ficava fora do layout (antes do menu); agora aparece dentro do formulário --}}
                 @if ($errors->any())
                     <div class="fm-errors">
                         <ul>
@@ -110,9 +109,6 @@
 
                         <div>
                             <label for="genero_filme" class="fm-label">Gênero</label>
-                            {{-- CORREÇÃO: name="genero_filme_id" -> "genero_filme". O controller valida e o banco usa
-                            'genero_filme',
-                            então dava "gênero obrigatório" sempre e a edição não selecionava o gênero atual --}}
                             <select name="genero_filme" id="genero_filme" class="fm-input">
                                 <option value="">Selecione um gênero</option>
                                 @foreach($generos as $g)
@@ -146,10 +142,8 @@
                         @endphp
                         <div class="fm-poster">
                             <img src="{{ asset('storage/' . $nome_imagem) }}" alt="Poster">
-                            <!-- Exibe a imagem atual do poster, se houver -->
                             <div>
                                 <input type="file" id="poster" name="poster" value="{{ old('poster', $dado->poster ?? '') }}">
-                                <!-- Campo de upload de arquivo para o poster -->
                                 <p class="fm-hint">Escolha uma imagem para o poster do filme.</p>
                             </div>
                         </div>

@@ -34,7 +34,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/usuario', [UsuarioController::class, 'destroy'])->name('usuario.destroy');
 });
 
-// CORREÇÃO: gerenciar usuários é função de admin. Antes bastava estar logado: qualquer usuário
 // podia abrir /users/edit/{id} e enviar is_admin=1 para virar administrador.
 // Requer o middleware 'admin' (código no final desta seção).
 Route::middleware(['auth', 'admin'])->group(function () {
@@ -61,7 +60,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/filmeuser', [FilmeController::class, 'index'])->name('filmeuser');
     Route::post('/filme/searchuser', [FilmeController::class, 'search'])->name('filme.searchuser');
     // Rota para exibir o gráfico de avaliações de um filme específico
-    // CORREÇÃO: o método grafico() não existia no controller. Também mudei a URL de '/filme/{id}' para
     // '/filme/grafico/{id}', porque '/filme/{id}' engolia qualquer GET em /filme/xxx. O NOME da rota continua igual.
     Route::get('/filme/grafico/{id}', [FilmeController::class, 'grafico'])->whereNumber('id')->name('filme.graficobarras');
 });
@@ -74,12 +72,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::put('/filme/{id}', [FilmeController::class, 'update'])->name('filme.update');
     Route::delete('/filme/{id}', [FilmeController::class, 'destroy'])->name('filme.destroy');
     Route::post('/filme/searchadmin', [FilmeController::class, 'search'])->name('filme.searchadmin');
-    // CORREÇÃO: 2º relatório em PDF (o 1º é o de chamados)
     Route::get('/filme/pdf', [FilmeController::class, 'generatePDF'])->name('filme.pdf');
 });
 
 //Planos
-// CORREÇÃO: protegido por login + admin (se o usuário comum precisar ver os planos, deixe só index/search no grupo 'auth')
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/planos', [PlanosController::class, 'index'])->name('planos');
     Route::get('/planos/create', [PlanosController::class, 'create'])->name('planos.create');
@@ -90,7 +86,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/planos/search', [PlanosController::class, 'search'])->name('planos.search');
 });
 
-// CORREÇÃO: Avaliações e Chamados exigem login (o controller usa Auth::id())
 Route::middleware('auth')->group(function () {
     //Avaliações
     Route::get('/avaliacao', [AvaliacaoController::class, 'index'])->name('avaliacao.index');

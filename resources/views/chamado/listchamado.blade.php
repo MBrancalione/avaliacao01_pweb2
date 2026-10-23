@@ -89,8 +89,6 @@
                     </form>
                 </div>
             </div>
-
-            <!-- Box da Tabela -->
             <div class="cat-wrap">
                 <div class="pl-box">
                     <table class="pl-table">

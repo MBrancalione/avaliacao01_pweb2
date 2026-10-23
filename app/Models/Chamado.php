@@ -22,7 +22,7 @@ class Chamado extends Model
         'data_encerramento' => 'datetime',
     ];
 
-    // Relacionamento 1:N inverso: O chamado pertence a um usuário
+    // Relacionamento 1:N
     public function user()
     {
         return $this->belongsTo(User::class);

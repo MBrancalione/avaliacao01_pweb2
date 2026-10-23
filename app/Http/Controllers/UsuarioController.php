@@ -76,7 +76,6 @@ class UsuarioController extends Controller
     }
 
 
-    //Critério de Relacionamento 1:1
     //listagem de usuarios
     public function list(): View
     {
@@ -124,7 +123,6 @@ class UsuarioController extends Controller
     }
 
 
-    //gemini criou isso antes de eu fazer caca e esquecer de puxar da origem dps q vc mexeu, ent deixarei aqui
     public function editUser($id)
     {
         $dado = User::findOrFail($id);
@@ -186,7 +184,6 @@ class UsuarioController extends Controller
     }
     public function relatorioUsuario()
     {
-        // CORREÇÃO: chamava consultaChamados() (copiado do controller de chamados) e usava $users sem definir
         $usuarios = $this->consultaUsuarios()->get();
 
         $data = [

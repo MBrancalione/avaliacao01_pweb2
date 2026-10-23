@@ -48,7 +48,6 @@
 
                 <h3 class="gb-title">{{ $filme->titulo }}</h3>
 
-                {{-- Gênero vem pelo relacionamento Filme -> GeneroFilme --}}
                 <p class="gb-genre">
                     <span class="gb-chip">{{ $filme->GeneroFilme->genero_filme ?? 'Gênero não especificado' }}</span>
                 </p>
@@ -59,8 +58,6 @@
                 </div>
 
                 <h4 class="gb-section">Gráfico de Notas</h4>
-
-                {{-- Resumo ao lado do gráfico --}}
                 <div class="gb-stats">
                     <div class="gb-stat">
                         <span class="gb-stat-label">Total de avaliações</span>
@@ -75,8 +72,6 @@
                 <div class="gb-chart">
                     {!! $chart->container() !!}
                 </div>
-
-                {{-- Link de volta (o filme é aberto pelo catálogo do usuário) --}}
                 <div class="gb-actions">
                     <a href="{{ url('filmeuser') }}" class="gb-btn">&larr; Voltar ao catálogo</a>
                 </div>
@@ -85,9 +80,6 @@
         </div>
     </div>
 
-    <!-- CDN do ApexCharts (Obrigatório para o Larapex funcionar) -->
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-
-    <!-- Scripts gerados pelo Larapex -->
     {!! $chart->script() !!}
 </x-app-layout>

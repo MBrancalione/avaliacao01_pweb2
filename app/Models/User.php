@@ -42,19 +42,19 @@ class User extends Authenticatable
         ];
     }
 
-    // Relacionamento 1:1 com AssinaturaEstado (via chave estrangeira)
+    // Relacionamento 1:1
     public function assinaturaEstado()
     {
         return $this->belongsTo(AssinaturaEstado::class, 'assinaturaestado_id', 'id');
     }
 
-    // Relacionamento 1:N: Um usuário possui muitos chamados
+    // Relacionamento 1:N
     public function chamados()
     {
         return $this->hasMany(Chamado::class);
     }
 
-    // Relacionamento 1:N: Um usuário possui muitas avaliações
+    // Relacionamento 1:N
     public function avaliacoes()
     {
         return $this->hasMany(Avaliacao::class);

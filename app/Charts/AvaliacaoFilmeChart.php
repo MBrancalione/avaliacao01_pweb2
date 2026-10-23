@@ -8,7 +8,6 @@ use App\Models\Avaliacao;
 class AvaliacaoFilmeChart
 {
     protected $chart;
-
     public function __construct(LarapexChart $chart)
     {
         $this->chart = $chart;
@@ -16,17 +15,12 @@ class AvaliacaoFilmeChart
 
     public function build($filmeId): \ArielMejiaDev\LarapexCharts\BarChart
     {
-        // Garante que o ID do filme seja um número inteiro
-        $filmeId = (int) $filmeId;
+        $avaliacoes = Avaliacao::where('filme_id', $filmeId)//utilizado para filtrar as avaliações de um filme específico
+            ->select('nota', \DB::raw('count(*) as total')) //\DB::raw() é usado para executar uma expressão bruta no banco de dados
+            ->groupBy('nota') 
+            ->get(); 
 
-        // Busca as avaliações no banco
-        $avaliacoes = Avaliacao::where('filme_id', $filmeId)
-            ->select('nota', \DB::raw('count(*) as total'))
-            ->groupBy('nota')
-            ->pluck('total', 'nota')
-            ->toArray();
-
-        // Cria o array estrito de 0 a 5 com inteiros puros
+        // armazena a contagem de votos para cada nota
         $votos = [];
         for ($i = 0; $i <= 5; $i++) {
             $votos[$i] = isset($avaliacoes[$i]) ? (int) $avaliacoes[$i] : 0;

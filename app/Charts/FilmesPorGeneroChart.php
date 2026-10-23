@@ -17,14 +17,12 @@ class FilmesPorGeneroChart
 
     public function build(): PieChart
     {
-        // Agrupa os filmes pelo nome do gênero (suporta relação generoFilme ou GeneroFilme)
         $contagem = Filme::with(['GeneroFilme'])
             ->get()
             ->groupBy(fn ($filme) => $filme->GeneroFilme->genero_filme ?? $filme->generoFilme->genero_filme ?? 'Sem gênero')
             ->map(fn ($filmes) => $filmes->count())
             ->sortDesc();
 
-        // Se não houver filmes cadastrados
         if ($contagem->isEmpty()) {
             $dados  = [0];
             $labels = ['Nenhum filme cadastrado'];
@@ -33,7 +31,6 @@ class FilmesPorGeneroChart
             $labels = $contagem->keys()->all();
         }
 
-        // Paleta no tom roxo do projeto
         $paleta = ['#4c32a8', '#8b6fe0', '#a78bfa', '#6d4fd1', '#c4b5fd', '#24145c', '#7c3aed', '#ddd6fe'];
         $cores  = [];
         foreach ($labels as $i => $label) {

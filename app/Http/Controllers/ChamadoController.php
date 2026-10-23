@@ -45,7 +45,7 @@ class ChamadoController extends Controller
     public function edit($id)
     {
         $dado = Chamado::findOrFail($id);
-                $this->autorizar($dado); // CORREÇÃO
+                $this->autorizar($dado); 
 
         return view('chamado.formchamado', compact('dado'));
     }
@@ -64,7 +64,7 @@ class ChamadoController extends Controller
     public function destroy($id)
     {
         $dado = Chamado::findOrFail($id);
-                $this->autorizar($dado); 
+        $this->autorizar($dado); 
 
         $dado->delete();
 

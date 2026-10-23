@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\Storage; //necessário para manipular arquivos
 use App\Models\Filme; //necessário para chamar o model Filme
 use App\Models\GeneroFilme;
 use App\Models\Avaliacao;
-    use ArielMejiaDev\LarapexCharts\LarapexChart; 
-    use App\Charts\FilmesPorGeneroChart;
+use ArielMejiaDev\LarapexCharts\LarapexChart;
+use App\Charts\FilmesPorGeneroChart;
 
 class FilmeController extends Controller
 {
@@ -120,7 +120,6 @@ class FilmeController extends Controller
     {
         if (!empty($request->valor)) {
             if ($request->tipo === 'genero_filme') {
-                // CORREÇÃO: genero_filme agora é um ID, então a busca por texto precisa ir na tabela relacionada
                 $dados = Filme::with('GeneroFilme')->whereHas('GeneroFilme', function ($q) use ($request) {
                     $q->where('genero_filme', 'like', '%' . $request->valor . '%');
                 })->get();
@@ -131,7 +130,6 @@ class FilmeController extends Controller
             $dados = Filme::with('GeneroFilme')->get(); // CORREÇÃO: with() evita N+1 na listagem
         }
 
-        // Retorna para a view correta dependendo de onde a requisição partiu
         if ($request->is('*admin*')) {
             return view('filme.listfilme', compact('dados'));
         }
@@ -139,32 +137,23 @@ class FilmeController extends Controller
         return view('filme.listfilmeuser', compact('dados'));
     }
 
-    
-
-
-    // CORREÇÃO: método que a rota 'filme.graficobarras' chama e não existia.
-    // Gráfico de barras: quantas avaliações o filme recebeu em cada nota (5 a 1)
     public function grafico($id)
     {
         $filme = Filme::with('GeneroFilme')->findOrFail($id);
-
-        // [nota => total]. Ex.: [5 => 3, 4 => 1]. Notas que ninguém deu não aparecem aqui
         $contagem = Avaliacao::where('filme_id', $id)
             ->selectRaw('nota, COUNT(*) as total')
             ->groupBy('nota')
-            ->pluck('total', 'nota');
+            ->get();
 
         $notas = [5, 4, 3, 2, 1];
-        // para cada nota pega o total, ou 0 se ninguém deu essa nota. A ordem é a mesma do eixo X
         $valores = collect($notas)->map(fn($n) => $contagem->get($n, 0))->all();
 
         $total = array_sum($valores);
         $media = Avaliacao::where('filme_id', $id)->avg('nota');
 
-                $chart = (new LarapexChart)->barChart()
+        $chart = (new LarapexChart)->barChart()
             ->setTitle('Avaliações de ' . $filme->titulo)
             ->setSubtitle('Quantidade de avaliações por nota')
-            // CORREÇÃO: nesta versão do Larapex o 1º parâmetro é o array de valores e o 2º o nome da série
             ->addData($valores, 'Avaliações')
             ->setXAxis(array_map('strval', $notas))
             ->setColors(['#4c32a8']);
@@ -172,10 +161,10 @@ class FilmeController extends Controller
         return view('filme.graficobarras', compact('filme', 'chart', 'total', 'media'));
     }
 
-public function graficoGeneros(FilmesPorGeneroChart $chart)
-{
-    return view('filme.graficosetores', [
-        'chart' => $chart->build()
-    ]);
-}
+    public function graficoGeneros(FilmesPorGeneroChart $chart)
+    {
+        return view('filme.graficosetores', [
+            'chart' => $chart->build()
+        ]);
+    }
 }
