@@ -14,13 +14,18 @@
                 <div>
                     <label for="tipo" class="block font-medium text-sm text-gray-700">Tipo</label>
                     <select name="tipo" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm w-full">
-                        <option value="nota">Nota</option>
+                        {{-- CORREÇÃO: só existia "Nota". Agora busca também pelo título do filme (relacionamento) e pelo comentário.
+                             Os values batem com o que o AvaliacaoController::search espera --}}
+                        <option value="titulo" {{ request('tipo') == 'titulo' ? 'selected' : '' }}>Título do filme</option>
+                        <option value="nota" {{ request('tipo') == 'nota' ? 'selected' : '' }}>Nota</option>
+                        <option value="comentario" {{ request('tipo') == 'comentario' ? 'selected' : '' }}>Comentário</option>
                     </select>
                 </div>
 
                 <div>
                     <label for="valor" class="block font-medium text-sm text-gray-700">Valor</label>
-                    <input type="text" name="valor" placeholder="Pesquisar..." class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm w-full">
+                    {{-- CORREÇÃO: value mantém o texto digitado depois da busca --}}
+                    <input type="text" name="valor" placeholder="Pesquisar..." value="{{ request('valor') }}" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm w-full">
                 </div>
 
                 <div class="flex items-center justify-center gap-2">
@@ -37,11 +42,15 @@
     </div>
 
     <!-- Box da Tabela -->
-    <div class="p-6 bg-white shadow sm:rounded-lg overflow-x-auto w-full max-w-4xl flex flex-col items-center">
+    {{-- CORREÇÃO: max-w-4xl -> max-w-6xl, porque a tabela ganhou duas colunas (Filme e Usuário) --}}
+    <div class="p-6 bg-white shadow sm:rounded-lg overflow-x-auto w-full max-w-6xl flex flex-col items-center">
         <table class="min-w-full divide-y divide-gray-200 text-center">
             <thead class="bg-gray-50">
                 <tr>
                     <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">#</th>
+                    {{-- CORREÇÃO: critério 7 pede o NOME em vez do ID. O controller já carrega filme e user com with() --}}
+                    <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Filme</th>
+                    <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Usuário</th>
                     <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Nota</th>
                     <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Comentário</th>
                     <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Spoiler</th>
@@ -52,23 +61,33 @@
                 @foreach ($dados as $item)
                     <tr>
                         <th scope="row" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $item->id }}</th>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ $item->filme->titulo ?? '-' }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ $item->user->name ?? '-' }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ $item->nota }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ $item->comentario }}</td>
+                        {{-- CORREÇÃO: sem whitespace-nowrap no comentário, para um comentário longo não esticar a tabela --}}
+                        <td class="px-6 py-4 text-sm text-gray-700">{{ $item->comentario }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ $item->spoiler ? 'Sim' : 'Não' }}</td>
-                        <td class="px-2 py-4 whitespace-nowrap text-sm">
-                            <a title="Editar" href="{{ route('avaliacao.edit', $item->id) }}" style="background-color: #eab308; color: #ffffff;" class="px-3 py-1 border border-transparent rounded text-xs font-semibold uppercase hover:opacity-90">
-                                Editar
-                            </a>
-                        </td>
-                        <td class="px-2 py-4 whitespace-nowrap text-sm">
-                            <form action="{{ route('avaliacao.destroy', $item->id) }}" method="post" class="inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" title="Excluir" style="background-color: #dc2626; color: #ffffff;" class="px-3 py-1 border border-transparent rounded text-xs font-semibold uppercase hover:opacity-90" onclick="return confirm('Deseja realmente excluir?')">
-                                    Deletar
-                                </button>
-                            </form>
-                        </td>
+
+                                                {{-- CORREÇÃO: Editar/Deletar só para o dono da avaliação ou admin (o controller também bloqueia com 403) --}}
+                        @if(Auth::user()->is_admin || $item->user_id == Auth::id())
+                            <td class="px-2 py-4 whitespace-nowrap text-sm">
+                                <a title="Editar" href="{{ route('avaliacao.edit', $item->id) }}" style="background-color: #eab308; color: #ffffff;" class="px-3 py-1 border border-transparent rounded text-xs font-semibold uppercase hover:opacity-90">
+                                    Editar
+                                </a>
+                            </td>
+                            <td class="px-2 py-4 whitespace-nowrap text-sm">
+                                <form action="{{ route('avaliacao.destroy', $item->id) }}" method="post" class="inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" title="Excluir" style="background-color: #dc2626; color: #ffffff;" class="px-3 py-1 border border-transparent rounded text-xs font-semibold uppercase hover:opacity-90" onclick="return confirm('Deseja realmente excluir?')">
+                                        Deletar
+                                    </button>
+                                </form>
+                            </td>
+                        @else
+                            {{-- mantém a linha alinhada com as 2 colunas de Ações do cabeçalho --}}
+                            <td colspan="2"></td>
+                        @endif
                     </tr>
                 @endforeach
             </tbody>

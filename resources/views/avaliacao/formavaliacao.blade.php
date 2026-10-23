@@ -15,13 +15,18 @@
 
             <input type="hidden" name="id" value="{{ old('id', $dados->id ?? '') }}"> <!--id av-->
 
-            <input type="hidden" name="catalogo_id"
-                value="{{ old('catalogo_id', $dados->catalogo_id ?? $catalogo_id ?? '') }}">
-            <input type="hidden" name="user_id" value="{{ old('user_id', $dados->user_id ?? $user_id ?? '') }}">
-
+<div>
+    <label for="filme_id" class="block font-medium text-sm text-gray-700 mb-1">Filme</label>
+    <select name="filme_id" id="filme_id" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm w-full">
+        <option value="">Selecione um filme</option>
+        @foreach($filmes as $f)
+            <option value="{{ $f->id }}" {{ old('filme_id', $dados->filme_id ?? $filme_id ?? '') == $f->id ? 'selected' : '' }}>{{ $f->titulo }}</option>
+        @endforeach
+    </select>
+</div>
             <div>
                 <label for="nota" class="block font-medium text-sm text-gray-700 mb-1">Nota</label>
-                <input type="number" min="0" max="10" name="nota"
+                <input type="number" min="0" max="5" name="nota"
                     class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm w-full"
                     value="{{ old('nota', $dados->nota ?? '') }}">
             </div>
@@ -45,7 +50,7 @@
             <div class="flex items-center justify-center gap-3 pt-4">
                 <button type="submit" style="background-color: #16a34a; color: #ffffff;"
                     class="px-4 py-2 border border-transparent rounded-md font-semibold text-xs uppercase tracking-widest hover:opacity-90">
-                    {{ !empty($dado->id) ? 'Atualizar' : 'Salvar' }}
+                    {{ !empty($dados->id) ? 'Atualizar' : 'Salvar' }}
                 </button>
                 <a href="{{ url('avaliacao') }}" style="background-color: #2563eb; color: #ffffff;"
                     class="px-4 py-2 border border-transparent rounded-md font-semibold text-xs uppercase tracking-widest hover:opacity-90">

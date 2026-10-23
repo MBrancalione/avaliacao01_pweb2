@@ -70,7 +70,7 @@
                         <label for="tipo" class="block font-medium text-sm text-gray-700">Tipo</label>
                         <select name="tipo" id="tipo" class="border-gray-300 rounded-md shadow-sm w-full">
                             <option value="titulo">Título</option>
-                            <option value="genero">Genero</option>
+                            <option value="genero_filme">Gênero</option>
                             <option value="classificacao">Classificação</option>
                             <option value="ano">Ano</option>
                         </select>
@@ -111,6 +111,7 @@
                         <div class="cat-overlay">
                             <span class="cat-genre">{{$item->GeneroFilme->genero_filme ?? 'Gênero não especificado'}}</span>
                             <a href="{{ route('avaliacao.create', ['filme_id' => $item->id]) }}" class="cat-btn">Avaliar Filme</a>
+                            <a href="{{ route('filme.graficobarras', $item->id) }}" class="cat-btn">Ver notas</a>
                         </div>
                     </div>
 

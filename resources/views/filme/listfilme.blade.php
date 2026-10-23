@@ -17,7 +17,7 @@
                             <label for="tipo" class="block font-medium text-sm text-gray-700">Tipo</label>
                             <select name="tipo" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm w-full">
                                 <option value="titulo">Título</option>
-                                <option value="genero">Gênero</option>                
+                                <option value="genero_filme">Gênero</option>                
                                 <option value="classificacao">Classificação</option>
                                 <option value="ano">Ano</option>
                             </select>
@@ -47,10 +47,11 @@
                             <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Gênero</th>
                             <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Classificação</th>
                             <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Ano</th>
-                            <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider" colspan="2">Ações</th>
+                            <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider" colspan="3">Ações</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
+                       
                         <!--<php tem sua linguagem própria-->
                         @foreach ($dados as $item)
                         <tr>
@@ -64,6 +65,9 @@
                             <td class="px-3 py-4 whitespace-nowrap text-sm">
                                 <a style="background-color: #f59e0b; color: #ffffff; padding: 4px 12px; border-radius: 4px; font-weight: bold; text-decoration: none; font-size: 12px; text-transform: uppercase;" title="Editar" href="{{route('filme.edit', $item->id)}}">Editar</a> <!--passa o id como parâmetro-->
                             </td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm">
+    <a href="{{ route('filme.graficobarras', $item->id) }}" class="px-3 py-1 bg-indigo-600 text-white rounded text-xs font-semibold uppercase hover:bg-indigo-700">Gráfico</a>
+</td>
                             <td class="px-3 py-4 whitespace-nowrap text-sm">
                                 <form action="{{route('filme.destroy', $item->id)}}" method="POST"> <!--pq precisa ser um form?-->
                                     @csrf

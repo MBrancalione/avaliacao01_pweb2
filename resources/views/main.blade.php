@@ -11,7 +11,12 @@
 
 <body class="font-sans antialiased bg-gray-100 min-h-screen">
     <div>
-        @include('sidebar') <!--serve para reservar o espaço para o que será inserido aqui-->
+        {{-- CORREÇÃO: admin vê o menu do admin (Catálogo = filmeadmin, Planos, Usuários, Chamados); usuário comum continua com o sidebar --}}
+        @if(Auth::check() && Auth::user()->is_admin)
+            @include('layouts.navigation') {{-- ajuste o caminho se o seu navigation.blade.php estiver em outra pasta --}}
+        @else
+            @include('sidebar') <!--serve para reservar o espaço para o que será inserido aqui-->
+        @endif
     </div>
 
     <main class="py-12">

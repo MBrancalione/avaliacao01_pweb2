@@ -59,13 +59,13 @@
                         </div>
 
                         <div>
-    <label for="genero_filme_id" class="block font-medium text-sm text-gray-700">Gênero</label>
-    <select name="genero_filme_id" id="genero_filme_id"
-        class="text-black bg-white border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm w-full"
-        style="color-scheme: light;">
+    <label for="genero_filme" class="block font-medium text-sm text-gray-700">Gênero</label>
+    {{-- CORREÇÃO: name="genero_filme_id" -> "genero_filme". O controller valida e o banco usa 'genero_filme',
+         então dava "gênero obrigatório" sempre e a edição não selecionava o gênero atual --}}
+    <select name="genero_filme" id="genero_filme" class="text-black bg-white ..." style="color-scheme: light;">
         <option value="" class="text-gray-500 bg-white">Selecione um gênero</option>
         @foreach($generos as $g)
-            <option value="{{ $g->id }}" {{ old('genero_filme_id', $dado->genero_filme_id ?? '') == $g->id ? 'selected' : '' }} class="text-black bg-white">
+            <option value="{{ $g->id }}" {{ old('genero_filme', $dado->genero_filme ?? '') == $g->id ? 'selected' : '' }} class="text-black bg-white">
                 {{ $g->genero_filme }}
             </option>
         @endforeach
@@ -82,9 +82,11 @@
                         <div>
                             <label for="classificacao"
                                 class="block font-medium text-sm text-gray-700">Classificação</label>
-                            <input type="text"
-                                class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm w-full"
-                                name="classificacao" value="{{ old('classificacao', $dado->classificacao ?? '') }}">
+                            <select name="classificacao" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm w-full">
+    @foreach(['L','10','12','14','16','18'] as $c)
+        <option value="{{ $c }}" {{ old('classificacao', $dado->classificacao ?? '') == $c ? 'selected' : '' }}>{{ $c }}</option>
+    @endforeach
+</select>
                         </div>
                     </div>
 

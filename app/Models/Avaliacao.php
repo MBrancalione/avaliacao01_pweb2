@@ -18,7 +18,7 @@ class Avaliacao extends Model
     ];
 
     //quando tiver chave estrangeira e os campos forem diferentes de string tem que add esse cast
-    protected $cast = [
+    protected $casts = [
         'user_id' => 'integer',
         'filme_id' => 'integer'
     ];

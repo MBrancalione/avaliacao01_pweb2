@@ -8,14 +8,19 @@ use Database\Factories\PlanosFactory;
 
 class Planos extends Model
 {
-    use HasFactory; 
-    public $timestamps = false; 
+    use HasFactory;
+    public $timestamps = false;
     protected $fillable = [
         'nome_plano',
         'preco_mensal',
         'limite_telas',
         'resolucao_max',
     ];
+
+    public function assinaturas()
+    {
+        return $this->hasMany(AssinaturaEstado::class, 'plano_id');
+    }
 
 }
 

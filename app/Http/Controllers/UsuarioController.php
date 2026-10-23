@@ -6,12 +6,20 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use App\Models\User;
 use App\Models\AssinaturaEstado;
 
 class UsuarioController extends Controller
 {
+    public function createUser()
+    {
+        // só assinaturas que ainda não pertencem a nenhum usuário (users.assinaturaestado_id é unique = 1:1)
+        $assinaturas = AssinaturaEstado::whereDoesntHave('user')->get();
+        return view('usuario.form', compact('assinaturas'));
+    }
 
     public function edit(Request $request): View
     {
@@ -54,6 +62,11 @@ class UsuarioController extends Controller
             'password' => ['required', 'current_password'],
         ]);
         $user = $request->user();
+
+        if ($user->foto_perfil && Storage::disk('public')->exists($user->foto_perfil)) {
+            Storage::disk('public')->delete($user->foto_perfil);
+        }
+
         Auth::logout();
         $user->delete();
         $request->session()->invalidate();
@@ -141,6 +154,10 @@ class UsuarioController extends Controller
         // Evita que o administrador elimine a própria conta com que está logado
         if ($user->id === auth()->id()) {
             return redirect()->back()->with('error', 'Não pode eliminar a sua própria conta.');
+        }
+
+        if ($user->foto_perfil && Storage::disk('public')->exists($user->foto_perfil)) {
+            Storage::disk('public')->delete($user->foto_perfil);
         }
 
         $user->delete();

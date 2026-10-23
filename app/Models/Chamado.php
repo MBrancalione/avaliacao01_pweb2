@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Chamado extends Model
 {
-    use HasFactory; 
-    public $timestamps = false; 
+    use HasFactory;
+    public $timestamps = false;
     protected $fillable = [
         'titulo',
         'descricao',
@@ -15,6 +15,11 @@ class Chamado extends Model
         'data_criacao',
         'data_encerramento',
         'user_id',
+    ];
+
+    protected $casts = [
+        'data_criacao' => 'datetime',
+        'data_encerramento' => 'datetime',
     ];
 
     // Relacionamento 1:N inverso: O chamado pertence a um usuário

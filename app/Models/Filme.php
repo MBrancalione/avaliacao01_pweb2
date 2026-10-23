@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\Hasfactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Database\Factories\FilmeFactory;
 
 class Filme extends Model
@@ -20,13 +20,17 @@ class Filme extends Model
     ];
 
 
-    protected $cast = [
+    protected $casts = [
         'genero_filme' => 'integer',
     ];
 
     public function GeneroFilme()
     {
-        return $this->belongsTo(GeneroFilme::class, 'genero_filme_id', 'id');
+        return $this->belongsTo(GeneroFilme::class, 'genero_filme', 'id');
+    }
+    public function getUrlPosterAttribute()
+    {
+        return $this->poster ? asset('storage/' . $this->poster) : null;
     }
 
     // Se um catálogo tiver avaliações, podemos adicionar a relação aqui futuramente:

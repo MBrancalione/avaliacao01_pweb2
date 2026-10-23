@@ -20,7 +20,7 @@ class AssinaturaEstado extends Model
     //indica na relação que assinatura estado pertence a um usuário, retornando esse objeto como atributo do assinatura estado; relação de chave estrangeira
     public function plano()
     {
-        return $this->hasOne(Planos::class, 'assinaturaestado_id', 'id');
+        return $this->belongsTo(Planos::class, 'plano_id', 'id');
     }
     public function user()
     {

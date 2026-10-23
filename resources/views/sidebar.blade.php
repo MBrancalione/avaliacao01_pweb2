@@ -79,6 +79,13 @@
                     <a href="{{ url('avaliacao') }}" class="bibi-link {{ request()->is('avaliacao') ? 'is-active' : '' }}">
                         {{ __('Avaliação') }}
                     </a>
+                    <a href="{{ route('chamado.listchamado') }}" class="bibi-link {{ request()->routeIs('chamado.*') ? 'is-active' : '' }}">
+    {{ __('Chamados') }}
+</a>
+{{-- CORREÇÃO: as telas de chamado usam este menu também para o admin, que precisa de um caminho de volta ao painel --}}
+@if(Auth::user()->is_admin)
+    <a href="{{ route('dashboard') }}" class="bibi-link">{{ __('Painel') }}</a>
+@endif
                 </div>
             </div>
 
@@ -125,9 +132,9 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden bibi-mobile">
         <div class="pt-2 pb-3 space-y-1">
             <a href="{{ route('filmeuser') }}" class="bibi-mlink {{ request()->routeIs('filmeuser') ? 'is-active' : '' }}">
-                {{ __('Catálogo') }}
+                {{ __('Filmes') }}
             </a>
-            <a href="{{ url('avaliacao') }}" class="bibi-mlink {{ request()->is('avaliacao') ? 'is-active' : '' }}">
+            <a href="{{ url('avaliacao') }}" class="bibi-mlink {{ request()->is('avaliacao*') ? 'is-active' : '' }}">
                 {{ __('Avaliação') }}
             </a>
         </div>

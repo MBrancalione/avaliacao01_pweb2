@@ -13,7 +13,8 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('usuario.update') }}" class="mt-6 space-y-6">
+    {{-- CORREÇÃO: enctype="multipart/form-data" é obrigatório para enviar arquivo. Sem ele o controller nunca recebia a foto --}}
+    <form method="post" action="{{ route('usuario.update') }}" class="mt-6 space-y-6" enctype="multipart/form-data">
         @csrf
         @method('patch')
 
@@ -47,10 +48,22 @@
             @endif
         </div>
 
+        {{-- CORREÇÃO: campo de upload da foto (critério 4: mostra a imagem atual na edição).
+             O UsuarioController::update já trata o arquivo e apaga a foto antiga --}}
+        <div>
+            <x-input-label for="foto_perfil" :value="__('Foto de perfil')" />
+            @if ($user->foto_perfil)
+                <img src="{{ asset('storage/' . $user->foto_perfil) }}" alt="Foto de perfil" class="mt-2 w-24 h-24 rounded-full object-cover">
+            @endif
+            <input id="foto_perfil" name="foto_perfil" type="file" class="mt-2 block w-full text-sm">
+            <x-input-error class="mt-2" :messages="$errors->get('foto_perfil')" />
+        </div>
+
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 
-            @if (session('status') === 'profile-updated')
+            {{-- CORREÇÃO: o controller devolve 'usuario-updated'. Comparava com 'profile-updated' e o "Saved." nunca aparecia --}}
+            @if (session('status') === 'usuario-updated')
                 <p
                     x-data="{ show: true }"
                     x-show="show"
