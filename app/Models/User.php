@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
@@ -13,10 +14,19 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'assinaturaestado_id', // Adiciona o campo assinaturaestado_id ao fillable
-        'is_admin', // Adiciona o campo is_admin ao fillable
-        'foto_perfil', // Adiciona o campo foto_perfil ao fillable
+        'assinaturaestado_id',
+        'is_admin',
+        'foto_perfil',
+        // Campos de Endereço
+        'cep',
+        'logradouro',
+        'numero',
+        'complemento',
+        'bairro',
+        'cidade',
+        'estado',
     ];
+
     protected $hidden = [
         'password',
         'remember_token',
@@ -28,10 +38,11 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'assinaturaestado_id' => 'integer',
-            'is_admin' => 'boolean', // Garante que true/false funcione perfeitamente no banco
+            'is_admin' => 'boolean',
         ];
     }
-    //indica que User possui um atributo em assinatura estado, retornando esse objeto como atributo do usuário; relação de chave estrangeira
+
+    // Relacionamento 1:1 com AssinaturaEstado (via chave estrangeira)
     public function assinaturaEstado()
     {
         return $this->belongsTo(AssinaturaEstado::class, 'assinaturaestado_id', 'id');
@@ -43,6 +54,7 @@ class User extends Authenticatable
         return $this->hasMany(Chamado::class);
     }
 
+    // Relacionamento 1:N: Um usuário possui muitas avaliações
     public function avaliacoes()
     {
         return $this->hasMany(Avaliacao::class);

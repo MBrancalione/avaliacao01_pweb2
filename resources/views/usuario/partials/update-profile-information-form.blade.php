@@ -29,6 +29,16 @@
         .pi-input:focus { outline: none; border-color: #4c32a8; box-shadow: 0 0 0 3px rgba(76,50,168,.18); }
         .pi-file { padding: 8px 12px; cursor: pointer; }
 
+        /* Divisória e Layouts do Endereço */
+        .pi-section-title { font-size: 16px; font-weight: 700; color: #4c32a8; margin-top: 10px; padding-top: 16px; border-top: 1px dashed #e0d9f5; }
+        .pi-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+        .pi-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; }
+        .pi-grid-cep { display: grid; grid-template-columns: 140px 1fr; gap: 18px; }
+
+        @media (max-width: 640px) {
+            .pi-grid-2, .pi-grid-3, .pi-grid-cep { grid-template-columns: 1fr; }
+        }
+
         .pi-error  { margin: 6px 0 0; font-size: 13px; color: #991b1b; }
         .pi-warn   { margin-top: 8px; font-size: 14px; color: #374151; }
         .pi-link   { background: none; border: 0; padding: 0; cursor: pointer; font: inherit; font-size: 14px; color: #4c32a8; text-decoration: underline; }
@@ -74,6 +84,7 @@
         @csrf
         @method('patch')
 
+        {{-- Dados Pessoais --}}
         <div>
             <label for="name" class="pi-label">{{ __('Name') }}</label>
             <input id="name" name="name" type="text" class="pi-input" value="{{ old('name', $user->name) }}" required autofocus autocomplete="name">
@@ -108,6 +119,58 @@
             @error('foto_perfil') <p class="pi-error">{{ $message }}</p> @enderror
         </div>
 
+        {{-- Seção de Endereço --}}
+        <div class="pi-section-title">Endereço</div>
+
+        <div class="pi-grid-cep">
+            <div>
+                <label for="cep" class="pi-label">CEP</label>
+                <input id="cep" name="cep" type="text" class="pi-input" value="{{ old('cep', $user->cep) }}" placeholder="00000-000" maxlength="9">
+                @error('cep') <p class="pi-error">{{ $message }}</p> @enderror
+            </div>
+
+            <div>
+                <label for="logradouro" class="pi-label">Logradouro / Rua</label>
+                <input id="logradouro" name="logradouro" type="text" class="pi-input" value="{{ old('logradouro', $user->logradouro) }}" placeholder="Rua, Avenida...">
+                @error('logradouro') <p class="pi-error">{{ $message }}</p> @enderror
+            </div>
+        </div>
+
+        <div class="pi-grid-2">
+            <div>
+                <label for="numero" class="pi-label">Número</label>
+                <input id="numero" name="numero" type="text" class="pi-input" value="{{ old('numero', $user->numero) }}" placeholder="123">
+                @error('numero') <p class="pi-error">{{ $message }}</p> @enderror
+            </div>
+
+            <div>
+                <label for="complemento" class="pi-label">Complemento</label>
+                <input id="complemento" name="complemento" type="text" class="pi-input" value="{{ old('complemento', $user->complemento) }}" placeholder="Apto, Bloco, etc.">
+                @error('complemento') <p class="pi-error">{{ $message }}</p> @enderror
+            </div>
+        </div>
+
+        <div class="pi-grid-3">
+            <div>
+                <label for="bairro" class="pi-label">Bairro</label>
+                <input id="bairro" name="bairro" type="text" class="pi-input" value="{{ old('bairro', $user->bairro) }}">
+                @error('bairro') <p class="pi-error">{{ $message }}</p> @enderror
+            </div>
+
+            <div>
+                <label for="cidade" class="pi-label">Cidade</label>
+                <input id="cidade" name="cidade" type="text" class="pi-input" value="{{ old('cidade', $user->cidade) }}">
+                @error('cidade') <p class="pi-error">{{ $message }}</p> @enderror
+            </div>
+
+            <div>
+                <label for="estado" class="pi-label">Estado (UF)</label>
+                <input id="estado" name="estado" type="text" class="pi-input" value="{{ old('estado', $user->estado) }}" placeholder="EX: SP" maxlength="2">
+                @error('estado') <p class="pi-error">{{ $message }}</p> @enderror
+            </div>
+        </div>
+
+        {{-- Ações --}}
         <div class="pi-actions">
             <button type="submit" class="pi-btn">{{ __('Save') }}</button>
 
@@ -122,4 +185,24 @@
             @endif
         </div>
     </form>
+
+    {{-- Auto-busca de CEP via ViaCEP --}}
+    <script>
+        document.getElementById('cep')?.addEventListener('blur', function () {
+            let cep = this.value.replace(/\D/g, '');
+            if (cep.length === 8) {
+                fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (!data.erro) {
+                            document.getElementById('logradouro').value = data.logradouro || '';
+                            document.getElementById('bairro').value = data.bairro || '';
+                            document.getElementById('cidade').value = data.localidade || '';
+                            document.getElementById('estado').value = data.uf || '';
+                            document.getElementById('numero').focus();
+                        }
+                    });
+            }
+        });
+    </script>
 </section>

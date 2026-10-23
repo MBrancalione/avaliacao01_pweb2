@@ -56,7 +56,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
 });
 
 // Filmes
-// CORREÇÃO: visão do usuário e gráficos exigem login (critério "Session (Login)")
 Route::middleware('auth')->group(function () {
     Route::get('/filme/graficogeneros', [FilmeController::class, 'graficoGeneros'])->name('filme.graficogeneros');
     Route::get('/filmeuser', [FilmeController::class, 'index'])->name('filmeuser');
@@ -110,8 +109,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/chamado/{id}', [ChamadoController::class, 'update'])->name('chamado.update');
     Route::delete('/chamado/{id}', [ChamadoController::class, 'destroy'])->name('chamado.destroy');
     Route::post('/chamado/search', [ChamadoController::class, 'search'])->name('chamado.search');
-    //Geração de PDF para Chamados
-    // CORREÇÃO: rota agora tem nome (use route('chamado.pdf') na view) e exige login
+    //PDF  Chamados
     Route::get('generate-pdf', [ChamadoController::class, 'relatorioChamado'])->name('chamado.pdf');
 });
 

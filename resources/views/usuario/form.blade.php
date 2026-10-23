@@ -1,13 +1,12 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl leading-tight text-center" style="color: #4c32a8;">
-            {{-- CORREÇÃO: era "Formulário Catálogo" (copiado do form de filme) --}}
             {{ __('Formulário Usuário') }}
         </h2>
     </x-slot>
 
     <style>
-        /* CSS próprio: funciona mesmo se o Tailwind do projeto não foi recompilado */
+        /* CSS próprio */
         .cat-wrap   { width: 100%; max-width: 1100px; margin: 0 auto; }
         .cat-pad    { padding-left: 16px; padding-right: 16px; }
         @media (min-width: 640px) { .cat-pad { padding-left: 24px; padding-right: 24px; } }
@@ -17,6 +16,16 @@
         .fm-grid  { display: grid; grid-template-columns: 1fr; gap: 18px; margin-bottom: 22px; }
         @media (min-width: 768px) { .fm-grid { grid-template-columns: 1fr 1fr; } .fm-span { grid-column: span 2; } }
 
+        /* Layouts específicos do endereço */
+        .fm-section-title { font-size: 16px; font-weight: 700; color: #4c32a8; margin: 10px 0 6px; padding-top: 16px; border-top: 1px dashed #e0d9f5; }
+        .fm-grid-3 { display: grid; grid-template-columns: 1fr; gap: 18px; }
+        .fm-grid-cep { display: grid; grid-template-columns: 1fr; gap: 18px; }
+        
+        @media (min-width: 768px) {
+            .fm-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+            .fm-grid-cep { grid-template-columns: 160px 1fr; }
+        }
+
         .fm-label { display: block; margin-bottom: 6px; font-size: 13px; font-weight: 600; color: #374151; }
         .fm-input {
             width: 100%; padding: 10px 12px; font-size: 14px; color: #111827; background: #fff;
@@ -25,7 +34,7 @@
         }
         .fm-input:focus { outline: none; border-color: #4c32a8; box-shadow: 0 0 0 3px rgba(76,50,168,.18); }
 
-        /* Checkbox de administrador (cartão clicável) */
+        /* Checkbox de administrador */
         .fm-check {
             display: flex; align-items: center; gap: 12px; padding: 12px 14px; cursor: pointer;
             background: #f8f6fe; border: 1px solid #ede9f9; border-radius: 10px;
@@ -60,7 +69,6 @@
                 <h4 class="text-center" style="color: #4c32a8; font-size: 28px; font-weight: 700; margin: 0 0 4px;">Formulário Usuário</h4>
                 <p class="text-center text-gray-600" style="margin: 0 0 24px;">Preencha os dados do usuário.</p>
 
-                {{-- CORREÇÃO: o bloco de erros estava FORA do <x-app-layout> e aparecia acima do menu. Agora fica dentro do card --}}
                 @if ($errors->any())
                     <div class="fm-errors">
                         <ul>
@@ -71,8 +79,6 @@
                     </div>
                 @endif
 
-                <!--se vier o id, ele fará a validação para saber se é uma edição ou uma criaçl~~ao de formulario-->
-
                 @php
                     if (!empty($dado->id)) {
                         $action = route('users.update', $dado->id);
@@ -81,22 +87,17 @@
                     }
                 @endphp
 
-                {{-- CORREÇÃO: sem enctype, porque este form não tem upload (a foto o próprio usuário envia no perfil) --}}
                 <form action="{{ $action }}" method="POST">
-                    <!--inserir a variável do php-->
                     @csrf
-                    <!--formulario submetido faça a verificação se houver um formulário de um sistema externo, para bloquear-->
 
                     @if(!empty($dado->id))
                         @method('PUT')
                     @endif
 
-                    <div class="fm-grid">
-                        <input type="hidden" name="id" value="{{$dado->id ?? '' }}">
-                        <!--fazer as altrações do laragon. quando for salvar os dados do formulário após validação e mantem os dados do formulário caso algum erro-->
+                    <input type="hidden" name="id" value="{{ $dado->id ?? '' }}">
 
-                        {{-- CORREÇÃO: os campos eram título/sinopse/ano/classificação/poster (cópia do form de filme).
-                             O controller valida name, email e assinaturaestado_id, por isso "nome obrigatório" sempre falhava --}}
+                    {{-- Dados Pessoais e Acesso --}}
+                    <div class="fm-grid">
                         <div>
                             <label for="name" class="fm-label">Nome</label>
                             <input type="text" id="name" class="fm-input"
@@ -109,7 +110,6 @@
                                 name="email" value="{{ old('email', $dado->email ?? '') }}">
                         </div>
 
-                        {{-- senha só no cadastro (o storeUser exige; o updateUser não altera senha) --}}
                         @empty($dado->id)
                             <div>
                                 <label for="password" class="fm-label">Senha</label>
@@ -118,8 +118,6 @@
                             </div>
                         @endempty
 
-                        {{-- CORREÇÃO: o select estava vazio e com name="genero_filme". Agora é o select do relacionamento 1:1
-                             (User -> AssinaturaEstado), mostrando código e status em vez do ID --}}
                         <div>
                             <label for="assinaturaestado_id" class="fm-label">Assinatura</label>
                             <select name="assinaturaestado_id" id="assinaturaestado_id" class="fm-input">
@@ -132,8 +130,6 @@
                             </select>
                         </div>
 
-                        {{-- CORREÇÃO: checkbox de admin. O controller usa $request->boolean('is_admin').
-                             old() sem argumento só tem conteúdo depois de um erro de validação; nesse caso vale o que o admin marcou --}}
                         <div class="fm-span">
                             <label for="is_admin" class="fm-check">
                                 <input type="checkbox" id="is_admin" name="is_admin" value="1"
@@ -146,14 +142,63 @@
                         </div>
                     </div>
 
-                    {{-- CORREÇÃO: o bloco do poster (img com "/storage/ {{ }}" com espaço + input file) foi removido, pois não é deste form --}}
+                    {{-- Seção de Endereço --}}
+                    <div class="fm-section-title">Endereço</div>
 
+                    <div class="fm-grid-cep" style="margin-bottom: 18px;">
+                        <div>
+                            <label for="cep" class="fm-label">CEP</label>
+                            <input type="text" id="cep" class="fm-input" name="cep"
+                                value="{{ old('cep', $dado->cep ?? '') }}" placeholder="00000-000" maxlength="9">
+                        </div>
+
+                        <div>
+                            <label for="logradouro" class="fm-label">Logradouro / Rua</label>
+                            <input type="text" id="logradouro" class="fm-input" name="logradouro"
+                                value="{{ old('logradouro', $dado->logradouro ?? '') }}" placeholder="Rua, Avenida...">
+                        </div>
+                    </div>
+
+                    <div class="fm-grid" style="margin-bottom: 18px;">
+                        <div>
+                            <label for="numero" class="fm-label">Número</label>
+                            <input type="text" id="numero" class="fm-input" name="numero"
+                                value="{{ old('numero', $dado->numero ?? '') }}" placeholder="123">
+                        </div>
+
+                        <div>
+                            <label for="complemento" class="fm-label">Complemento</label>
+                            <input type="text" id="complemento" class="fm-input" name="complemento"
+                                value="{{ old('complemento', $dado->complemento ?? '') }}" placeholder="Apto, Bloco, etc.">
+                        </div>
+                    </div>
+
+                    <div class="fm-grid-3" style="margin-bottom: 22px;">
+                        <div>
+                            <label for="bairro" class="fm-label">Bairro</label>
+                            <input type="text" id="bairro" class="fm-input" name="bairro"
+                                value="{{ old('bairro', $dado->bairro ?? '') }}">
+                        </div>
+
+                        <div>
+                            <label for="cidade" class="fm-label">Cidade</label>
+                            <input type="text" id="cidade" class="fm-input" name="cidade"
+                                value="{{ old('cidade', $dado->cidade ?? '') }}">
+                        </div>
+
+                        <div>
+                            <label for="estado" class="fm-label">Estado (UF)</label>
+                            <input type="text" id="estado" class="fm-input" name="estado"
+                                value="{{ old('estado', $dado->estado ?? '') }}" placeholder="EX: SP" maxlength="2">
+                        </div>
+                    </div>
+
+                    {{-- Ações --}}
                     <div class="fm-actions">
                         <button type="submit" class="fm-btn fm-btn-primary">
                             Salvar
                         </button>
 
-                        {{-- CORREÇÃO: url('usersadmin') não existe. A rota da listagem é users.list --}}
                         <a href="{{ route('users.list') }}" class="fm-btn fm-btn-ghost">
                             Voltar
                         </a>
@@ -163,4 +208,24 @@
             </div>
         </div>
     </div>
+
+    {{-- Script de busca do CEP via ViaCEP --}}
+    <script>
+        document.getElementById('cep')?.addEventListener('blur', function () {
+            let cep = this.value.replace(/\D/g, '');
+            if (cep.length === 8) {
+                fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (!data.erro) {
+                            document.getElementById('logradouro').value = data.logradouro || '';
+                            document.getElementById('bairro').value = data.bairro || '';
+                            document.getElementById('cidade').value = data.localidade || '';
+                            document.getElementById('estado').value = data.uf || '';
+                            document.getElementById('numero').focus();
+                        }
+                    });
+            }
+        });
+    </script>
 </x-app-layout>
