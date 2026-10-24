@@ -42,6 +42,13 @@ class User extends Authenticatable
         ];
     }
 
+    public function getUrlFotoAttribute()
+    {
+        if (!$this->foto_perfil)
+            return null;
+        return str_starts_with($this->foto_perfil, 'http') ? $this->foto_perfil : asset('storage/' . $this->foto_perfil);
+    }
+
     // Relacionamento 1:1
     public function assinaturaEstado()
     {

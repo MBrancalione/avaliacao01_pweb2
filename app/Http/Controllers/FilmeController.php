@@ -34,10 +34,10 @@ class FilmeController extends Controller
         //dd($request->all());
         $this->validateForm($request);
 
-        $data = $request->all(); // Obtém todos os dados do formulário
-        $imagem = $request->file('poster'); // Obtém o arquivo de imagem enviado no formulário
+        $data = $request->except('poster');
+        $imagem = $request->file('poster');
 
-        if ($imagem) { // Verifica se um arquivo de imagem foi enviado
+        if ($imagem) {
             $nome_imagem = date('YmdHis') . '.' . $imagem->getClientOriginalExtension(); // Gera um nome único para a imagem usando a data e hora atual
             $diretorio = "imagem/filme/"; // Define o diretório onde a imagem será armazenada. O diretório fica dentro da pasta 'public' do Laravel, então o caminho completo será 'public/imagem/filme/'
             $imagem->storeAs($diretorio, $nome_imagem, 'public'); // Armazena a imagem no diretório especificado dentro do disco 'public'
@@ -70,10 +70,10 @@ class FilmeController extends Controller
         $this->validateForm($request);
 
         $filme = Filme::findOrFail($id);
-        $data = $request->all(); // Obtém todos os dados do formulário
-        $imagem = $request->file('poster'); // Obtém o arquivo de imagem enviado no formulário
+        $data = $request->except('poster');
+        $imagem = $request->file('poster');
 
-        if ($imagem) { // Verifica se um arquivo de imagem foi enviado
+        if ($imagem) {
 
             if ($filme->poster && Storage::disk('public')->exists($filme->poster)) {
                 Storage::disk('public')->delete($filme->poster);
@@ -81,8 +81,8 @@ class FilmeController extends Controller
 
             $nome_imagem = date('YmdHis') . '.' . $imagem->getClientOriginalExtension(); // Gera um nome único para a imagem usando a data e hora atual
             $diretorio = "imagem/filme/"; // Define o diretório onde a imagem será armazenada. O diretório fica dentro da pasta 'public' do Laravel, então o caminho completo será 'public/imagem/filme/'
-            $imagem->storeAs($diretorio, $nome_imagem, 'public'); // Armazena a imagem no diretório especificado dentro do disco 'public'
-            $data['poster'] = $diretorio . $nome_imagem; // Atualiza o campo 'poster' com o caminho completo da imagem armazenada
+            $imagem->storeAs($diretorio, $nome_imagem, 'public');
+            $data['poster'] = $diretorio . $nome_imagem;
         }
         //dd($request->all());
 
@@ -127,7 +127,7 @@ class FilmeController extends Controller
                 $dados = Filme::with('GeneroFilme')->where($request->tipo, 'like', '%' . $request->valor . '%')->get();
             }
         } else {
-            $dados = Filme::with('GeneroFilme')->get(); // CORREÇÃO: with() evita N+1 na listagem
+            $dados = Filme::with('GeneroFilme')->get();
         }
 
         if ($request->is('*admin*')) {
@@ -143,7 +143,8 @@ class FilmeController extends Controller
         $contagem = Avaliacao::where('filme_id', $id)
             ->selectRaw('nota, COUNT(*) as total')
             ->groupBy('nota')
-            ->get();
+            ->pluck('total', 'nota');
+
 
         $notas = [5, 4, 3, 2, 1];
         $valores = collect($notas)->map(fn($n) => $contagem->get($n, 0))->all();

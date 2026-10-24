@@ -58,11 +58,7 @@
 
     {{-- Cartão de perfil: foto, nome, email e plano --}}
     <div class="pi-card">
-        @if ($user->foto_perfil)
-            <img src="{{ asset('storage/' . $user->foto_perfil) }}" alt="Foto de perfil" class="pi-avatar">
-        @else
-            <div class="pi-avatar pi-initial">{{ mb_strtoupper(mb_substr($user->name, 0, 1)) }}</div>
-        @endif
+      
 
         <div class="pi-info">
             <h3 class="pi-name">{{ $user->name }}</h3>
@@ -119,7 +115,6 @@
             @error('foto_perfil') <p class="pi-error">{{ $message }}</p> @enderror
         </div>
 
-        {{-- Seção de Endereço --}}
         <div class="pi-section-title">Endereço</div>
 
         <div class="pi-grid-cep">

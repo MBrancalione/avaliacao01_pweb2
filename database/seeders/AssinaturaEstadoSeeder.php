@@ -10,6 +10,6 @@ class AssinaturaEstadoSeeder extends Seeder
 {
     public function run(): void
     {
-        AssinaturaEstado::factory()->count(10)->create();
+        AssinaturaEstado::factory()->count(5)->create();
     }
 }

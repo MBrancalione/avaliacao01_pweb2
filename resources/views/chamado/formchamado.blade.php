@@ -11,15 +11,15 @@
     <div class="p-6 bg-white shadow sm:rounded-lg w-full max-w-2xl">
         <h4 class="text-lg font-medium text-gray-900 mb-6 text-center">Formulário de Chamados</h4>
 
-        <form action="{{ isset($dado) ? route('chamado.update', $dado->id) : route('chamado.store') }}" method="POST" class="space-y-4">
+        <form action="{{ isset($dado) ? route('chamado.update', $dado->id) : route('chamado.store') }}" method="POST"
+            class="space-y-4">
             @csrf
 
-            {{-- Se for edição, adiciona a diretiva PUT do Laravel, pq o método POST não permite atualização --}}
             @if(isset($dado))
                 @method('PUT')
             @endif
 
-            <input type="hidden" name="id" value="{{ old('id', $dado->id ?? '') }}"> <!--id av-->
+            <input type="hidden" name="id" value="{{ old('id', $dado->id ?? '') }}">
 
             <div>
                 <label for="titulo" class="block font-medium text-sm text-gray-700 mb-1">Título</label>
@@ -43,7 +43,8 @@
             </div>
 
             <div>
-                <label for="data_encerramento" class="block font-medium text-sm text-gray-700 mb-1">Data de Encerramento</label>
+                <label for="data_encerramento" class="block font-medium text-sm text-gray-700 mb-1">Data de
+                    Encerramento</label>
                 <input type="date" name="data_encerramento" id="data_encerramento"
                     class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm w-full"
                     value="{{ old('data_encerramento', $dataEncerramento) }}">
@@ -54,7 +55,8 @@
                 <select name="status" id="status"
                     class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm w-full">
                     @foreach(['Aberto', 'Em andamento', 'Fechado'] as $s)
-                        <option value="{{ $s }}" {{ old('status', $dado->status ?? 'Aberto') == $s ? 'selected' : '' }}>{{ $s }}</option>
+                        <option value="{{ $s }}" {{ old('status', $dado->status ?? 'Aberto') == $s ? 'selected' : '' }}>
+                            {{ $s }}</option>
                     @endforeach
                 </select>
             </div>

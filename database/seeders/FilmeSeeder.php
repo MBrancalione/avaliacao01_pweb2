@@ -12,7 +12,7 @@ class FilmeSeeder extends Seeder
     {
         //define os arquivos para popular o banco de dados
         Filme::factory()
-        ->count(10)
+        ->count(5)
         ->create();
     }
 }

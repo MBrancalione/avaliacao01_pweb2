@@ -5,63 +5,6 @@
         </h2>
     </x-slot>
 
-    <style>
-        /* CSS próprio */
-        .cat-wrap   { width: 100%; max-width: 1100px; margin: 0 auto; }
-        .cat-pad    { padding-left: 16px; padding-right: 16px; }
-        @media (min-width: 640px) { .cat-pad { padding-left: 24px; padding-right: 24px; } }
-
-        /* Box do formulário */
-        .fm-box   { max-width: 860px; margin: 0 auto; background: #fff; border-radius: 16px; box-shadow: 0 4px 14px rgba(0,0,0,.1); padding: 32px; }
-        .fm-grid  { display: grid; grid-template-columns: 1fr; gap: 18px; margin-bottom: 22px; }
-        @media (min-width: 768px) { .fm-grid { grid-template-columns: 1fr 1fr; } .fm-span { grid-column: span 2; } }
-
-        /* Layouts específicos do endereço */
-        .fm-section-title { font-size: 16px; font-weight: 700; color: #4c32a8; margin: 10px 0 6px; padding-top: 16px; border-top: 1px dashed #e0d9f5; }
-        .fm-grid-3 { display: grid; grid-template-columns: 1fr; gap: 18px; }
-        .fm-grid-cep { display: grid; grid-template-columns: 1fr; gap: 18px; }
-        
-        @media (min-width: 768px) {
-            .fm-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
-            .fm-grid-cep { grid-template-columns: 160px 1fr; }
-        }
-
-        .fm-label { display: block; margin-bottom: 6px; font-size: 13px; font-weight: 600; color: #374151; }
-        .fm-input {
-            width: 100%; padding: 10px 12px; font-size: 14px; color: #111827; background: #fff;
-            border: 1px solid #d1d5db; border-radius: 10px; box-shadow: 0 1px 2px rgba(0,0,0,.04);
-            transition: border-color .15s ease, box-shadow .15s ease; color-scheme: light;
-        }
-        .fm-input:focus { outline: none; border-color: #4c32a8; box-shadow: 0 0 0 3px rgba(76,50,168,.18); }
-
-        /* Checkbox de administrador */
-        .fm-check {
-            display: flex; align-items: center; gap: 12px; padding: 12px 14px; cursor: pointer;
-            background: #f8f6fe; border: 1px solid #ede9f9; border-radius: 10px;
-            transition: border-color .15s ease, background .15s ease;
-        }
-        .fm-check:hover { border-color: #c4b5fd; background: #f3f0fd; }
-        .fm-check input { width: 18px; height: 18px; accent-color: #4c32a8; cursor: pointer; flex-shrink: 0; }
-        .fm-check-title { font-size: 14px; font-weight: 700; color: #4c32a8; }
-        .fm-check-desc  { font-size: 12px; color: #6b7280; }
-
-        /* Botões */
-        .fm-actions { display: flex; justify-content: center; gap: 10px; margin-top: 26px; padding-top: 22px; border-top: 1px solid #f0edf9; }
-        .fm-btn {
-            display: inline-flex; align-items: center; gap: 6px; padding: 10px 22px; border-radius: 10px; cursor: pointer;
-            font-family: inherit; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em;
-            text-decoration: none; line-height: 1; transition: opacity .15s ease, background .15s ease;
-        }
-        .fm-btn-primary { background: #4c32a8; color: #fff; border: 1px solid transparent; }
-        .fm-btn-primary:hover { opacity: .9; }
-        .fm-btn-ghost   { background: #fff; color: #4c32a8; border: 1px solid #4c32a8; }
-        .fm-btn-ghost:hover { background: #ede9f9; }
-
-        /* Erros de validação */
-        .fm-errors { margin-bottom: 22px; padding: 14px 16px; background: #fef2f2; border: 1px solid #fecaca; border-radius: 12px; color: #991b1b; font-size: 14px; }
-        .fm-errors ul { margin: 0; padding-left: 20px; list-style: disc; }
-    </style>
-
     <div class="py-12">
         <div class="cat-wrap cat-pad">
             <div class="fm-box">
@@ -87,7 +30,7 @@
                     }
                 @endphp
 
-                <form action="{{ $action }}" method="POST">
+                <form action="{{ $action }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
                     @if(!empty($dado->id))
@@ -129,6 +72,13 @@
                                 @endforeach
                             </select>
                         </div>
+                        <div class="fm-span">
+    <label for="foto_perfil" class="fm-label">Foto de perfil</label>
+    @if(!empty($dado->foto_perfil))
+        <img src="{{ $dado->url_foto }}" alt="Foto" class="pl-avatar" style="width:80px;height:80px;margin:0 0 10px;">
+    @endif
+    <input type="file" id="foto_perfil" name="foto_perfil" class="fm-input">
+</div>  
 
                         <div class="fm-span">
                             <label for="is_admin" class="fm-check">

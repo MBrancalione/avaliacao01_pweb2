@@ -1,0 +1,303 @@
+/* =====================================================================
+   site.css - estilos compartilhados do projeto (tema roxo #4c32a8)
+   Salvar em: public/css/site.css
+   Carregar com: <link rel="stylesheet" href="{{ asset('css/site.css') }}">
+   ===================================================================== */
+
+
+/* ---------- 1. Containers ---------- */
+.cat-wrap   { width: 100%; max-width: 1100px; margin: 0 auto; }
+.cat-pad    { padding-left: 16px; padding-right: 16px; }
+@media (min-width: 640px) { .cat-pad { padding-left: 24px; padding-right: 24px; } }
+
+/* listagem de avaliações: busca max-w-4xl (896px) e tabela max-w-6xl (1152px) */
+.lst-search { width: 100%; max-width: 896px; }
+.lst-table  { width: 100%; max-width: 1152px; }
+
+
+/* ---------- 2. Catálogo de filmes (listfilme / listfilmeuser) ---------- */
+.cat-grid   { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 22px; }
+.cat-card   { display: flex; flex-direction: column; }
+
+.cat-poster {
+    position: relative; aspect-ratio: 2 / 3; border-radius: 12px; overflow: hidden;
+    background: linear-gradient(160deg, #4c32a8, #8b6fe0);
+    box-shadow: 0 4px 14px rgba(0,0,0,.18);
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+.cat-card:hover .cat-poster { transform: scale(1.05); box-shadow: 0 12px 28px rgba(76,50,168,.45); z-index: 5; }
+
+/* texto que aparece quando a imagem do poster não carrega */
+.cat-fallback {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    padding: 14px; text-align: center; color: #fff; font-weight: 700; font-size: 15px;
+}
+.cat-poster img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+.cat-badge {
+    position: absolute; top: 8px; right: 8px; z-index: 3;
+    background: #4c32a8; color: #fff; font-size: 11px; font-weight: 700;
+    padding: 3px 8px; border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,.3);
+}
+.cat-id {
+    position: absolute; top: 8px; left: 8px; z-index: 3;
+    background: rgba(255,255,255,.9); color: #4c32a8; font-size: 11px; font-weight: 700;
+    padding: 3px 8px; border-radius: 6px;
+}
+
+/* camada que aparece ao passar o mouse (estilo Netflix) */
+.cat-overlay {
+    position: absolute; inset: 0; z-index: 2; display: flex; flex-direction: column;
+    justify-content: flex-end; align-items: center; gap: 8px; padding: 14px; text-align: center;
+    background: linear-gradient(to top, rgba(30,15,80,.95) 0%, rgba(30,15,80,.55) 55%, transparent 100%);
+    opacity: 0; transition: opacity .25s ease;
+}
+.cat-card:hover .cat-overlay { opacity: 1; }
+.cat-genre  { background: #ede9f9; color: #4c32a8; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 999px; }
+
+.cat-btn {
+    background: #4c32a8; color: #fff; font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .08em; padding: 8px 14px; border-radius: 8px; text-decoration: none;
+    border: 1px solid rgba(255,255,255,.35);
+}
+.cat-btn:hover { background: #3b2685; }
+
+.cat-info   { padding: 10px 2px 0; text-align: center; }
+.cat-title  { font-size: 14px; font-weight: 700; color: #4c32a8; line-height: 1.25;
+              display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.cat-year   { font-size: 12px; color: #6b7280; margin-top: 2px; }
+
+/* ações do admin: barra segmentada, 3 colunas iguais, sempre visível (funciona no celular) */
+.cat-actions {
+    display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 12px;
+    background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden;
+    box-shadow: 0 2px 8px rgba(76,50,168,.08);
+}
+.cat-actions form { margin: 0; display: flex; }
+.cat-act {
+    flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+    padding: 9px 4px; background: transparent; border: 0; cursor: pointer; text-decoration: none;
+    font-family: inherit; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em;
+    line-height: 1; transition: background .2s ease, color .2s ease;
+}
+.cat-act svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.cat-actions > * + * { border-left: 1px solid #e5e7eb; }
+.cat-act-edit   { color: #b45309; }
+.cat-act-edit:hover   { background: #fef3c7; }
+.cat-act-chart  { color: #4c32a8; }
+.cat-act-chart:hover  { background: #ede9f9; }
+.cat-act-delete { color: #dc2626; }
+.cat-act-delete:hover { background: #fee2e2; }
+
+.cat-empty  { grid-column: 1 / -1; padding: 32px; text-align: center; color: #4b5563;
+              background: rgba(255,255,255,.9); border-radius: 16px; box-shadow: 0 4px 14px rgba(0,0,0,.1); }
+
+
+/* ---------- 3. Tabelas de listagem (planos, usuários, chamados, avaliações) ---------- */
+.pl-box   { background: #fff; border-radius: 16px; box-shadow: 0 4px 14px rgba(0,0,0,.1); padding: 24px; overflow-x: auto; width: 100%; }
+.pl-table { width: 100%; border-collapse: collapse; text-align: center; }
+.pl-table thead tr { background: #ede9f9; }
+.pl-table th.pl-th {
+    padding: 12px 20px; font-size: 12px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .06em; color: #4c32a8; white-space: nowrap;
+}
+.pl-table thead th:first-child { border-radius: 10px 0 0 10px; }
+.pl-table thead th:last-child  { border-radius: 0 10px 10px 0; }
+.pl-table tbody tr { border-bottom: 1px solid #f0edf9; transition: background .15s ease; }
+.pl-table tbody tr:last-child { border-bottom: 0; }
+.pl-table tbody tr:hover { background: #f8f6fe; }
+.pl-table td, .pl-table tbody th { padding: 14px 20px; font-size: 14px; color: #374151; white-space: nowrap; }
+.pl-table tbody th { font-weight: 700; color: #4c32a8; }
+
+/* a listagem de avaliações usa espaçamento maior */
+.lst-table .pl-table th.pl-th { padding: 12px 24px; }
+.lst-table .pl-table td, .lst-table .pl-table tbody th { padding: 16px 24px; }
+
+.pl-name  { font-weight: 700; color: #4c32a8; }
+.pl-price { font-weight: 700; color: #111827; }
+.pl-desc  { max-width: 220px; overflow: hidden; text-overflow: ellipsis; }
+.pl-chip  { display: inline-block; background: #ede9f9; color: #4c32a8; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 999px; }
+.pl-empty { padding: 32px; text-align: center; color: #4b5563; }
+
+/* avaliações: comentário pode quebrar linha para um texto longo não esticar a tabela */
+.pl-comment { white-space: normal !important; min-width: 200px; max-width: 320px; text-align: left; line-height: 1.4; }
+.pl-note  { display: inline-flex; align-items: center; gap: 4px; background: #fef3c7; color: #b45309; font-size: 13px; font-weight: 800; padding: 3px 10px; border-radius: 999px; }
+.pl-note svg { width: 13px; height: 13px; fill: currentColor; stroke: none; }
+.pl-spoiler-yes { background: #fee2e2; color: #b91c1c; }
+.pl-spoiler-no  { background: #f3f4f6; color: #6b7280; }
+
+/* usuários: foto de perfil */
+.pl-avatar  { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; display: block; margin: 0 auto; border: 2px solid #ede9f9; box-shadow: 0 2px 6px rgba(76,50,168,.2); }
+.pl-nophoto { font-size: 12px; color: #9ca3af; }
+
+/* ações: botões com ícone */
+.pl-actions { display: inline-flex; justify-content: center; gap: 8px; }
+.pl-actions form { margin: 0; display: inline-flex; }
+.pl-act {
+    display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; background: #fff;
+    border: 1px solid #e5e7eb; border-radius: 10px; cursor: pointer; text-decoration: none;
+    font-family: inherit; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; line-height: 1;
+    transition: background .2s ease, border-color .2s ease;
+}
+.pl-act svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.pl-act-edit   { color: #b45309; }
+.pl-act-edit:hover   { background: #fef3c7; border-color: #fcd34d; }
+.pl-act-delete { color: #dc2626; }
+.pl-act-delete:hover { background: #fee2e2; border-color: #fca5a5; }
+/* ações bloqueadas (avaliação de outro usuário) */
+.pl-act-disabled { color: #9ca3af; background: #f9fafb; cursor: not-allowed; opacity: .7; }
+
+
+/* ---------- 4. Formulários (filme, planos, usuário) ---------- */
+.fm-box   { max-width: 860px; margin: 0 auto; background: #fff; border-radius: 16px; box-shadow: 0 4px 14px rgba(0,0,0,.1); padding: 32px; }
+.fm-grid  { display: grid; grid-template-columns: 1fr; gap: 18px; margin-bottom: 22px; }
+@media (min-width: 768px) { .fm-grid { grid-template-columns: 1fr 1fr; } .fm-span { grid-column: span 2; } }
+
+.fm-label { display: block; margin-bottom: 6px; font-size: 13px; font-weight: 600; color: #374151; }
+.fm-input {
+    width: 100%; padding: 10px 12px; font-size: 14px; color: #111827; background: #fff;
+    border: 1px solid #d1d5db; border-radius: 10px; box-shadow: 0 1px 2px rgba(0,0,0,.04);
+    transition: border-color .15s ease, box-shadow .15s ease; color-scheme: light;
+}
+.fm-input:focus { outline: none; border-color: #4c32a8; box-shadow: 0 0 0 3px rgba(76,50,168,.18); }
+
+/* upload do poster */
+.fm-poster {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 20px; padding: 18px;
+    background: #f8f6fe; border: 1px dashed #c4b5fd; border-radius: 14px;
+}
+.fm-poster img { width: 110px; aspect-ratio: 2 / 3; object-fit: cover; border-radius: 10px; box-shadow: 0 4px 14px rgba(76,50,168,.3); background: #ede9f9; }
+.fm-poster input[type=file] { font-size: 13px; color: #4b5563; }
+.fm-poster input[type=file]::file-selector-button {
+    margin-right: 12px; padding: 8px 14px; border: 0; border-radius: 8px; cursor: pointer;
+    background: #4c32a8; color: #fff; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em;
+}
+.fm-poster input[type=file]::file-selector-button:hover { opacity: .9; }
+.fm-hint { font-size: 12px; color: #6b7280; margin-top: 6px; }
+
+/* formulário de usuário: endereço */
+.fm-section-title { font-size: 16px; font-weight: 700; color: #4c32a8; margin: 10px 0 6px; padding-top: 16px; border-top: 1px dashed #e0d9f5; }
+.fm-grid-3   { display: grid; grid-template-columns: 1fr; gap: 18px; }
+.fm-grid-cep { display: grid; grid-template-columns: 1fr; gap: 18px; }
+@media (min-width: 768px) {
+    .fm-grid-3   { grid-template-columns: 1fr 1fr 1fr; }
+    .fm-grid-cep { grid-template-columns: 160px 1fr; }
+}
+
+/* formulário de usuário: checkbox de administrador */
+.fm-check {
+    display: flex; align-items: center; gap: 12px; padding: 12px 14px; cursor: pointer;
+    background: #f8f6fe; border: 1px solid #ede9f9; border-radius: 10px;
+    transition: border-color .15s ease, background .15s ease;
+}
+.fm-check:hover { border-color: #c4b5fd; background: #f3f0fd; }
+.fm-check input { width: 18px; height: 18px; accent-color: #4c32a8; cursor: pointer; flex-shrink: 0; }
+.fm-check-title { font-size: 14px; font-weight: 700; color: #4c32a8; }
+.fm-check-desc  { font-size: 12px; color: #6b7280; }
+
+/* botões */
+.fm-actions { display: flex; justify-content: center; gap: 10px; margin-top: 26px; padding-top: 22px; border-top: 1px solid #f0edf9; }
+.fm-btn {
+    display: inline-flex; align-items: center; gap: 6px; padding: 10px 22px; border-radius: 10px; cursor: pointer;
+    font-family: inherit; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em;
+    text-decoration: none; line-height: 1; transition: opacity .15s ease, background .15s ease;
+}
+.fm-btn-primary { background: #4c32a8; color: #fff; border: 1px solid transparent; }
+.fm-btn-primary:hover { opacity: .9; }
+.fm-btn-ghost   { background: #fff; color: #4c32a8; border: 1px solid #4c32a8; }
+.fm-btn-ghost:hover { background: #ede9f9; }
+
+/* erros de validação */
+.fm-errors { margin-bottom: 22px; padding: 14px 16px; background: #fef2f2; border: 1px solid #fecaca; border-radius: 12px; color: #991b1b; font-size: 14px; }
+.fm-errors ul { margin: 0; padding-left: 20px; list-style: disc; }
+
+
+/* ---------- 5. Gráficos (graficobarras / graficosetores) ---------- */
+.gb-wrap  { width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 16px; box-sizing: border-box; }
+@media (min-width: 640px) { .gb-wrap { padding: 0 24px; } }
+
+.gb-box   { max-width: 860px; margin: 0 auto; background: #fff; border-radius: 16px; box-shadow: 0 4px 14px rgba(0,0,0,.1); padding: 32px; }
+.gb-title { margin: 0 0 8px; text-align: center; color: #4c32a8; font-size: 28px; font-weight: 700; }
+.gb-sub   { margin: 0 0 24px; text-align: center; color: #4b5563; font-size: 14px; }
+
+/* cabeçalho do filme */
+.gb-chip  { display: inline-block; background: #ede9f9; color: #4c32a8; font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 999px; }
+.gb-genre { margin: 0 0 18px; text-align: center; }
+.gb-synopsis { margin: 0 0 24px; padding: 16px 20px; border-radius: 14px; font-size: 14px; line-height: 1.6; color: #374151;
+               background: linear-gradient(135deg, #ede9f9 0%, #f8f6fe 100%); border: 1px solid #e0d9f5; }
+.gb-synopsis strong { display: block; margin-bottom: 4px; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: #4c32a8; }
+.gb-section { margin: 0 0 16px; text-align: center; color: #4c32a8; font-size: 20px; font-weight: 700; padding-top: 22px; border-top: 1px solid #f0edf9; }
+
+/* cards de resumo */
+.gb-stats { display: grid; grid-template-columns: 1fr; gap: 14px; margin-bottom: 24px; }
+@media (min-width: 640px) { .gb-stats { grid-template-columns: 1fr 1fr; } }
+.gb-stat  { padding: 16px 20px; border-radius: 14px; text-align: center;
+            background: linear-gradient(135deg, #ede9f9 0%, #f8f6fe 100%); border: 1px solid #e0d9f5; }
+.gb-stat-label { display: block; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #6b7280; }
+.gb-stat-value { display: block; margin-top: 4px; font-size: 26px; font-weight: 700; color: #4c32a8; }
+
+.gb-chart { width: 100%; max-width: 650px; margin: 0 auto; }
+
+.gb-actions { display: flex; justify-content: center; gap: 10px; margin-top: 26px; padding-top: 22px; border-top: 1px solid #f0edf9; }
+.gb-btn {
+    display: inline-flex; align-items: center; padding: 10px 22px; border-radius: 10px; cursor: pointer;
+    background: #fff; color: #4c32a8; border: 1px solid #4c32a8;
+    font-family: inherit; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em;
+    text-decoration: none; line-height: 1; transition: background .15s ease;
+}
+.gb-btn:hover { background: #ede9f9; }
+
+
+/* ---------- 6. Perfil (update-profile-information-form) e senha (update-password-form) ---------- */
+/* cartão de perfil */
+.pi-card   { display: flex; align-items: center; gap: 20px; padding: 20px; margin-bottom: 28px;
+             background: linear-gradient(135deg, #ede9f9 0%, #f8f6fe 100%); border: 1px solid #e0d9f5; border-radius: 16px; }
+.pi-avatar { flex-shrink: 0; width: 96px; height: 96px; border-radius: 999px; object-fit: cover;
+             border: 4px solid #fff; box-shadow: 0 4px 14px rgba(76,50,168,.25); }
+.pi-initial { display: flex; align-items: center; justify-content: center; background: #4c32a8; color: #fff;
+              font-size: 38px; font-weight: 700; }
+.pi-info   { min-width: 0; }
+.pi-name   { margin: 0; font-size: 22px; font-weight: 700; color: #4c32a8; overflow: hidden; text-overflow: ellipsis; }
+.pi-email  { margin: 2px 0 10px; font-size: 14px; color: #4b5563; overflow: hidden; text-overflow: ellipsis; }
+.pi-plan   { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 999px;
+             background: #4c32a8; color: #fff; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; }
+.pi-plan-none { background: #fff; color: #6b7280; border: 1px solid #d1d5db; }
+@media (max-width: 480px) { .pi-card { flex-direction: column; text-align: center; } }
+
+/* formulário (perfil e senha compartilham as mesmas regras) */
+.pi-title, .pw-title { color: #4c32a8; font-size: 18px; font-weight: 700; margin: 0 0 4px; }
+.pi-sub,   .pw-sub   { color: #4b5563; font-size: 14px; margin: 0 0 20px; }
+.pi-form,  .pw-form  { display: grid; grid-template-columns: 1fr; gap: 18px; }
+.pi-label, .pw-label { display: block; margin-bottom: 6px; font-size: 13px; font-weight: 600; color: #374151; }
+.pi-input, .pw-input {
+    width: 100%; box-sizing: border-box; padding: 10px 12px; font-size: 14px; color: #111827; background: #fff;
+    border: 1px solid #d1d5db; border-radius: 10px; box-shadow: 0 1px 2px rgba(0,0,0,.04);
+    transition: border-color .15s ease, box-shadow .15s ease; color-scheme: light;
+}
+.pi-input:focus, .pw-input:focus { outline: none; border-color: #4c32a8; box-shadow: 0 0 0 3px rgba(76,50,168,.18); }
+.pi-file  { padding: 8px 12px; cursor: pointer; }
+.pi-error, .pw-error { margin: 6px 0 0; font-size: 13px; color: #991b1b; }
+
+/* endereço */
+.pi-section-title { font-size: 16px; font-weight: 700; color: #4c32a8; margin-top: 10px; padding-top: 16px; border-top: 1px dashed #e0d9f5; }
+.pi-grid-2   { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.pi-grid-3   { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; }
+.pi-grid-cep { display: grid; grid-template-columns: 140px 1fr; gap: 18px; }
+@media (max-width: 640px) { .pi-grid-2, .pi-grid-3, .pi-grid-cep { grid-template-columns: 1fr; } }
+
+/* avisos de e-mail não verificado */
+.pi-warn { margin-top: 8px; font-size: 14px; color: #374151; }
+.pi-link { background: none; border: 0; padding: 0; cursor: pointer; font: inherit; font-size: 14px; color: #4c32a8; text-decoration: underline; }
+.pi-link:hover { opacity: .8; }
+.pi-ok   { margin-top: 8px; font-size: 14px; font-weight: 600; color: #16a34a; }
+
+/* botão salvar */
+.pi-actions, .pw-actions { display: flex; align-items: center; gap: 14px; margin-top: 8px; padding-top: 22px; border-top: 1px solid #f0edf9; }
+.pi-btn, .pw-btn {
+    display: inline-flex; align-items: center; padding: 10px 22px; border-radius: 10px; cursor: pointer;
+    background: #4c32a8; color: #fff; border: 1px solid transparent;
+    font-family: inherit; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; line-height: 1;
+    transition: opacity .15s ease;
+}
+.pi-btn:hover, .pw-btn:hover { opacity: .9; }
+.pi-saved, .pw-saved { font-size: 14px; font-weight: 600; color: #4c32a8; margin: 0; }

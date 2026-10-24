@@ -12,7 +12,6 @@ class ChamadoController extends Controller
     public function index()
     {
         $user = Auth::user();
-        // Admin vê todos os chamados. Usuário comum vê apenas os seus próprios.
         if ($user && $user->is_admin) {
             $dados = Chamado::with('user')->get();
         } else {
@@ -45,7 +44,7 @@ class ChamadoController extends Controller
     public function edit($id)
     {
         $dado = Chamado::findOrFail($id);
-                $this->autorizar($dado); 
+        $this->autorizar($dado);
 
         return view('chamado.formchamado', compact('dado'));
     }
@@ -56,7 +55,7 @@ class ChamadoController extends Controller
 
         $dado = Chamado::findOrFail($id);
         $this->autorizar($dado);
-        $dado->update($request->except(['_token', '_method', 'id', 'user_id', ]));
+        $dado->update($request->except(['_token', '_method', 'id', 'user_id',]));
 
         return redirect('chamado')->with("success", 'Registro atualizado com sucesso!');
     }
@@ -64,7 +63,7 @@ class ChamadoController extends Controller
     public function destroy($id)
     {
         $dado = Chamado::findOrFail($id);
-        $this->autorizar($dado); 
+        $this->autorizar($dado);
 
         $dado->delete();
 

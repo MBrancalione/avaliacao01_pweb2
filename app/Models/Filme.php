@@ -29,11 +29,11 @@ class Filme extends Model
         return $this->belongsTo(GeneroFilme::class, 'genero_filme', 'id');
     }
     public function getUrlPosterAttribute()
-    {
-        return $this->poster ? asset('storage/' . $this->poster) : null;
-    }
+{
+    if (!$this->poster) return null;
+    return str_starts_with($this->poster, 'http') ? $this->poster : asset('storage/' . $this->poster);
+}
 
-    // Se um catálogo tiver avaliações, podemos adicionar a relação aqui futuramente:
     public function avaliacoes()
     {
         return $this->hasMany(Avaliacao::class);

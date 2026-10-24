@@ -17,7 +17,8 @@ class FilmeFactory extends Factory
     public function definition(): array
     {
         return [
-            'poster' => fake()->imageUrl(400, 600, 'movies', true),            'titulo' => fake()->sentence(3),
+            'poster' => null,            
+            'titulo' => fake()->sentence(3),
             'sinopse' => fake()->paragraph(2),
             'ano' => fake()->year(),
             'classificacao' => fake()->randomElement(['L', '10', '12', '14', '16', '18']),

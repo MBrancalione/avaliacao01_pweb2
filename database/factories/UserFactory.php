@@ -33,9 +33,8 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
             'assinaturaestado_id' => AssinaturaEstado::factory(), // cria um estado de assinatura para cada usuário criado
             'is_admin' => false,
-            'foto_perfil' => fake()->imageUrl(200, 200, 'people', true), // Simula o upload de imagem do utilizador
+            'foto_perfil' => null,
             
-            // Campos de Endereço
             'cep' => fake()->postcode(),
             'logradouro' => fake()->streetName(),
             'numero' => fake()->buildingNumber(),

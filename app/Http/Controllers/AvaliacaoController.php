@@ -52,7 +52,7 @@ class AvaliacaoController extends Controller
         $dados = Avaliacao::findOrFail($id);
         $this->autorizar($dados);
         $data = $request->except(['_token', '_method', 'id', 'user_id']);
-        $data['spoiler'] = $request->has('spoiler') ? 1 : 0;
+        $data['spoiler'] = $request->boolean('spoiler');
 
         $dados->update($data);
         return redirect('avaliacao')->with('success', 'Registro atualizado com sucesso!');
@@ -71,7 +71,7 @@ class AvaliacaoController extends Controller
     {
         abort_unless(Auth::user()->is_admin || (int) $avaliacao->user_id === Auth::id(), 403);
     }
-    
+
     public function search(Request $request)
     {
         if (!empty($request->valor)) {

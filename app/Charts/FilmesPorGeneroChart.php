@@ -19,20 +19,20 @@ class FilmesPorGeneroChart
     {
         $contagem = Filme::with(['GeneroFilme'])
             ->get()
-            ->groupBy(fn ($filme) => $filme->GeneroFilme->genero_filme ?? $filme->generoFilme->genero_filme ?? 'Sem gênero')
-            ->map(fn ($filmes) => $filmes->count())
+            ->groupBy(fn($filme) => $filme->GeneroFilme->genero_filme ?? $filme->generoFilme->genero_filme ?? 'Sem gênero')
+            ->map(fn($filmes) => $filmes->count())
             ->sortDesc();
 
         if ($contagem->isEmpty()) {
-            $dados  = [0];
+            $dados = [0];
             $labels = ['Nenhum filme cadastrado'];
         } else {
-            $dados  = $contagem->values()->all();
+            $dados = $contagem->values()->all();
             $labels = $contagem->keys()->all();
         }
 
         $paleta = ['#4c32a8', '#8b6fe0', '#a78bfa', '#6d4fd1', '#c4b5fd', '#24145c', '#7c3aed', '#ddd6fe'];
-        $cores  = [];
+        $cores = [];
         foreach ($labels as $i => $label) {
             $cores[] = $paleta[$i % count($paleta)];
         }
